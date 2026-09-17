@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "edgetools-staff",
+  "main": "worker/staff.js",
+  "compatibility_date": "2026-09-17",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "staff.edgetools.app",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./dist/staff",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
+}

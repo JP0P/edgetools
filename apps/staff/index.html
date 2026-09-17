@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Protected company-wide router for Edge staff workspaces and shared resources."
+    />
+    <meta name="theme-color" content="#11141b" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Staff Hub — EdgeTools</title>
+    <link rel="canonical" href="https://staff.edgetools.app/" />
+    <link rel="icon" href="./assets/edge-icon.png" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="stylesheet" href="./assets/staff.css" />
+    <script type="module" src="./assets/site.js"></script>
+  </head>
+  <body class="surface surface-staff">
+    <a class="skip-link" href="#department-workspaces">Skip to staff workspaces</a>
+
+    <header class="site-header staff-header">
+      <div class="header-inner page-width">
+        <a
+          class="brand-link"
+          href="https://staff.edgetools.app/"
+          data-preview-href="/staff/"
+          aria-label="EdgeTools Staff hub"
+        >
+          <img src="./assets/edge-logo.svg" alt="Edge" width="92" height="27" />
+          <span class="brand-divider" aria-hidden="true"></span>
+          <span class="brand-product">Tools / Staff</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">Support staff</a>
+          <a href="https://bizdev.edgetools.app/staff/">BizDev staff</a>
+          <a class="nav-emphasis staff-nav-emphasis" href="https://edge.app/">
+            Edge.app <span class="external-mark" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="staff-hero">
+        <div class="page-width staff-hero-layout">
+          <div>
+            <p class="staff-overline"><span aria-hidden="true">●</span> Company-wide staff router</p>
+            <h1>One login.<br /><span>The right workspace.</span></h1>
+            <p>
+              Start with your department to avoid a wall of irrelevant tools, or open a shared
+              company resource. Every approved Edge staff member may enter every workspace.
+            </p>
+          </div>
+
+          <aside class="staff-access-card" aria-label="Access model">
+            <p class="staff-access-kicker">Access model</p>
+            <dl>
+              <div><dt>Staff hub</dt><dd>All approved Edge staff</dd></div>
+              <div><dt>Department pages</dt><dd>Organize relevance, not permission</dd></div>
+              <div><dt>Linked tools</dt><dd>Own authorization still applies</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="staff-preview-note" data-preview-only hidden aria-label="Local preview status">
+        <div class="page-width">
+          <span class="staff-preview-icon" aria-hidden="true">i</span>
+          <div>
+            <strong>Tailnet preview—Google login is not being simulated.</strong>
+            <p>The production Staff hub and private department routes require Cloudflare Access.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="staff-preview-note staff-production-note" data-production-only hidden aria-label="Workspace access">
+        <div class="page-width">
+          <span class="staff-preview-icon" aria-hidden="true">✓</span>
+          <div>
+            <strong>You passed the EdgeTools Staff gate.</strong>
+            <p>Each linked workspace and destination can still enforce its own authorization.</p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="staff-content page-width"
+        id="department-workspaces"
+        aria-labelledby="department-workspaces-heading"
+      >
+        <div class="staff-content-heading">
+          <div>
+            <p class="staff-section-label">Department workspaces</p>
+            <h2 id="department-workspaces-heading">Go where the work lives.</h2>
+          </div>
+          <p>
+            Department pages keep daily tools focused without turning access into an org-chart
+            permission system.
+          </p>
+        </div>
+
+        <div class="staff-tool-grid staff-tool-grid-two">
+          <a
+            class="staff-tool-card staff-tool-primary"
+            href="https://support.edgetools.app/staff/"
+            data-preview-href="/support/staff/"
+          >
+            <span class="staff-tool-top">
+              <span class="staff-tool-icon" aria-hidden="true">S</span>
+              <span class="risk-badges"><span>Department</span><span>Staff access</span></span>
+            </span>
+            <h3>Support staff</h3>
+            <p>Voucher handoffs, authorized user lookup, and protected Support operations.</p>
+            <span class="staff-tool-action">Open Support staff <span aria-hidden="true">→</span></span>
+          </a>
+
+          <a class="staff-tool-card" href="https://bizdev.edgetools.app/staff/">
+            <span class="staff-tool-top">
+              <span class="staff-tool-icon" aria-hidden="true">B</span>
+              <span class="risk-badges"><span>Department</span><span>Staff access</span></span>
+            </span>
+            <h3>BizDev staff</h3>
+            <p>Review and manage the existing partner-intake workflow.</p>
+            <span class="staff-tool-action">Open BizDev staff <span aria-hidden="true">↗</span></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="staff-guardrails" aria-labelledby="shared-resources-heading">
+        <div class="page-width">
+          <div class="staff-content-heading">
+            <div>
+              <p class="staff-section-label">Shared company resources</p>
+              <h2 id="shared-resources-heading">Useful across departments.</h2>
+            </div>
+            <p>
+              These belong here because their audience is the company—not one operational team.
+            </p>
+          </div>
+
+          <div class="staff-tool-grid">
+            <a
+              class="staff-tool-card {{staff.teamGuide.stateClass}}"
+              href="{{staff.teamGuide.href}}"
+              {{staff.teamGuide.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">C</span>
+                <span class="risk-badges"><span>Shared guide</span><span>Google sign-in</span></span>
+              </span>
+              <h3>Clawdia team guide</h3>
+              <p>Learn what Clawdia can do, where to use her, and the safest ways to ask.</p>
+              <span class="staff-tool-action">{{staff.teamGuide.action}} <span aria-hidden="true">{{staff.teamGuide.arrow}}</span></span>
+            </a>
+
+            <a
+              class="staff-tool-card {{staff.releasePlanning.stateClass}}"
+              href="{{staff.releasePlanning.href}}"
+              {{staff.releasePlanning.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">R</span>
+                <span class="risk-badges"><span>Shared sheet</span><span>Google sign-in</span></span>
+              </span>
+              <h3>Release planning</h3>
+              <p>Open the company release-cycle planning spreadsheet.</p>
+              <span class="staff-tool-action">{{staff.releasePlanning.action}} <span aria-hidden="true">{{staff.releasePlanning.arrow}}</span></span>
+            </a>
+
+            <a
+              class="staff-tool-card {{staff.hudl.stateClass}}"
+              href="{{staff.hudl.href}}"
+              {{staff.hudl.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">H</span>
+                <span class="risk-badges"><span>Team</span><span>Interactive</span></span>
+              </span>
+              <h3>HUDL</h3>
+              <p>Open the internal team HUDL experience and leaderboard.</p>
+              <span class="staff-tool-action">{{staff.hudl.action}} <span aria-hidden="true">{{staff.hudl.arrow}}</span></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="staff-config-note {{staff.globalConfig.noteClass}}"
+        id="staff-targets-unconfigured"
+        aria-label="Unavailable shared staff destinations"
+      >
+        <div class="page-width">
+          <strong>One or more shared destinations are unavailable in this build.</strong>
+          <p>
+            Staff URLs are injected during the private build and are not committed to the public
+            repository. Disabled cards remain visible instead of guessing a destination.
+          </p>
+        </div>
+      </section>
+
+      <section class="staff-secondary page-width" aria-labelledby="public-tools-heading">
+        <div>
+          <p class="staff-section-label">Looking for a public tool?</p>
+          <h2 id="public-tools-heading">Step back into EdgeTools.</h2>
+        </div>
+        <a class="button staff-button-secondary" href="https://edgetools.app/" data-preview-href="/">
+          Open public EdgeTools <span aria-hidden="true">→</span>
+        </a>
+      </section>
+    </main>
+
+    <footer class="site-footer staff-footer">
+      <div class="footer-inner page-width">
+        <span>© <span data-current-year>2026</span> Edge Wallet · Staff hub</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="https://edge.app/">Edge.app</a>
+          <a href="https://edgetools.app/" data-preview-href="/">Public tools</a>
+          <a href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">Support staff</a>
+          <a href="https://bizdev.edgetools.app/staff/">BizDev staff</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

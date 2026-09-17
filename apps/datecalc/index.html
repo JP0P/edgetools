@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Compare ISO dates and copy common reduction dates. Calculations stay in your browser."
+    />
+    <meta name="theme-color" content="#141715" />
+    <title>Date Difference Calculator — EdgeTools</title>
+    <link rel="canonical" href="https://support.edgetools.app/datecalc/" />
+    <link rel="icon" href="../assets/edge-icon.png" />
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="../assets/support.css" />
+    <script type="module" src="../assets/site.js"></script>
+    <script type="module" src="./datecalc.js"></script>
+  </head>
+  <body class="surface surface-support surface-datecalc">
+    <a class="skip-link" href="#calculator">Skip to calculator</a>
+
+    <header class="site-header">
+      <div class="header-inner page-width">
+        <a class="brand-link" href="https://edge.app/" aria-label="Visit the Edge Wallet website">
+          <img src="../assets/edge-logo.svg" alt="Edge" width="92" height="27" />
+          <span class="brand-divider" aria-hidden="true"></span>
+          <span class="brand-product">Tools / Support</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="../">All tools</a>
+          <a class="nav-optional" href="https://edge.app/">
+            Edge.app <span class="external-mark" aria-hidden="true">↗</span>
+          </a>
+          <a
+            class="nav-optional"
+            href="https://staff.edgetools.app/"
+            data-preview-href="/staff/"
+          >Staff sign-in</a>
+          <a class="nav-emphasis" href="https://support.edge.app/">
+            Official Support <span class="external-mark" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-width" id="calculator">
+      <header class="page-intro">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../">Support utilities</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">DateCalc</span>
+        </nav>
+        <p class="eyebrow">DateCalc</p>
+        <h1>Date difference calculator</h1>
+        <p>
+          Paste two ISO dates to calculate completed 24-hour days, then copy the midpoint,
+          75%-reduced interval, or seven-day follow-up date.
+        </p>
+      </header>
+
+      <div class="calculator-grid">
+        <section class="panel input-panel" aria-labelledby="date-inputs-heading">
+          <div class="panel-heading">
+            <h2 id="date-inputs-heading">Add your dates</h2>
+            <p>Results update as soon as both values are valid.</p>
+          </div>
+
+          <form id="date-form" novalidate>
+            <div class="field">
+              <label for="combined-dates">
+                Paste both dates
+                <span class="field-label-note">Fastest</span>
+              </label>
+              <textarea
+                class="text-input text-area"
+                id="combined-dates"
+                name="combinedDates"
+                rows="2"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                aria-describedby="combined-hint combined-error"
+                aria-invalid="false"
+                placeholder="2025-01-01&#9;2025-01-10"
+              ></textarea>
+              <p class="field-hint" id="combined-hint">
+                Separate two values with a tab, space, or new line.
+              </p>
+              <p class="field-error" id="combined-error" role="alert"></p>
+            </div>
+
+            <div class="form-divider">or</div>
+
+            <details class="manual-dates">
+              <summary>Enter start and end separately</summary>
+              <div class="manual-dates-content">
+                <div class="field">
+                  <label for="start-date">Start date</label>
+                  <input
+                    class="text-input"
+                    id="start-date"
+                    name="startDate"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    aria-describedby="start-hint start-error"
+                    aria-invalid="false"
+                    placeholder="2025-01-01"
+                  />
+                  <p class="field-hint" id="start-hint">YYYY-MM-DD or UTC ISO ending in Z.</p>
+                  <p class="field-error" id="start-error" role="alert"></p>
+                </div>
+
+                <div class="field">
+                  <label for="end-date">End date</label>
+                  <input
+                    class="text-input"
+                    id="end-date"
+                    name="endDate"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    aria-describedby="end-hint end-error"
+                    aria-invalid="false"
+                    placeholder="2025-01-10"
+                  />
+                  <p class="field-hint" id="end-hint">YYYY-MM-DD or UTC ISO ending in Z.</p>
+                  <p class="field-error" id="end-error" role="alert"></p>
+                </div>
+              </div>
+            </details>
+
+            <div class="form-actions">
+              <button class="button button-primary" id="example-button" type="button">
+                Try an example
+              </button>
+              <button class="button button-quiet" id="clear-button" type="button">Clear</button>
+            </div>
+
+            <p class="input-privacy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="10" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+              </svg>
+              Dates are calculated locally and are never sent, stored, or added to the URL.
+            </p>
+          </form>
+        </section>
+
+        <section class="panel result-panel" aria-labelledby="results-heading" aria-live="polite">
+          <div class="result-empty" id="result-empty">
+            <div>
+              <span class="result-empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M6 3.5h12v17H6zM9 8h6M9 12h6M9 16h3" />
+                </svg>
+              </span>
+              <h2 id="results-heading">Ready when you are</h2>
+              <p>Paste two dates or open the separate fields to see the calculated results.</p>
+            </div>
+          </div>
+
+          <div class="result-content" id="result-content" hidden>
+            <p class="result-kicker">Completed 24-hour days</p>
+            <div class="result-total">
+              <div>
+                <span class="result-number" id="result-number">—</span>
+                <span class="result-direction" id="result-direction"></span>
+              </div>
+              <button class="copy-button" id="copy-days" type="button" data-copy-value="">
+                Copy days
+              </button>
+            </div>
+
+            <ul class="result-list">
+              <li class="result-item">
+                <div>
+                  <span class="result-item-label">50% reduction · midpoint</span>
+                  <code id="reduction-half">—</code>
+                </div>
+                <button class="copy-button" type="button" data-copy-source="reduction-half">Copy</button>
+              </li>
+              <li class="result-item">
+                <div>
+                  <span class="result-item-label">75% reduction · 25% remains</span>
+                  <code id="reduction-quarter">—</code>
+                </div>
+                <button class="copy-button" type="button" data-copy-source="reduction-quarter">Copy</button>
+              </li>
+              <li class="result-item">
+                <div>
+                  <span class="result-item-label">Start + 7 days</span>
+                  <code id="plus-seven">—</code>
+                </div>
+                <button class="copy-button" type="button" data-copy-source="plus-seven">Copy</button>
+              </li>
+            </ul>
+            <p class="result-note">Percentage dates use the completed whole-day interval shown above.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="copy-toast" id="copy-toast" aria-hidden="true"></div>
+    <p class="visually-hidden" id="copy-status" aria-live="polite"></p>
+
+    <footer class="site-footer">
+      <div class="footer-inner page-width">
+        <span>© <span data-current-year>2026</span> Edge Wallet · DateCalc</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="https://edge.app/">Edge.app</a>
+          <a href="https://support.edge.app/">Official Support</a>
+          <a href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff sign-in</a>
+          <a href="../">Support utilities</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

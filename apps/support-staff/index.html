@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Protected launchpad for Edge Support staff operations and internal tools."
+    />
+    <meta name="theme-color" content="#11141b" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Support Staff — EdgeTools</title>
+    <link rel="canonical" href="https://support.edgetools.app/staff/" />
+    <link rel="icon" href="./assets/edge-icon.png" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="stylesheet" href="./assets/staff.css" />
+    <script type="module" src="./assets/site.js"></script>
+  </head>
+  <body class="surface surface-staff">
+    <a class="skip-link" href="#support-staff-tools">Skip to Support staff tools</a>
+
+    <header class="site-header staff-header">
+      <div class="header-inner page-width">
+        <a
+          class="brand-link"
+          href="https://support.edgetools.app/staff/"
+          data-preview-href="/support/staff/"
+          aria-label="EdgeTools Support staff workspace"
+        >
+          <img src="./assets/edge-logo.svg" alt="Edge" width="92" height="27" />
+          <span class="brand-divider" aria-hidden="true"></span>
+          <span class="brand-product">Tools / Support Staff</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff hub</a>
+          <a href="https://support.edgetools.app/" data-preview-href="/support/">Public Support tools</a>
+          <a class="nav-emphasis staff-nav-emphasis" href="https://edge.app/">
+            Edge.app <span class="external-mark" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="staff-hero">
+        <div class="page-width staff-hero-layout">
+          <div>
+            <p class="staff-overline"><span aria-hidden="true">●</span> Support staff workspace</p>
+            <h1>Support operations.<br /><span>Without the company-wide noise.</span></h1>
+            <p>
+              Voucher and account workflows live here because Support uses them daily. Every
+              approved Edge staff member may enter, while the page stays focused on Support work.
+            </p>
+          </div>
+
+          <aside class="staff-access-card" aria-label="Access model">
+            <p class="staff-access-kicker">Access model</p>
+            <dl>
+              <div><dt>Workspace gate</dt><dd>All approved Edge staff</dd></div>
+              <div><dt>Navigation</dt><dd>Support-specific operations</dd></div>
+              <div><dt>Linked tools</dt><dd>Own authorization still applies</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="staff-preview-note" data-preview-only hidden aria-label="Local preview status">
+        <div class="page-width">
+          <span class="staff-preview-icon" aria-hidden="true">i</span>
+          <div>
+            <strong>Tailnet preview—Google login is not being simulated.</strong>
+            <p>
+              Production will protect this route with Cloudflare Access. Links are shown here only
+              for layout and routing review.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="staff-preview-note staff-production-note" data-production-only hidden aria-label="Workspace access">
+        <div class="page-width">
+          <span class="staff-preview-icon" aria-hidden="true">✓</span>
+          <div>
+            <strong>You passed the Support staff route gate.</strong>
+            <p>Each linked destination can still require its own sign-in and authorization.</p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="staff-content page-width"
+        id="support-staff-tools"
+        aria-labelledby="support-staff-tools-heading"
+      >
+        <div class="staff-content-heading">
+          <div>
+            <p class="staff-section-label">Account & voucher operations</p>
+            <h2 id="support-staff-tools-heading">Choose the operation—not the database.</h2>
+          </div>
+          <p>
+            EdgeTools is only the directory. The destination controls identity, permissions,
+            writes, and audit history.
+          </p>
+        </div>
+
+        <div class="staff-tool-grid">
+          <a
+            class="staff-tool-card staff-tool-primary {{staff.voucher.stateClass}}"
+            href="{{staff.voucher.href}}"
+            {{staff.voucher.linkAttributes}}
+          >
+            <span class="staff-tool-top">
+              <span class="staff-tool-icon" aria-hidden="true">V</span>
+              <span class="risk-badges"><span>Asana sign-in</span><span>Organization only</span></span>
+            </span>
+            <h3>Voucher Project Form</h3>
+            <p>Submit the required structured handoff for a validated voucher case.</p>
+            <span class="staff-tool-action">{{staff.voucher.action}} <span aria-hidden="true">{{staff.voucher.arrow}}</span></span>
+          </a>
+
+          <a
+            class="staff-tool-card {{staff.userLookup.stateClass}}"
+            href="{{staff.userLookup.href}}"
+            {{staff.userLookup.linkAttributes}}
+          >
+            <span class="staff-tool-top">
+              <span class="staff-tool-icon" aria-hidden="true">U</span>
+              <span class="risk-badges"><span>Restricted target</span><span>Production data</span></span>
+            </span>
+            <h3>Edge User Lookup</h3>
+            <p>Open the existing staff-only account lookup tool for authorized Support work.</p>
+            <span class="staff-tool-action">{{staff.userLookup.action}} <span aria-hidden="true">{{staff.userLookup.arrow}}</span></span>
+          </a>
+
+          <a
+            class="staff-tool-card {{staff.internalTools.stateClass}}"
+            href="{{staff.internalTools.href}}"
+            {{staff.internalTools.linkAttributes}}
+          >
+            <span class="staff-tool-top">
+              <span class="staff-tool-icon" aria-hidden="true">M</span>
+              <span class="risk-badges"><span>Restricted target</span><span>Tool-specific access</span></span>
+            </span>
+            <h3>Internal account tools</h3>
+            <p>Continue to Matthew’s protected internal tools and their own authorization flow.</p>
+            <span class="staff-tool-action">{{staff.internalTools.action}} <span aria-hidden="true">{{staff.internalTools.arrow}}</span></span>
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="staff-config-note {{staff.supportConfig.noteClass}}"
+        id="staff-targets-unconfigured"
+        aria-label="Unavailable Support staff destinations"
+      >
+        <div class="page-width">
+          <strong>One or more Support staff destinations are unavailable in this build.</strong>
+          <p>
+            Protected target URLs are injected during the private build and are not committed to
+            the public repository. Disabled cards remain visible for review.
+          </p>
+        </div>
+      </section>
+
+      <section class="staff-guardrails" aria-labelledby="staff-guardrails-heading">
+        <div class="page-width staff-guardrails-layout">
+          <div>
+            <p class="staff-section-label">Before you continue</p>
+            <h2 id="staff-guardrails-heading">A doorway is not authorization.</h2>
+          </div>
+          <ul>
+            <li>The Support staff route gate protects this directory only.</li>
+            <li>Every destination must enforce its own identity and permissions.</li>
+            <li>Never enter a password, PIN, OTP, seed phrase, or private key into EdgeTools.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="staff-secondary page-width" aria-labelledby="staff-secondary-heading">
+        <div>
+          <p class="staff-section-label">Need another workspace?</p>
+          <h2 id="staff-secondary-heading">Return to the company Staff hub.</h2>
+        </div>
+        <div class="staff-secondary-actions">
+          <a class="button staff-button-secondary" href="https://staff.edgetools.app/" data-preview-href="/staff/">
+            Open Staff hub <span aria-hidden="true">→</span>
+          </a>
+          <a class="button staff-button-secondary" href="https://support.edgetools.app/" data-preview-href="/support/">
+            Public Support tools <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer staff-footer">
+      <div class="footer-inner page-width">
+        <span>© <span data-current-year>2026</span> Edge Wallet · Support staff workspace</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="https://edge.app/">Edge.app</a>
+          <a href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff hub</a>
+          <a href="https://support.edgetools.app/" data-preview-href="/support/">Public Support tools</a>
+          <a href="https://bizdev.edgetools.app/staff/">BizDev staff</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
