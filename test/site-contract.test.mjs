@@ -182,7 +182,36 @@ test('preview server exposes global and Support staff routes separately', async 
   assert.match(source, /Support staff preview/)
 })
 
-test('public source contains no analytics or browser persistence', async () => {
+test('public pages load the anonymous Edge Messenger and staff pages do not', async () => {
+  for (const path of [
+    'apps/hub/index.html',
+    'apps/hub/404.html',
+    'apps/support/index.html',
+    'apps/support/404.html',
+    'apps/datecalc/index.html'
+  ]) {
+    const html = await read(path)
+    assert.match(html, /assets\/intercom\.js/)
+  }
+
+  for (const path of [
+    'apps/staff/index.html',
+    'apps/staff/404.html',
+    'apps/qa-staff/index.html',
+    'apps/support-staff/index.html',
+    'apps/support-staff/404.html'
+  ]) {
+    const html = await read(path)
+    assert.doesNotMatch(html, /assets\/intercom\.js|widget\.intercom\.io/)
+  }
+
+  const loader = await read('shared/intercom.js')
+  assert.match(loader, /APP_ID = 'ourx4xix'/)
+  assert.match(loader, /https:\/\/widget\.intercom\.io\/widget\/\$\{APP_ID\}/)
+  assert.doesNotMatch(loader, /email|user_id|created_at|intercomUserJwt/)
+})
+
+test('site source contains no first-party analytics or storage code', async () => {
   const source = await Promise.all([
     read('apps/hub/index.html'),
     read('apps/support/index.html'),
@@ -191,7 +220,8 @@ test('public source contains no analytics or browser persistence', async () => {
     read('apps/support-staff/index.html'),
     read('apps/datecalc/index.html'),
     read('apps/datecalc/datecalc.js'),
-    read('shared/site.js')
+    read('shared/site.js'),
+    read('shared/intercom.js')
   ])
   const combined = source.join('\n')
 
@@ -226,5 +256,27 @@ test('built pages fingerprint local assets so HTML and CSS deploy atomically', a
     const html = await readFile(path, 'utf8')
     assert.match(html, new RegExp(`assets/styles\\.css\\?v=${assetVersion}`), path)
     assert.doesNotMatch(html, /(?:href|src)="(?:\.\.\/|\.\/)assets\/[^"?]+"/, path)
+  }
+
+  for (const path of [
+    resolve(mainOutput, 'index.html'),
+    resolve(mainOutput, '404.html'),
+    resolve(supportOutput, 'index.html'),
+    resolve(supportOutput, '404.html'),
+    resolve(supportOutput, 'datecalc', 'index.html')
+  ]) {
+    const html = await readFile(path, 'utf8')
+    assert.match(html, new RegExp(`assets/intercom\\.js\\?v=${assetVersion}`), path)
+  }
+
+  for (const path of [
+    resolve(staffOutput, 'index.html'),
+    resolve(staffOutput, 'qa', 'index.html'),
+    resolve(staffOutput, '404.html'),
+    resolve(supportStaffOutput, 'index.html'),
+    resolve(supportStaffOutput, '404.html')
+  ]) {
+    const html = await readFile(path, 'utf8')
+    assert.doesNotMatch(html, /assets\/intercom\.js|widget\.intercom\.io/, path)
   }
 })

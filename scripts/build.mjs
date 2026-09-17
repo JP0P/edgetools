@@ -122,6 +122,7 @@ async function copySharedAssets(outputRoot) {
     await cp(resolve(repositoryRoot, 'shared', stylesheet), resolve(outputRoot, 'assets', stylesheet))
   }
   await cp(resolve(repositoryRoot, 'shared', 'site.js'), resolve(outputRoot, 'assets', 'site.js'))
+  await cp(resolve(repositoryRoot, 'shared', 'intercom.js'), resolve(outputRoot, 'assets', 'intercom.js'))
 }
 
 async function computeAssetVersion() {
@@ -131,6 +132,7 @@ async function computeAssetVersion() {
     resolve(repositoryRoot, 'shared', 'staff.css'),
     resolve(repositoryRoot, 'shared', 'support.css'),
     resolve(repositoryRoot, 'shared', 'site.js'),
+    resolve(repositoryRoot, 'shared', 'intercom.js'),
     resolve(repositoryRoot, 'shared', 'assets', 'tool-icons.svg'),
     resolve(repositoryRoot, 'apps', 'datecalc', 'datecalc.js')
   ]

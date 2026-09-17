@@ -45,6 +45,11 @@ origin, which is useful only on the Edge network and contains no credentials.
   as discoverable. The Staff surface may link to restricted destinations but
   must never contain credentials, customer data, or confidential instructions.
 - DateCalc performs all date work in the browser and sends or stores nothing.
+- Main, public Support, DateCalc, and their public 404 pages load Edge's existing
+  Intercom Messenger for anonymous visitors. EdgeTools sends no account identity
+  or customer attributes; Intercom manages its own visitor cookie and receives
+  conversation and page context under Edge's existing Messenger configuration.
+  Protected Staff outputs do not load the Messenger.
 - Existing dynamic tools remain links to their canonical origins.
 - `support.edgetools.app` is an organizational lane, not authentication.
 - `staff.edgetools.app` and `support.edgetools.app/staff/` are protected
