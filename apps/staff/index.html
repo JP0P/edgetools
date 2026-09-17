@@ -34,6 +34,7 @@
 
         <nav class="site-nav" aria-label="Primary navigation">
           <a href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">Support staff</a>
+          <a href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">QA staff</a>
           <a href="https://bizdev.edgetools.app/staff/">BizDev staff</a>
           <a class="nav-emphasis staff-nav-emphasis" href="https://edge.app/">
             Edge.app <span class="external-mark" aria-hidden="true">↗</span>
@@ -101,7 +102,7 @@
           </p>
         </div>
 
-        <div class="staff-tool-grid staff-tool-grid-two">
+        <div class="staff-tool-grid">
           <a
             class="staff-tool-card staff-tool-primary"
             href="https://support.edgetools.app/staff/"
@@ -124,6 +125,20 @@
             <h3>BizDev staff</h3>
             <p>Review and manage the existing partner-intake workflow.</p>
             <span class="staff-tool-action">Open BizDev staff <span aria-hidden="true">↗</span></span>
+          </a>
+
+          <a
+            class="staff-tool-card"
+            href="https://staff.edgetools.app/qa/"
+            data-preview-href="/staff/qa/"
+          >
+            <span class="staff-tool-top">
+              <span class="staff-tool-icon" aria-hidden="true">Q</span>
+              <span class="risk-badges"><span>Department</span><span>Staff access</span></span>
+            </span>
+            <h3>QA staff</h3>
+            <p>Build downloads, test systems, issue reports, and device access.</p>
+            <span class="staff-tool-action">Open QA staff <span aria-hidden="true">→</span></span>
           </a>
         </div>
       </section>
@@ -182,6 +197,48 @@
               <p>Open the internal team HUDL experience and leaderboard.</p>
               <span class="staff-tool-action">{{staff.hudl.action}} <span aria-hidden="true">{{staff.hudl.arrow}}</span></span>
             </a>
+
+            <a
+              class="staff-tool-card {{staff.reports.stateClass}}"
+              href="{{staff.reports.href}}"
+              {{staff.reports.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">I</span>
+                <span class="risk-badges"><span>Company insights</span><span>Own sign-in</span></span>
+              </span>
+              <h3>Internal reports</h3>
+              <p>Open the company reports server for operational and product visibility.</p>
+              <span class="staff-tool-action">{{staff.reports.action}} <span aria-hidden="true">{{staff.reports.arrow}}</span></span>
+            </a>
+
+            <a
+              class="staff-tool-card {{staff.posthog.stateClass}}"
+              href="{{staff.posthog.href}}"
+              {{staff.posthog.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">P</span>
+                <span class="risk-badges"><span>Product analytics</span><span>Own sign-in</span></span>
+              </span>
+              <h3>PostHog dashboards</h3>
+              <p>Review the shared product dashboards in Edge’s PostHog project.</p>
+              <span class="staff-tool-action">{{staff.posthog.action}} <span aria-hidden="true">{{staff.posthog.arrow}}</span></span>
+            </a>
+
+            <a
+              class="staff-tool-card {{staff.prometheus.stateClass}}"
+              href="{{staff.prometheus.href}}"
+              {{staff.prometheus.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">M</span>
+                <span class="risk-badges"><span>Metrics</span><span>Network context</span></span>
+              </span>
+              <h3>Prometheus metrics</h3>
+              <p>Inspect internal operational metrics such as chain and fee signals.</p>
+              <span class="staff-tool-action">{{staff.prometheus.action}} <span aria-hidden="true">{{staff.prometheus.arrow}}</span></span>
+            </a>
           </div>
         </div>
       </section>
@@ -218,6 +275,7 @@
           <a href="https://edge.app/">Edge.app</a>
           <a href="https://edgetools.app/" data-preview-href="/">Public tools</a>
           <a href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">Support staff</a>
+          <a href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">QA staff</a>
           <a href="https://bizdev.edgetools.app/staff/">BizDev staff</a>
         </nav>
       </div>

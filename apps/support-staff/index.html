@@ -88,6 +88,51 @@
         </div>
       </section>
 
+      <section class="staff-guardrails" aria-labelledby="support-diagnostics-heading">
+        <div class="page-width">
+          <div class="staff-content-heading">
+            <div>
+              <p class="staff-section-label">Inbox & diagnostics</p>
+              <h2 id="support-diagnostics-heading">Continue the customer investigation.</h2>
+            </div>
+            <p>
+              Open the existing Support systems for customer conversations and uploaded device
+              logs. EdgeTools stores neither.
+            </p>
+          </div>
+
+          <div class="staff-tool-grid staff-tool-grid-two">
+            <a
+              class="staff-tool-card staff-tool-primary {{staff.logsUpload.stateClass}}"
+              href="{{staff.logsUpload.href}}"
+              {{staff.logsUpload.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">L</span>
+                <span class="risk-badges"><span>Support only</span><span>Customer logs</span></span>
+              </span>
+              <h3>Uploaded device logs</h3>
+              <p>Find logs a user deliberately shared with Support for troubleshooting.</p>
+              <span class="staff-tool-action">{{staff.logsUpload.action}} <span aria-hidden="true">{{staff.logsUpload.arrow}}</span></span>
+            </a>
+
+            <a
+              class="staff-tool-card {{staff.intercomInbox.stateClass}}"
+              href="{{staff.intercomInbox.href}}"
+              {{staff.intercomInbox.linkAttributes}}
+            >
+              <span class="staff-tool-top">
+                <span class="staff-tool-icon" aria-hidden="true">I</span>
+                <span class="risk-badges"><span>Support only</span><span>Intercom sign-in</span></span>
+              </span>
+              <h3>Intercom Inbox</h3>
+              <p>Open the Edge Support inbox for active customer conversations and follow-up.</p>
+              <span class="staff-tool-action">{{staff.intercomInbox.action}} <span aria-hidden="true">{{staff.intercomInbox.arrow}}</span></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section
         class="staff-content page-width"
         id="support-staff-tools"
@@ -200,6 +245,7 @@
           <a href="https://edge.app/">Edge.app</a>
           <a href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff hub</a>
           <a href="https://support.edgetools.app/" data-preview-href="/support/">Public Support tools</a>
+          <a href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">QA staff</a>
           <a href="https://bizdev.edgetools.app/staff/">BizDev staff</a>
         </nav>
       </div>

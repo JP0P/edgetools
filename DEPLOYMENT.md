@@ -6,7 +6,7 @@ recoverable. It contains no credentials or private destination URLs.
 ## Release sequence
 
 1. Merge a green pull request into `JP0P/edgetools:main`.
-2. Build the protected outputs with all six Staff destination variables set.
+2. Build the protected outputs with all 17 Staff destination variables set.
 3. Deploy the two Cloudflare Workers and confirm their alternate
    `workers.dev` and preview URLs are disabled.
 4. Create or update the DigitalOcean static App from `.do/app.static.yaml`.
@@ -31,14 +31,17 @@ recoverable. It contains no credentials or private destination URLs.
 - `https://support.edgetools.app/` and `/datecalc/` return the public Support
   surfaces without authentication.
 - Anonymous requests to `https://staff.edgetools.app/`,
+  `https://staff.edgetools.app/qa/`,
   `https://support.edgetools.app/staff`, and
   `https://support.edgetools.app/staff/` go to Cloudflare Access.
 - An approved staff identity reaches both Staff surfaces; a non-approved
   identity does not.
 - Authenticated Staff responses include `private, no-store`, `noindex`, and
   frame-denial headers.
-- The voucher form, User Lookup, Matthew's internal tools, shared guide,
-  release planning, and HUDL links are active and open their canonical targets.
+- The voucher form, User Lookup, internal account tools, Support inbox and log
+  server, shared guide, release planning, HUDL, reports, analytics, metrics,
+  QA builds, test systems, issue reports, and device links are active and open
+  their canonical targets.
 - Each linked protected destination still enforces its own login and
   authorization.
 - Neither Worker is reachable through a `workers.dev` or preview URL.

@@ -21,6 +21,7 @@ const htmlFiles = [
   resolve(supportOutput, '404.html'),
   resolve(supportOutput, 'datecalc', 'index.html'),
   resolve(staffOutput, 'index.html'),
+  resolve(staffOutput, 'qa', 'index.html'),
   resolve(staffOutput, '404.html'),
   resolve(supportStaffOutput, 'index.html'),
   resolve(supportStaffOutput, '404.html')
