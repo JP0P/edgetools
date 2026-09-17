@@ -3,12 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Find public Edge tools, partner resources, Support utilities, and the Edge staff workspace."
-    />
+    <meta name="description" content="Edge staff workspaces and public tools." />
     <meta name="theme-color" content="#141715" />
-    <title>EdgeTools — Find the right Edge resource</title>
+    <title>EdgeTools</title>
     <link rel="canonical" href="https://edgetools.app/" />
     <link rel="icon" href="./assets/edge-icon.png" />
     <link rel="stylesheet" href="./assets/styles.css" />
@@ -16,7 +13,7 @@
     <script type="module" src="./assets/site.js"></script>
   </head>
   <body class="surface surface-hub">
-    <a class="skip-link" href="#main-content">Skip to destinations</a>
+    <a class="skip-link" href="#staff-workspaces">Skip to tools</a>
 
     <header class="site-header">
       <div class="header-inner page-width">
@@ -25,160 +22,118 @@
           <span class="brand-divider" aria-hidden="true"></span>
           <span class="brand-product">Tools</span>
         </a>
-
         <nav class="site-nav" aria-label="Primary navigation">
-          <a href="https://support.edgetools.app/" data-preview-href="/support/">Support utilities</a>
-          <a class="nav-optional" href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff hub</a>
-          <a class="nav-emphasis" href="https://edge.app/">
-            Edge.app <span class="external-mark" aria-hidden="true">↗</span>
-          </a>
+          <a aria-current="page" href="https://edgetools.app/" data-preview-href="/">Tools</a>
+          <a href="https://support.edgetools.app/" data-preview-href="/support/">Support</a>
+          <a href="https://bizdev.edgetools.app/intake/">Partners</a>
+          <a class="nav-emphasis" href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff sign in</a>
         </nav>
       </div>
+      <nav class="official-nav page-width" aria-label="Official Edge links">
+        <a href="https://edge.app/">
+          <svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-wallet"></use></svg>
+          Edge Wallet
+        </a>
+        <a href="https://support.edge.app/">
+          <svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-help"></use></svg>
+          Help Center
+        </a>
+      </nav>
     </header>
 
-    <main id="main-content">
+    <main>
       <section class="hub-hero">
         <div class="page-width hub-hero-layout">
           <div class="hub-hero-copy">
             <p class="eyebrow">EdgeTools</p>
-            <h1>Find the right Edge resource—<span class="accent-text">fast.</span></h1>
-            <p class="hero-lede">
-              One public starting point for using Edge, working with Edge, or finding the
-              team tools you need. Choose your route; we’ll keep the destinations honest.
-            </p>
+            <h1>Find an Edge tool.</h1>
+            <p class="hero-lede">Sign in for staff workspaces, or use the public tools below.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#choose-route">
-                Choose your route <span aria-hidden="true">↓</span>
+              <a class="button button-primary" href="https://staff.edgetools.app/" data-preview-href="/staff/">
+                Staff sign in <span aria-hidden="true">→</span>
               </a>
-              <a
-                class="button button-secondary"
-                href="https://bizdev.edgetools.app/intake/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Partner with Edge <span aria-hidden="true">↗</span>
-              </a>
+              <a class="button button-secondary" href="#public-tools">Public tools <span aria-hidden="true">↓</span></a>
             </div>
           </div>
-
-          <aside class="hub-compass" aria-label="What lives on EdgeTools">
-            <p class="hub-compass-label">Start here when you remember the domain—not the tool.</p>
-            <ol>
-              <li><span>01</span> Public tools for Edge users</li>
-              <li><span>02</span> Partner and builder paths</li>
-              <li><span>03</span> Team and Support workspaces</li>
-            </ol>
-          </aside>
         </div>
       </section>
 
-      <section class="route-section page-width" id="choose-route" aria-labelledby="choose-route-heading">
-        <div class="section-heading route-heading">
-          <div>
-            <p class="eyebrow">Start with who you are</p>
-            <h2 id="choose-route-heading">What are you here to do?</h2>
-          </div>
-          <p>Each route has a different job. No giant junk drawer pretending to be navigation.</p>
+      <section class="directory-section page-width" id="staff-workspaces" aria-labelledby="staff-workspaces-heading">
+        <div class="directory-heading">
+          <p class="eyebrow">Staff workspaces</p>
+          <h2 id="staff-workspaces-heading">Choose your team.</h2>
         </div>
-
-        <div class="audience-grid">
-          <article class="audience-card audience-user">
-            <div class="audience-card-number" aria-hidden="true">01</div>
-            <p class="audience-kicker">Edge user</p>
-            <h3>Use or troubleshoot Edge</h3>
-            <p>Find official guidance, check an order, or resolve a public FIO Handle.</p>
-            <ul class="destination-list">
-              <li>
-                <a href="https://support.edge.app/">
-                  <span><strong>Official Help Center</strong><small>Wallet guidance and contact options</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{tool.orders.href}}" target="_blank" rel="noopener noreferrer">
-                  <span><strong>{{tool.orders.name}}</strong><small>{{tool.orders.mainDescription}}</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{tool.fio.href}}" target="_blank" rel="noopener noreferrer">
-                  <span><strong>{{tool.fio.name}}</strong><small>{{tool.fio.mainDescription}}</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </li>
-            </ul>
-          </article>
-
-          <article class="audience-card audience-partner">
-            <div class="audience-card-number" aria-hidden="true">02</div>
-            <p class="audience-kicker">Partner or builder</p>
-            <h3>Work with Edge</h3>
-            <p>Tell the BizDev team what you’re building, or learn more about Edge Wallet.</p>
-            <a
-              class="route-primary-link"
-              href="https://bizdev.edgetools.app/intake/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span><strong>Start partner intake</strong><small>Share your integration or partnership idea</small></span>
-              <span aria-hidden="true">↗</span>
-            </a>
-            <a class="route-secondary-link" href="https://edge.app/">
-              Explore Edge Wallet <span aria-hidden="true">↗</span>
-            </a>
-          </article>
-
-          <article class="audience-card audience-team">
-            <div class="audience-card-number" aria-hidden="true">03</div>
-            <p class="audience-kicker">Edge teammate or ambassador</p>
-            <h3>Find team resources</h3>
-            <p>Use the public Support utilities, or enter the protected hub for team workspaces and shared resources.</p>
-            <ul class="destination-list">
-              <li>
-                <a href="https://support.edgetools.app/" data-preview-href="/support/">
-                  <span><strong>Support utilities</strong><small>Public-safe Support workflows and tools</small></span>
-                  <span aria-hidden="true">→</span>
-                </a>
-              </li>
-              <li>
-                <a href="https://staff.edgetools.app/" data-preview-href="/staff/">
-                  <span><strong>Staff hub</strong><small>Department workspaces and shared resources · Edge account required</small></span>
-                  <span aria-hidden="true">→</span>
-                </a>
-              </li>
-            </ul>
-          </article>
+        <div class="directory-grid directory-grid-three">
+          <a class="directory-card directory-card-featured" href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">
+            <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-headset"></use></svg></span>
+            <span><strong>Support</strong><small>Inbox, logs, account, and voucher tools</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="directory-card" href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">
+            <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-qa"></use></svg></span>
+            <span><strong>QA</strong><small>Builds, testing, issues, and devices</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="directory-card" href="https://bizdev.edgetools.app/staff/">
+            <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-briefcase"></use></svg></span>
+            <span><strong>BizDev</strong><small>Partner intake and review</small></span>
+            <span class="tool-badge">External ↗</span>
+          </a>
         </div>
       </section>
 
-      <section class="public-strip" aria-labelledby="public-utilities-heading">
-        <div class="page-width public-strip-layout">
-          <div>
-            <p class="eyebrow">Public infrastructure</p>
-            <h2 id="public-utilities-heading">Quick checks, no account needed.</h2>
+      <section class="directory-section directory-section-muted" id="public-tools" aria-labelledby="public-tools-heading">
+        <div class="page-width">
+          <div class="directory-heading">
+            <p class="eyebrow">Public tools</p>
+            <h2 id="public-tools-heading">Lookups and status.</h2>
           </div>
-          <div class="utility-links">
-            <a href="{{tool.status.href}}" target="_blank" rel="noopener noreferrer">
+          <div class="directory-grid directory-grid-four">
+            <a class="directory-card" href="{{tool.orders.href}}" target="_blank" rel="noopener noreferrer">
+              <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-order"></use></svg></span>
+              <span><strong>{{tool.orders.name}}</strong><small>{{tool.orders.mainDescription}}</small></span>
+              <span class="tool-badge">External ↗</span>
+            </a>
+            <a class="directory-card" href="{{tool.fio.href}}" target="_blank" rel="noopener noreferrer">
+              <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-fio"></use></svg></span>
+              <span><strong>{{tool.fio.name}}</strong><small>{{tool.fio.mainDescription}}</small></span>
+              <span class="tool-badge">External ↗</span>
+            </a>
+            <a class="directory-card" href="{{tool.status.href}}" target="_blank" rel="noopener noreferrer">
+              <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-status"></use></svg></span>
               <span><strong>{{tool.status.name}}</strong><small>{{tool.status.mainDescription}}</small></span>
               <span class="tool-badge">External ↗</span>
             </a>
-            <a href="{{tool.icon.href}}" target="_blank" rel="noopener noreferrer">
+            <a class="directory-card" href="{{tool.icon.href}}" target="_blank" rel="noopener noreferrer">
+              <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-image"></use></svg></span>
               <span><strong>{{tool.icon.name}}</strong><small>{{tool.icon.mainDescription}}</small></span>
               <span class="tool-badge">External ↗</span>
             </a>
           </div>
         </div>
       </section>
+
+      <section class="partner-strip">
+        <div class="page-width partner-strip-layout">
+          <div>
+            <p class="eyebrow">Partners and builders</p>
+            <h2>Working with Edge?</h2>
+          </div>
+          <a class="button button-secondary-light" href="https://bizdev.edgetools.app/intake/">
+            Partner intake <span class="tool-badge">External ↗</span>
+          </a>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer-inner page-width">
-        <span>© <span data-current-year>2026</span> Edge Wallet · Public resource directory</span>
+        <span>© <span data-current-year>2026</span> Edge Wallet</span>
         <nav class="footer-links" aria-label="Footer navigation">
-          <a href="https://edge.app/">Edge.app</a>
-          <a href="https://support.edge.app/">Official Support</a>
-          <a href="https://support.edgetools.app/" data-preview-href="/support/">Support utilities</a>
-          <a href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff hub</a>
+          <a href="https://edge.app/">Edge Wallet</a>
+          <a href="https://support.edge.app/">Help Center</a>
+          <a href="https://support.edgetools.app/" data-preview-href="/support/">Support</a>
+          <a href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff</a>
         </nav>
       </div>
     </footer>

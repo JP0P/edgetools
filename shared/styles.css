@@ -193,6 +193,11 @@ svg {
   color: #ffffff;
 }
 
+.site-nav a[aria-current='page'] {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
 .site-nav .nav-emphasis {
   margin-left: 4px;
   background: var(--mint);
@@ -207,6 +212,42 @@ svg {
 .external-mark {
   font-size: 0.9em;
   line-height: 1;
+}
+
+.official-nav {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding-block: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #aeb8b2;
+  font-size: 13px;
+}
+
+.official-nav a {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #d9dfdb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.official-nav a:hover {
+  color: #ffffff;
+}
+
+.official-nav svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .hero-band {
@@ -465,6 +506,27 @@ svg {
 .tool-icon svg {
   width: 23px;
   height: 23px;
+}
+
+.tool-icon svg,
+.directory-icon svg,
+.workflow-icon svg,
+.staff-tool-icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.workflow-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.staff-tool-icon svg {
+  width: 26px;
+  height: 26px;
 }
 
 .tool-badge {
@@ -1092,7 +1154,9 @@ svg {
 
   .header-inner {
     min-height: 68px;
+    flex-wrap: wrap;
     gap: 14px;
+    padding-block: 12px;
   }
 
   .brand-link img {
@@ -1107,6 +1171,14 @@ svg {
   .site-nav a {
     padding-inline: 9px;
     font-size: 12px;
+  }
+
+  .surface-hub .site-nav,
+  .surface-support .site-nav,
+  .surface-datecalc .site-nav {
+    width: 100%;
+    order: 2;
+    justify-content: space-between;
   }
 
   .site-nav .nav-optional {
@@ -1179,6 +1251,29 @@ svg {
 @media (max-width: 430px) {
   .site-nav .nav-emphasis {
     margin-left: 0;
+  }
+
+  .surface-hub .site-nav a[href*="bizdev"],
+  .surface-support .site-nav a[href*="bizdev"],
+  .surface-datecalc .site-nav a[href*="bizdev"] {
+    display: none;
+  }
+
+  .surface-hub .site-nav,
+  .surface-support .site-nav,
+  .surface-datecalc .site-nav {
+    gap: 3px;
+  }
+
+  .surface-staff .header-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-block: 12px;
+  }
+
+  .surface-staff .site-nav {
+    width: 100%;
+    overflow-x: auto;
   }
 
   .hero-actions,

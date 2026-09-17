@@ -8,8 +8,8 @@ export const publicTools = {
   fio: {
     href: 'https://fio.jpop.cloud/',
     name: 'FIO resolver',
-    mainDescription: 'Resolve a public FIO Handle',
-    supportDescription: 'Resolve a public FIO Handle to supported addresses'
+    mainDescription: 'Find addresses linked to a FIO Handle',
+    supportDescription: 'Find the public wallet addresses linked to a FIO Handle'
   },
   status: {
     href: 'https://status.jpop.cloud/',

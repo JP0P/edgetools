@@ -11,21 +11,28 @@
     <link rel="stylesheet" href="./assets/styles.css" />
     <script type="module" src="./assets/site.js"></script>
   </head>
-  <body>
+  <body class="surface surface-hub">
     <header class="site-header">
       <div class="header-inner page-width">
-        <a class="brand-link" href="https://edge.app/" aria-label="Visit the Edge Wallet website">
+        <a class="brand-link" href="https://edgetools.app/" data-preview-href="/" aria-label="EdgeTools home">
           <img src="./assets/edge-logo.svg" alt="Edge" width="92" height="27" />
           <span class="brand-divider" aria-hidden="true"></span>
           <span class="brand-product">Tools</span>
         </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="https://edgetools.app/" data-preview-href="/">Tools</a>
+          <a href="https://support.edgetools.app/" data-preview-href="/support/">Support</a>
+          <a href="https://bizdev.edgetools.app/intake/">Partners</a>
+          <a class="nav-emphasis" href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff sign in</a>
+        </nav>
       </div>
+      <nav class="official-nav page-width" aria-label="Official Edge links"><a href="https://edge.app/">Edge Wallet</a><a href="https://support.edge.app/">Help Center</a></nav>
     </header>
     <main class="not-found page-width">
       <div>
         <h1>404</h1>
-        <h2>That tool isn't on this shelf.</h2>
-        <p>The address may have changed, or the tool may still live at its original home.</p>
+        <h2>Page not found.</h2>
+        <p>Check the address or return to EdgeTools.</p>
         <a class="button button-primary" href="https://edgetools.app/" data-preview-href="/">
           Back to EdgeTools
         </a>
@@ -33,10 +40,10 @@
     </main>
     <footer class="site-footer">
       <div class="footer-inner page-width">
-        <span>EdgeTools by Edge Wallet</span>
+        <span>© <span data-current-year>2026</span> Edge Wallet</span>
         <nav class="footer-links" aria-label="Footer navigation">
-          <a href="https://edge.app/">Edge.app</a>
-          <a href="https://support.edge.app/">Official Support</a>
+          <a href="https://edge.app/">Edge Wallet</a>
+          <a href="https://support.edge.app/">Help Center</a>
         </nav>
       </div>
     </footer>
