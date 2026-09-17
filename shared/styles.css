@@ -215,26 +215,19 @@ svg {
 }
 
 .official-nav {
-  min-height: 38px;
+  min-height: 44px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-block: 7px 9px;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding-block: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   color: #aeb8b2;
-  font-size: 12px;
-}
-
-.official-nav > span {
-  color: #7f8a84;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13px;
 }
 
 .official-nav a {
+  min-height: 32px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -248,8 +241,8 @@ svg {
 }
 
 .official-nav svg {
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -524,6 +517,16 @@ svg {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.8;
+}
+
+.workflow-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.staff-tool-icon svg {
+  width: 26px;
+  height: 26px;
 }
 
 .tool-badge {
@@ -1151,7 +1154,9 @@ svg {
 
   .header-inner {
     min-height: 68px;
+    flex-wrap: wrap;
     gap: 14px;
+    padding-block: 12px;
   }
 
   .brand-link img {
@@ -1166,6 +1171,14 @@ svg {
   .site-nav a {
     padding-inline: 9px;
     font-size: 12px;
+  }
+
+  .surface-hub .site-nav,
+  .surface-support .site-nav,
+  .surface-datecalc .site-nav {
+    width: 100%;
+    order: 2;
+    justify-content: space-between;
   }
 
   .site-nav .nav-optional {
@@ -1240,9 +1253,16 @@ svg {
     margin-left: 0;
   }
 
-  .surface-hub .site-nav a:not(.nav-emphasis),
-  .surface-support .site-nav a:not(.nav-emphasis) {
+  .surface-hub .site-nav a[href*="bizdev"],
+  .surface-support .site-nav a[href*="bizdev"],
+  .surface-datecalc .site-nav a[href*="bizdev"] {
     display: none;
+  }
+
+  .surface-hub .site-nav,
+  .surface-support .site-nav,
+  .surface-datecalc .site-nav {
+    gap: 3px;
   }
 
   .surface-staff .header-inner {

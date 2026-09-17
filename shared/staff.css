@@ -35,12 +35,10 @@
 }
 
 .staff-hero-layout {
-  min-height: 470px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.58fr);
+  min-height: 300px;
+  display: flex;
   align-items: center;
-  gap: clamp(44px, 8vw, 100px);
-  padding-block: clamp(60px, 8vw, 94px);
+  padding-block: clamp(48px, 7vw, 72px);
 }
 
 .staff-overline,
@@ -172,10 +170,7 @@
 }
 
 .staff-content-heading {
-  display: grid;
-  grid-template-columns: 1fr minmax(300px, 0.62fr);
-  align-items: end;
-  gap: 48px;
+  display: block;
   margin-bottom: 34px;
 }
 
@@ -205,12 +200,8 @@
   gap: 16px;
 }
 
-.staff-tool-grid-two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .staff-tool-card {
-  min-height: 340px;
+  min-height: 260px;
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -284,6 +275,11 @@
   font-weight: 700;
 }
 
+.staff-section-alt {
+  border-block: 1px solid var(--staff-line);
+  background: #11151d;
+}
+
 .staff-tool-primary .staff-tool-icon {
   border-color: #2a6b57;
   background: #15352b;
@@ -298,6 +294,18 @@
 }
 
 .risk-badges span {
+  padding: 4px 7px;
+  border: 1px solid #374154;
+  border-radius: 999px;
+  color: #9ea8ba;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tool-chip {
   padding: 4px 7px;
   border: 1px solid #374154;
   border-radius: 999px;
@@ -424,8 +432,6 @@
 }
 
 @media (max-width: 940px) {
-  .staff-hero-layout,
-  .staff-content-heading,
   .staff-guardrails-layout {
     grid-template-columns: 1fr;
   }
@@ -439,7 +445,7 @@
   }
 
   .staff-tool-card {
-    min-height: 280px;
+    min-height: 230px;
   }
 }
 

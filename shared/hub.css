@@ -12,12 +12,10 @@
 }
 
 .hub-hero-layout {
-  min-height: 470px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  min-height: 350px;
+  display: flex;
   align-items: center;
-  gap: clamp(40px, 8vw, 96px);
-  padding-block: clamp(58px, 8vw, 92px);
+  padding-block: clamp(50px, 7vw, 76px);
 }
 
 .hub-hero-copy h1 {
@@ -28,40 +26,6 @@
   font-weight: 700;
   letter-spacing: -0.055em;
   line-height: 0.98;
-}
-
-.hub-staff-callout {
-  display: grid;
-  grid-template-columns: 58px 1fr;
-  gap: 18px;
-  padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  background: rgba(15, 19, 16, 0.76);
-}
-
-.hub-staff-callout > svg {
-  width: 58px;
-  height: 58px;
-  padding: 13px;
-  border-radius: 16px;
-  background: rgba(8, 240, 161, 0.12);
-  fill: none;
-  stroke: var(--mint);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.8;
-}
-
-.hub-staff-callout strong {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 18px;
-}
-
-.hub-staff-callout p {
-  margin: 7px 0 0;
-  color: #c6d0ca;
-  font-size: 14px;
 }
 
 .directory-section {
@@ -184,13 +148,8 @@
 }
 
 @media (max-width: 900px) {
-  .hub-hero-layout,
   .directory-grid-three {
     grid-template-columns: 1fr;
-  }
-
-  .hub-staff-callout {
-    max-width: 560px;
   }
 }
 

@@ -30,7 +30,6 @@
         </nav>
       </div>
       <nav class="official-nav page-width" aria-label="Official Edge links">
-        <span>Official</span>
         <a href="https://edge.app/"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-wallet"></use></svg>Edge Wallet</a>
         <a href="https://support.edge.app/"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-help"></use></svg>Help Center</a>
       </nav>
@@ -41,16 +40,17 @@
 
       <section class="staff-preview-note" data-preview-only hidden aria-label="Preview status"><div class="page-width"><span class="staff-preview-icon" aria-hidden="true">i</span><div><strong>Preview mode</strong><p>Google login is not being simulated. Sign-in is enforced on the live Staff site.</p></div></div></section>
 
-      <section class="staff-preview-note staff-production-note" data-production-only hidden aria-label="Access reminder"><div class="page-width"><span class="staff-preview-icon" aria-hidden="true">✓</span><div><strong>You signed in to EdgeTools.</strong><p>Each linked tool still uses its own sign-in and authorization.</p></div></div></section>
-
       <section class="staff-content page-width" id="support-tools" aria-labelledby="support-diagnostics-heading">
-        <div class="staff-content-heading"><div><p class="staff-section-label">Customer support</p><h2 id="support-diagnostics-heading">Conversations & logs</h2></div></div>
-        <div class="staff-tool-grid staff-tool-grid-two">
+        <div class="staff-content-heading"><div><p class="staff-section-label">Daily work</p><h2 id="support-diagnostics-heading">Conversations & follow-up</h2></div></div>
+        <div class="staff-tool-grid">
           <a class="staff-tool-card staff-tool-primary {{staff.intercomInbox.stateClass}}" href="{{staff.intercomInbox.href}}" {{staff.intercomInbox.linkAttributes}}>
             <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-inbox"></use></svg></span><h3>Intercom Inbox</h3><p>Customer conversations and follow-up.</p><span class="staff-tool-action">{{staff.intercomInbox.action}} <span aria-hidden="true">{{staff.intercomInbox.arrow}}</span></span>
           </a>
           <a class="staff-tool-card {{staff.logsUpload.stateClass}}" href="{{staff.logsUpload.href}}" {{staff.logsUpload.linkAttributes}}>
             <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-logs"></use></svg></span><h3>Uploaded device logs</h3><p>Find logs shared with Support.</p><span class="staff-tool-action">{{staff.logsUpload.action}} <span aria-hidden="true">{{staff.logsUpload.arrow}}</span></span>
+          </a>
+          <a class="staff-tool-card" href="https://support.edgetools.app/datecalc/" data-preview-href="/support/datecalc/">
+            <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-calendar"></use></svg></span><h3>Date calculator</h3><p>Calculate common follow-up dates.</p><span class="staff-tool-action">Open calculator <span aria-hidden="true">→</span></span>
           </a>
         </div>
       </section>
@@ -58,7 +58,7 @@
       <section class="staff-section-alt" aria-labelledby="support-account-tools-heading">
         <div class="page-width staff-content">
           <div class="staff-content-heading"><div><p class="staff-section-label">Operations</p><h2 id="support-account-tools-heading">Accounts & vouchers</h2></div></div>
-          <div class="staff-tool-grid staff-tool-grid-four">
+          <div class="staff-tool-grid">
             <a class="staff-tool-card {{staff.userLookup.stateClass}}" href="{{staff.userLookup.href}}" {{staff.userLookup.linkAttributes}}>
               <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-user-search"></use></svg></span><h3>User Lookup</h3><p>Look up an Edge account.</p><span class="staff-tool-action">{{staff.userLookup.action}} <span aria-hidden="true">{{staff.userLookup.arrow}}</span></span>
             </a>
@@ -67,9 +67,6 @@
             </a>
             <a class="staff-tool-card {{staff.internalTools.stateClass}}" href="{{staff.internalTools.href}}" {{staff.internalTools.linkAttributes}}>
               <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-tools"></use></svg></span><h3>Internal account tools</h3><p>Open protected account utilities.</p><span class="staff-tool-action">{{staff.internalTools.action}} <span aria-hidden="true">{{staff.internalTools.arrow}}</span></span>
-            </a>
-            <a class="staff-tool-card" href="https://support.edgetools.app/datecalc/" data-preview-href="/support/datecalc/">
-              <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-calendar"></use></svg></span><h3>Date calculator</h3><p>Compare dates and copy common follow-up dates.</p><span class="staff-tool-action">Open calculator <span aria-hidden="true">→</span></span>
             </a>
           </div>
         </div>

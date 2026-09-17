@@ -61,6 +61,7 @@ test('the staff surfaces have distinct jobs and routes', async () => {
   assert.match(qaStaff, /Download builds, run tests, report issues/)
   assert.match(qaStaff, /Build lab/)
   assert.match(supportStaff, /Open conversations, logs, account tools/)
+  assert.match(supportStaff, /Conversations & follow-up/)
   assert.match(supportStaff, /Accounts & vouchers/)
 })
 
@@ -108,7 +109,7 @@ test('company Staff hub federates department workspaces and shared resources', a
   assert.match(html, /\{\{staff\.reports\.href\}\}/)
   assert.match(html, /\{\{staff\.posthog\.href\}\}/)
   assert.match(html, /\{\{staff\.prometheus\.href\}\}/)
-  assert.match(html, /own sign-in and authorization/)
+  assert.doesNotMatch(html, /own sign-in and authorization/)
 })
 
 test('QA operations appear only in the QA staff workspace', async () => {
@@ -131,17 +132,28 @@ test('public Support links clearly to its own protected staff route', async () =
   assert.match(html, /Support staff sign in/)
   assert.match(html, /href="https:\/\/support\.edgetools\.app\/staff\/"/)
   assert.match(html, /data-preview-href="\/support\/staff\/"/)
-  assert.match(html, /href="\.\/datecalc\/"/)
+  assert.doesNotMatch(html, /datecalc/)
+  assert.doesNotMatch(html, /Date calculator/)
 })
 
-test('staff copy distinguishes directory gates from target authorization', async () => {
+test('staff previews explain only the preview login state', async () => {
   for (const path of ['apps/staff/index.html', 'apps/qa-staff/index.html', 'apps/support-staff/index.html']) {
     const html = await read(path)
-    assert.match(html, /own authorization|own sign-in and authorization/)
     assert.match(html, /Google login is not being simulated/)
     assert.match(html, /data-preview-only hidden/)
-    assert.match(html, /data-production-only hidden/)
+    assert.doesNotMatch(html, /data-production-only/)
+    assert.doesNotMatch(html, /own sign-in and authorization/)
   }
+})
+
+test('DateCalc is direct-link and staff-only in site navigation', async () => {
+  const hub = await read('apps/hub/index.html')
+  const support = await read('apps/support/index.html')
+  const supportStaff = await read('apps/support-staff/index.html')
+
+  assert.doesNotMatch(hub, /datecalc|Date calculator/i)
+  assert.doesNotMatch(support, /datecalc|Date calculator/i)
+  assert.match(supportStaff, /https:\/\/support\.edgetools\.app\/datecalc\//)
 })
 
 test('protected destination URLs are not committed in HTML', async () => {

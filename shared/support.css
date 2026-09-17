@@ -40,12 +40,10 @@
 }
 
 .support-hero-layout {
-  min-height: 470px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.58fr);
+  min-height: 330px;
+  display: flex;
   align-items: center;
-  gap: clamp(42px, 8vw, 100px);
-  padding-block: clamp(58px, 8vw, 94px);
+  padding-block: clamp(50px, 7vw, 76px);
 }
 
 .support-overline,
@@ -276,10 +274,6 @@
   gap: 10px;
 }
 
-.workflow-links-single {
-  grid-template-columns: 1fr;
-}
-
 .workflow-links > a {
   min-height: 88px;
   display: grid;
@@ -376,7 +370,6 @@
 }
 
 @media (max-width: 920px) {
-  .support-hero-layout,
   .support-guide-layout,
   .workflow-group {
     grid-template-columns: 1fr;
