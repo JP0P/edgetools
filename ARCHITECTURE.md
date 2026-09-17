@@ -8,6 +8,7 @@ apps/
   support/    support.edgetools.app
   datecalc/   support.edgetools.app/datecalc
   staff/      staff.edgetools.app company-wide router
+  qa-staff/   staff.edgetools.app/qa QA-focused workspace
   support-staff/  support.edgetools.app/staff Support operations
 shared/       visual system, public brand assets, and canonical public-tool facts
 scripts/      dependency-free build, preview, and link checks
@@ -27,13 +28,16 @@ Shared public-tool destinations live in `shared/tools.mjs`; Main and Support
 render different task-appropriate descriptions from the same canonical facts.
 The company-wide Staff hub routes to department workspaces and contains only
 resources with company-wide usefulness: the Clawdia team guide, release
-planning, and HUDL. Support-private voucher and account tools live on the
-Support staff route instead of adding noise to the company hub.
+planning, HUDL, reports, analytics, and shared operational metrics. QA build,
+test, issue, and device systems live at `/qa/` inside the same protected Staff
+output. Support-private voucher, account, inbox, and uploaded-log tools live on
+the Support staff route instead of adding noise to the company hub.
 
 All non-routing Staff destinations are injected from environment variables or
 the ignored local review file `config/staff-targets.local.json`. Their URLs do
 not live in public source. Missing destinations render as disabled cards rather
-than guessed links.
+than guessed links. The only non-HTTPS exception is the exact internal Jenkins
+origin, which is useful only on the Edge network and contains no credentials.
 
 ## Boundaries
 
@@ -57,7 +61,8 @@ also link prominently to the official Help Center at
 
 Production cross-host links use their canonical `edgetools.app` URLs. The local
 preview script rewrites only elements carrying `data-preview-href`, allowing
-all four surfaces to be reviewed through one private development origin.
+all public and protected surfaces to be reviewed through one private
+development origin.
 
 ## Deployment intent
 
@@ -72,7 +77,7 @@ gate.
 
 Production Staff therefore uses Cloudflare Worker static assets with no public
 provider alias. `wrangler.staff.jsonc` deploys the whole-host company Staff
-origin, while `wrangler.support-staff.jsonc` intercepts the exact Support
+origin, including `/qa/`, while `wrangler.support-staff.jsonc` intercepts the exact Support
 `/staff` path and its wildcard. Both disable `workers.dev` and preview URLs.
 Apply Google-backed Cloudflare Access to the whole `staff.edgetools.app` host
 and separately to both `support.edgetools.app/staff` and

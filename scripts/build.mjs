@@ -22,6 +22,46 @@ const globalStaffTargetDefinitions = {
   hudl: {
     action: 'Open HUDL',
     envName: 'EDGETOOLS_GLOBAL_STAFF_HUDL_URL'
+  },
+  reports: {
+    action: 'Open reports',
+    envName: 'EDGETOOLS_GLOBAL_STAFF_REPORTS_URL'
+  },
+  posthog: {
+    action: 'Open PostHog',
+    envName: 'EDGETOOLS_GLOBAL_STAFF_POSTHOG_URL'
+  },
+  prometheus: {
+    action: 'Open Prometheus',
+    envName: 'EDGETOOLS_GLOBAL_STAFF_PROMETHEUS_URL'
+  }
+}
+
+const qaStaffTargetDefinitions = {
+  zealot: {
+    action: 'Open Zealot builds',
+    envName: 'EDGETOOLS_QA_STAFF_ZEALOT_URL'
+  },
+  testrail: {
+    action: 'Open TestRail',
+    envName: 'EDGETOOLS_QA_STAFF_TESTRAIL_URL'
+  },
+  sentry: {
+    action: 'Open Sentry issues',
+    envName: 'EDGETOOLS_QA_STAFF_SENTRY_URL'
+  },
+  jenkins: {
+    action: 'Open Jenkins builds',
+    envName: 'EDGETOOLS_QA_STAFF_JENKINS_URL',
+    allowedHttpOrigin: 'http://jack2:8080'
+  },
+  browserstack: {
+    action: 'Open BrowserStack',
+    envName: 'EDGETOOLS_QA_STAFF_BROWSERSTACK_URL'
+  },
+  unifi: {
+    action: 'Open Android devices',
+    envName: 'EDGETOOLS_QA_STAFF_UNIFI_URL'
   }
 }
 
@@ -37,12 +77,39 @@ const supportStaffTargetDefinitions = {
   internalTools: {
     action: 'Open internal tools',
     envName: 'EDGETOOLS_SUPPORT_STAFF_INTERNAL_TOOLS_URL'
+  },
+  logsUpload: {
+    action: 'Open uploaded logs',
+    envName: 'EDGETOOLS_SUPPORT_STAFF_LOGS_URL'
+  },
+  intercomInbox: {
+    action: 'Open Intercom Inbox',
+    envName: 'EDGETOOLS_SUPPORT_STAFF_INTERCOM_URL'
   }
 }
 
 const staffTargetDefinitions = {
   ...globalStaffTargetDefinitions,
+  ...qaStaffTargetDefinitions,
   ...supportStaffTargetDefinitions
+}
+
+export function parseStaffTarget(rawValue, targetId) {
+  const definition = staffTargetDefinitions[targetId]
+  if (!definition) throw new Error(`Unknown Staff target: ${targetId}`)
+
+  const url = new URL(rawValue)
+  const allowedHttp =
+    url.protocol === 'http:' &&
+    definition.allowedHttpOrigin &&
+    url.origin === definition.allowedHttpOrigin
+  if ((url.protocol !== 'https:' && !allowedHttp) || url.username || url.password) {
+    const requirement = definition.allowedHttpOrigin
+      ? `a credential-free HTTPS URL or ${definition.allowedHttpOrigin}`
+      : 'a credential-free HTTPS URL'
+    throw new Error(`${definition.envName} must be ${requirement}`)
+  }
+  return url
 }
 
 async function copySharedAssets(outputRoot) {
@@ -78,10 +145,7 @@ async function loadStaffTargets() {
     const rawValue = process.env[definition.envName] || localTargets[targetId]
     if (!rawValue) continue
 
-    const url = new URL(rawValue)
-    if (url.protocol !== 'https:' || url.username || url.password) {
-      throw new Error(`${definition.envName} must be a credential-free HTTPS URL`)
-    }
+    const url = parseStaffTarget(rawValue, targetId)
     targets[targetId] = url.toString()
   }
   return targets
@@ -91,6 +155,8 @@ function staffTemplateValue(staffTargets, targetId, field) {
   if (targetId.endsWith('Config') && field === 'noteClass') {
     const scope = targetId === 'globalConfig'
       ? globalStaffTargetDefinitions
+      : targetId === 'qaConfig'
+        ? qaStaffTargetDefinitions
       : targetId === 'supportConfig'
         ? supportStaffTargetDefinitions
         : null
@@ -180,6 +246,12 @@ export async function build() {
     staffTargets
   )
   await cp(resolve(repositoryRoot, 'apps', 'staff', '404.html'), resolve(staffOutput, '404.html'))
+  await mkdir(resolve(staffOutput, 'qa'), { recursive: true })
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'qa-staff', 'index.html'),
+    resolve(staffOutput, 'qa', 'index.html'),
+    staffTargets
+  )
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support-staff', 'index.html'),
@@ -208,5 +280,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.log(`Built ${outputs.supportOutput}`)
   console.log(`Built ${outputs.staffOutput}`)
   console.log(`Built ${outputs.supportStaffOutput}`)
-  console.log(`Configured ${outputs.staffTargetsConfigured}/6 protected Staff targets`)
+  console.log(`Configured ${outputs.staffTargetsConfigured}/17 protected Staff targets`)
 }

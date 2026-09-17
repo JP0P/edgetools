@@ -137,6 +137,7 @@ server.listen(port, host, () => {
   console.log(`Support preview: http://${displayHost}:${port}/support/`)
   console.log(`DateCalc preview: http://${displayHost}:${port}/support/datecalc/`)
   console.log(`Staff hub preview: http://${displayHost}:${port}/staff/`)
+  console.log(`QA staff preview: http://${displayHost}:${port}/staff/qa/`)
   console.log(`Support staff preview: http://${displayHost}:${port}/support/staff/`)
 })
 

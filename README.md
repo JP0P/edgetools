@@ -7,7 +7,8 @@ builds four distinct surfaces:
 - `support.edgetools.app` — public-safe Support workflows and absorbed static
   tools such as DateCalc.
 - `staff.edgetools.app` — a restricted company-wide router for department
-  workspaces and shared staff resources.
+  workspaces and shared staff resources, including the focused `/qa/`
+  workspace.
 - `support.edgetools.app/staff/` — a restricted, Support-specific launcher for
   voucher and account operations.
 
@@ -35,6 +36,8 @@ three production hosts:
 - `/support/datecalc/` — DateCalc
 - `/staff/` — company-wide Staff hub; local preview does not simulate Google
   login
+- `/staff/qa/` — QA staff workspace; local preview does not simulate Google
+  login
 - `/support/staff/` — Support staff workspace; local preview does not simulate
   Google login
 
@@ -52,8 +55,12 @@ Do not bind a development preview to a public interface.
 For a local review, create ignored `config/staff-targets.local.json` with any of
 these keys:
 
-- Company-wide hub: `teamGuide`, `releasePlanning`, and `hudl`
-- Support staff: `voucher`, `userLookup`, and `internalTools`
+- Company-wide hub: `teamGuide`, `releasePlanning`, `hudl`, `reports`,
+  `posthog`, and `prometheus`
+- QA staff: `zealot`, `testrail`, `sentry`, `jenkins`, `browserstack`, and
+  `unifi`
+- Support staff: `voucher`, `userLookup`, `internalTools`, `logsUpload`, and
+  `intercomInbox`
 
 Cloudflare Workers Builds provide the matching build-time environment
 variables for the protected outputs:
@@ -61,12 +68,24 @@ variables for the protected outputs:
 - `EDGETOOLS_GLOBAL_STAFF_TEAM_GUIDE_URL`
 - `EDGETOOLS_GLOBAL_STAFF_RELEASE_PLANNING_URL`
 - `EDGETOOLS_GLOBAL_STAFF_HUDL_URL`
+- `EDGETOOLS_GLOBAL_STAFF_REPORTS_URL`
+- `EDGETOOLS_GLOBAL_STAFF_POSTHOG_URL`
+- `EDGETOOLS_GLOBAL_STAFF_PROMETHEUS_URL`
+- `EDGETOOLS_QA_STAFF_ZEALOT_URL`
+- `EDGETOOLS_QA_STAFF_TESTRAIL_URL`
+- `EDGETOOLS_QA_STAFF_SENTRY_URL`
+- `EDGETOOLS_QA_STAFF_JENKINS_URL`
+- `EDGETOOLS_QA_STAFF_BROWSERSTACK_URL`
+- `EDGETOOLS_QA_STAFF_UNIFI_URL`
 - `EDGETOOLS_SUPPORT_STAFF_VOUCHER_URL`
 - `EDGETOOLS_SUPPORT_STAFF_USER_LOOKUP_URL`
 - `EDGETOOLS_SUPPORT_STAFF_INTERNAL_TOOLS_URL`
+- `EDGETOOLS_SUPPORT_STAFF_LOGS_URL`
+- `EDGETOOLS_SUPPORT_STAFF_INTERCOM_URL`
 
-Only credential-free HTTPS URLs are accepted. Missing targets render as
-disabled cards; they are not silently guessed. Set
+Only credential-free HTTPS URLs are accepted, except the exact internal
+Jenkins origin `http://jack2:8080`. Missing targets render as disabled cards;
+they are not silently guessed. Set
 `EDGETOOLS_STAFF_TARGETS_FILE` to use a different private JSON file during a
 build.
 
