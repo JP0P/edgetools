@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -123,6 +124,30 @@ async function copySharedAssets(outputRoot) {
   await cp(resolve(repositoryRoot, 'shared', 'site.js'), resolve(outputRoot, 'assets', 'site.js'))
 }
 
+async function computeAssetVersion() {
+  const assetPaths = [
+    resolve(repositoryRoot, 'shared', 'styles.css'),
+    resolve(repositoryRoot, 'shared', 'hub.css'),
+    resolve(repositoryRoot, 'shared', 'staff.css'),
+    resolve(repositoryRoot, 'shared', 'support.css'),
+    resolve(repositoryRoot, 'shared', 'site.js'),
+    resolve(repositoryRoot, 'shared', 'assets', 'tool-icons.svg'),
+    resolve(repositoryRoot, 'apps', 'datecalc', 'datecalc.js')
+  ]
+  const hash = createHash('sha256')
+  for (const assetPath of assetPaths) hash.update(await readFile(assetPath))
+  return hash.digest('hex').slice(0, 12)
+}
+
+function versionLocalAssets(source, assetVersion) {
+  return source
+    .replace(
+      /((?:\.\.\/|\.\/)assets\/[^"'#?]+)(?=[#"'])/g,
+      `$1?v=${assetVersion}`
+    )
+    .replace(/(\.\/datecalc\.js)(?=["'])/g, `$1?v=${assetVersion}`)
+}
+
 function escapeHtml(value) {
   return value
     .replaceAll('&', '&amp;')
@@ -181,7 +206,7 @@ function staffTemplateValue(staffTargets, targetId, field) {
   return values[field] ?? null
 }
 
-async function renderTemplate(sourcePath, outputPath, staffTargets = {}) {
+async function renderTemplate(sourcePath, outputPath, staffTargets = {}, assetVersion) {
   const source = await readFile(sourcePath, 'utf8')
   const toolsRendered = source.replace(
     /\{\{tool\.([a-z0-9]+)\.([A-Za-z]+)\}\}/g,
@@ -204,7 +229,7 @@ async function renderTemplate(sourcePath, outputPath, staffTargets = {}) {
   if (rendered.includes('{{tool.') || rendered.includes('{{staff.')) {
     throw new Error(`Unresolved template token in ${sourcePath}`)
   }
-  await writeFile(outputPath, rendered)
+  await writeFile(outputPath, versionLocalAssets(rendered, assetVersion))
 }
 
 export async function build() {
@@ -213,6 +238,7 @@ export async function build() {
   const supportStaffOutput = resolve(distRoot, 'support-staff')
   const staffOutput = resolve(distRoot, 'staff')
   const staffTargets = await loadStaffTargets()
+  const assetVersion = await computeAssetVersion()
 
   await rm(distRoot, { recursive: true, force: true })
   await mkdir(mainOutput, { recursive: true })
@@ -227,44 +253,75 @@ export async function build() {
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'hub', 'index.html'),
-    resolve(mainOutput, 'index.html')
+    resolve(mainOutput, 'index.html'),
+    {},
+    assetVersion
   )
-  await cp(resolve(repositoryRoot, 'apps', 'hub', '404.html'), resolve(mainOutput, '404.html'))
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'hub', '404.html'),
+    resolve(mainOutput, '404.html'),
+    {},
+    assetVersion
+  )
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support', 'index.html'),
-    resolve(supportOutput, 'index.html')
+    resolve(supportOutput, 'index.html'),
+    {},
+    assetVersion
   )
-  await cp(resolve(repositoryRoot, 'apps', 'support', '404.html'), resolve(supportOutput, '404.html'))
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'support', '404.html'),
+    resolve(supportOutput, '404.html'),
+    {},
+    assetVersion
+  )
   await cp(resolve(repositoryRoot, 'apps', 'datecalc'), resolve(supportOutput, 'datecalc'), {
     recursive: true
   })
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'datecalc', 'index.html'),
+    resolve(supportOutput, 'datecalc', 'index.html'),
+    {},
+    assetVersion
+  )
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'staff', 'index.html'),
     resolve(staffOutput, 'index.html'),
-    staffTargets
+    staffTargets,
+    assetVersion
   )
-  await cp(resolve(repositoryRoot, 'apps', 'staff', '404.html'), resolve(staffOutput, '404.html'))
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'staff', '404.html'),
+    resolve(staffOutput, '404.html'),
+    {},
+    assetVersion
+  )
   await mkdir(resolve(staffOutput, 'qa'), { recursive: true })
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'qa-staff', 'index.html'),
     resolve(staffOutput, 'qa', 'index.html'),
-    staffTargets
+    staffTargets,
+    assetVersion
   )
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support-staff', 'index.html'),
     resolve(supportStaffOutput, 'index.html'),
-    staffTargets
+    staffTargets,
+    assetVersion
   )
-  await cp(
+  await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support-staff', '404.html'),
-    resolve(supportStaffOutput, '404.html')
+    resolve(supportStaffOutput, '404.html'),
+    {},
+    assetVersion
   )
 
   return {
     distRoot,
+    assetVersion,
     mainOutput,
     staffOutput,
     protectedStaffOrigins: [...new Set(Object.values(staffTargets).map(value => new URL(value).origin))],

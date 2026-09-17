@@ -4,7 +4,7 @@ import { resolve } from 'node:path'
 import test from 'node:test'
 
 import { publicTools } from '../shared/tools.mjs'
-import { parseStaffTarget } from '../scripts/build.mjs'
+import { build, parseStaffTarget } from '../scripts/build.mjs'
 
 const repositoryRoot = resolve(import.meta.dirname, '..')
 
@@ -205,4 +205,26 @@ test('DateCalc exposes explicit copy buttons and polite status', async () => {
   assert.equal((html.match(/class="copy-button"/g) ?? []).length, 4)
   assert.match(html, /id="copy-status" aria-live="polite"/)
   assert.match(html, /never sent, stored, or added to the URL/)
+})
+
+test('built pages fingerprint local assets so HTML and CSS deploy atomically', async () => {
+  const { assetVersion, mainOutput, staffOutput, supportOutput, supportStaffOutput } = await build()
+  assert.match(assetVersion, /^[a-f0-9]{12}$/)
+
+  for (const path of [
+    resolve(mainOutput, 'index.html'),
+    resolve(mainOutput, '404.html'),
+    resolve(supportOutput, 'index.html'),
+    resolve(supportOutput, '404.html'),
+    resolve(supportOutput, 'datecalc', 'index.html'),
+    resolve(staffOutput, 'index.html'),
+    resolve(staffOutput, 'qa', 'index.html'),
+    resolve(staffOutput, '404.html'),
+    resolve(supportStaffOutput, 'index.html'),
+    resolve(supportStaffOutput, '404.html')
+  ]) {
+    const html = await readFile(path, 'utf8')
+    assert.match(html, new RegExp(`assets/styles\\.css\\?v=${assetVersion}`), path)
+    assert.doesNotMatch(html, /(?:href|src)="(?:\.\.\/|\.\/)assets\/[^"?]+"/, path)
+  }
 })
