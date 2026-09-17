@@ -242,17 +242,7 @@
 }
 
 .workflow-label {
-  display: grid;
-  grid-template-columns: 32px 1fr;
-  align-items: start;
-  gap: 12px;
-}
-
-.workflow-label > span {
-  color: #08779f;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 11px;
-  font-weight: 700;
+  display: block;
 }
 
 .workflow-label h3 {
@@ -353,7 +343,6 @@
   .surface-datecalc .breadcrumb a,
   .support-guide .support-section-label,
   .support-workbench .support-section-label,
-  .workflow-label > span,
   .workflow-icon {
     color: var(--support-accent);
   }
