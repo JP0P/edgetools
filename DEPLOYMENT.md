@@ -7,6 +7,8 @@ recoverable. It contains no credentials or private destination URLs.
 
 1. Merge a green pull request into `JP0P/edgetools:main`.
 2. Build the protected outputs with all 17 Staff destination variables set.
+   After adding or rotating a build variable, trigger a fresh build; changing
+   the variable alone does not redeploy the Worker.
 3. Deploy the two Cloudflare Workers and confirm their alternate
    `workers.dev` and preview URLs are disabled.
 4. Create or update the DigitalOcean static App from `.do/app.static.yaml`.
