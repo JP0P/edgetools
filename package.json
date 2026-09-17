@@ -1,0 +1,23 @@
+{
+  "name": "edgetools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs",
+    "test": "node --test",
+    "check:links": "node scripts/check-links.mjs --external",
+    "check:secrets": "gitleaks dir . --no-banner --redact",
+    "check:deploy": "npm run build && wrangler deploy --dry-run --config wrangler.staff.jsonc && wrangler deploy --dry-run --config wrangler.support-staff.jsonc",
+    "check": "npm run build && npm test && npm run check:links && npm run check:deploy && npm run check:secrets",
+    "deploy:staff": "node scripts/require-production-targets.mjs global && npm run build && wrangler deploy --config wrangler.staff.jsonc",
+    "deploy:support-staff": "node scripts/require-production-targets.mjs support && npm run build && wrangler deploy --config wrangler.support-staff.jsonc"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "wrangler": "4.123.0"
+  }
+}

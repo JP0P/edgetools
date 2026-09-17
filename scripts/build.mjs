@@ -1,0 +1,212 @@
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import { publicTools } from '../shared/tools.mjs'
+
+const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const distRoot = resolve(repositoryRoot, 'dist')
+const localStaffTargetsPath = process.env.EDGETOOLS_STAFF_TARGETS_FILE
+  ? resolve(repositoryRoot, process.env.EDGETOOLS_STAFF_TARGETS_FILE)
+  : resolve(repositoryRoot, 'config', 'staff-targets.local.json')
+
+const globalStaffTargetDefinitions = {
+  teamGuide: {
+    action: 'Open team guide',
+    envName: 'EDGETOOLS_GLOBAL_STAFF_TEAM_GUIDE_URL'
+  },
+  releasePlanning: {
+    action: 'Open release planning',
+    envName: 'EDGETOOLS_GLOBAL_STAFF_RELEASE_PLANNING_URL'
+  },
+  hudl: {
+    action: 'Open HUDL',
+    envName: 'EDGETOOLS_GLOBAL_STAFF_HUDL_URL'
+  }
+}
+
+const supportStaffTargetDefinitions = {
+  voucher: {
+    action: 'Open voucher form',
+    envName: 'EDGETOOLS_SUPPORT_STAFF_VOUCHER_URL'
+  },
+  userLookup: {
+    action: 'Open User Lookup',
+    envName: 'EDGETOOLS_SUPPORT_STAFF_USER_LOOKUP_URL'
+  },
+  internalTools: {
+    action: 'Open internal tools',
+    envName: 'EDGETOOLS_SUPPORT_STAFF_INTERNAL_TOOLS_URL'
+  }
+}
+
+const staffTargetDefinitions = {
+  ...globalStaffTargetDefinitions,
+  ...supportStaffTargetDefinitions
+}
+
+async function copySharedAssets(outputRoot) {
+  await mkdir(resolve(outputRoot, 'assets'), { recursive: true })
+  await cp(resolve(repositoryRoot, 'shared', 'assets'), resolve(outputRoot, 'assets'), {
+    recursive: true
+  })
+  for (const stylesheet of ['styles.css', 'hub.css', 'staff.css', 'support.css']) {
+    await cp(resolve(repositoryRoot, 'shared', stylesheet), resolve(outputRoot, 'assets', stylesheet))
+  }
+  await cp(resolve(repositoryRoot, 'shared', 'site.js'), resolve(outputRoot, 'assets', 'site.js'))
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
+async function loadStaffTargets() {
+  let localTargets = {}
+  try {
+    localTargets = JSON.parse(await readFile(localStaffTargetsPath, 'utf8'))
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error
+  }
+
+  const targets = {}
+  for (const [targetId, definition] of Object.entries(staffTargetDefinitions)) {
+    const rawValue = process.env[definition.envName] || localTargets[targetId]
+    if (!rawValue) continue
+
+    const url = new URL(rawValue)
+    if (url.protocol !== 'https:' || url.username || url.password) {
+      throw new Error(`${definition.envName} must be a credential-free HTTPS URL`)
+    }
+    targets[targetId] = url.toString()
+  }
+  return targets
+}
+
+function staffTemplateValue(staffTargets, targetId, field) {
+  if (targetId.endsWith('Config') && field === 'noteClass') {
+    const scope = targetId === 'globalConfig'
+      ? globalStaffTargetDefinitions
+      : targetId === 'supportConfig'
+        ? supportStaffTargetDefinitions
+        : null
+    if (!scope) return null
+    return Object.keys(scope).every(id => staffTargets[id])
+      ? 'staff-config-note-hidden'
+      : ''
+  }
+
+  const definition = staffTargetDefinitions[targetId]
+  if (!definition) return null
+  const configured = Boolean(staffTargets[targetId])
+  const values = {
+    action: configured ? definition.action : 'Unavailable pending configuration',
+    arrow: configured ? '↗' : '',
+    href: configured ? staffTargets[targetId] : '#staff-targets-unconfigured',
+    linkAttributes: configured
+      ? 'target="_blank" rel="noopener noreferrer"'
+      : 'aria-disabled="true"',
+    stateClass: configured ? '' : 'staff-tool-disabled'
+  }
+  return values[field] ?? null
+}
+
+async function renderTemplate(sourcePath, outputPath, staffTargets = {}) {
+  const source = await readFile(sourcePath, 'utf8')
+  const toolsRendered = source.replace(
+    /\{\{tool\.([a-z0-9]+)\.([A-Za-z]+)\}\}/g,
+    (token, toolId, field) => {
+      const value = publicTools[toolId]?.[field]
+      if (typeof value !== 'string') throw new Error(`Unknown tool template token: ${token}`)
+      return escapeHtml(value)
+    }
+  )
+
+  const rendered = toolsRendered.replace(
+    /\{\{staff\.([A-Za-z]+)\.([A-Za-z]+)\}\}/g,
+    (token, targetId, field) => {
+      const value = staffTemplateValue(staffTargets, targetId, field)
+      if (typeof value !== 'string') throw new Error(`Unknown staff template token: ${token}`)
+      return field === 'linkAttributes' ? value : escapeHtml(value)
+    }
+  )
+
+  if (rendered.includes('{{tool.') || rendered.includes('{{staff.')) {
+    throw new Error(`Unresolved template token in ${sourcePath}`)
+  }
+  await writeFile(outputPath, rendered)
+}
+
+export async function build() {
+  const mainOutput = resolve(distRoot, 'main')
+  const supportOutput = resolve(distRoot, 'support')
+  const supportStaffOutput = resolve(distRoot, 'support-staff')
+  const staffOutput = resolve(distRoot, 'staff')
+  const staffTargets = await loadStaffTargets()
+
+  await rm(distRoot, { recursive: true, force: true })
+  await mkdir(mainOutput, { recursive: true })
+  await mkdir(supportOutput, { recursive: true })
+  await mkdir(supportStaffOutput, { recursive: true })
+  await mkdir(staffOutput, { recursive: true })
+
+  await copySharedAssets(mainOutput)
+  await copySharedAssets(supportOutput)
+  await copySharedAssets(supportStaffOutput)
+  await copySharedAssets(staffOutput)
+
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'hub', 'index.html'),
+    resolve(mainOutput, 'index.html')
+  )
+  await cp(resolve(repositoryRoot, 'apps', 'hub', '404.html'), resolve(mainOutput, '404.html'))
+
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'support', 'index.html'),
+    resolve(supportOutput, 'index.html')
+  )
+  await cp(resolve(repositoryRoot, 'apps', 'support', '404.html'), resolve(supportOutput, '404.html'))
+  await cp(resolve(repositoryRoot, 'apps', 'datecalc'), resolve(supportOutput, 'datecalc'), {
+    recursive: true
+  })
+
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'staff', 'index.html'),
+    resolve(staffOutput, 'index.html'),
+    staffTargets
+  )
+  await cp(resolve(repositoryRoot, 'apps', 'staff', '404.html'), resolve(staffOutput, '404.html'))
+
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'support-staff', 'index.html'),
+    resolve(supportStaffOutput, 'index.html'),
+    staffTargets
+  )
+  await cp(
+    resolve(repositoryRoot, 'apps', 'support-staff', '404.html'),
+    resolve(supportStaffOutput, '404.html')
+  )
+
+  return {
+    distRoot,
+    mainOutput,
+    staffOutput,
+    protectedStaffOrigins: [...new Set(Object.values(staffTargets).map(value => new URL(value).origin))],
+    staffTargetsConfigured: Object.keys(staffTargets).length,
+    supportStaffOutput,
+    supportOutput
+  }
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const outputs = await build()
+  console.log(`Built ${outputs.mainOutput}`)
+  console.log(`Built ${outputs.supportOutput}`)
+  console.log(`Built ${outputs.staffOutput}`)
+  console.log(`Built ${outputs.supportStaffOutput}`)
+  console.log(`Configured ${outputs.staffTargetsConfigured}/6 protected Staff targets`)
+}

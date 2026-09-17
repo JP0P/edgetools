@@ -1,0 +1,412 @@
+.surface-support {
+  --support-ink: #0c2632;
+  --support-panel: #123646;
+  --support-accent: #8edcff;
+  --support-warm: #ffd37d;
+}
+
+.support-header {
+  background: #091f29;
+}
+
+.surface-datecalc .site-header {
+  background: #091f29;
+}
+
+.surface-datecalc .eyebrow,
+.surface-datecalc .breadcrumb a {
+  color: #08779f;
+}
+
+.support-nav-emphasis {
+  background: var(--support-accent) !important;
+  color: #071c25 !important;
+}
+
+.support-nav-emphasis:hover {
+  background: #b4e9ff !important;
+}
+
+.support-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(142, 220, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(142, 220, 255, 0.055) 1px, transparent 1px),
+    radial-gradient(circle at 80% 18%, rgba(142, 220, 255, 0.16), transparent 29%),
+    var(--support-ink);
+  background-size: 36px 36px, 36px 36px, auto, auto;
+  color: #f7fbfd;
+}
+
+.support-hero-layout {
+  min-height: 470px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.58fr);
+  align-items: center;
+  gap: clamp(42px, 8vw, 100px);
+  padding-block: clamp(58px, 8vw, 94px);
+}
+
+.support-overline,
+.support-section-label {
+  margin: 0 0 15px;
+  color: var(--support-accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.support-hero h1 {
+  max-width: 760px;
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(48px, 7vw, 78px);
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+.support-hero h1 span {
+  color: var(--support-accent);
+}
+
+.support-hero > .page-width > div > p:not(.support-overline) {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: #bfd2da;
+  font-size: clamp(17px, 2vw, 20px);
+}
+
+.support-button-primary {
+  background: var(--support-accent);
+  color: #071c25;
+}
+
+.support-button-primary:hover {
+  background: #b4e9ff;
+}
+
+.support-button-secondary {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+.support-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.support-role-card {
+  padding: 25px;
+  border: 1px solid rgba(142, 220, 255, 0.22);
+  border-radius: 18px;
+  background: rgba(7, 28, 37, 0.72);
+}
+
+.support-role-badge {
+  display: inline-flex;
+  padding: 5px 9px;
+  border: 1px solid rgba(142, 220, 255, 0.35);
+  border-radius: 999px;
+  color: var(--support-accent);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.support-role-card h2 {
+  margin: 20px 0 8px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 22px;
+}
+
+.support-role-card p {
+  margin: 0;
+  color: #b8cbd3;
+  font-size: 14px;
+}
+
+.support-role-card a {
+  display: inline-flex;
+  margin-top: 20px;
+  color: var(--support-accent);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.support-guide {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.support-guide-layout {
+  min-height: 158px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
+  align-items: center;
+  gap: 42px;
+  padding-block: 28px;
+}
+
+.support-guide .support-section-label,
+.support-workbench .support-section-label {
+  color: #08779f;
+}
+
+.support-guide h2,
+.support-workbench h2 {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  letter-spacing: -0.035em;
+}
+
+.support-guide h2 {
+  font-size: 25px;
+}
+
+.support-guide p:not(.support-section-label) {
+  max-width: 630px;
+  margin: 7px 0 0;
+  color: var(--text-soft);
+}
+
+.support-guide-link {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 20px;
+  border: 1px solid #afd7e8;
+  border-radius: 13px;
+  background: #effaff;
+  color: #0b3c50;
+  text-decoration: none;
+}
+
+.support-guide-link:hover {
+  border-color: #08779f;
+}
+
+.support-guide-link strong,
+.support-guide-link small {
+  display: block;
+}
+
+.support-guide-link strong {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+}
+
+.support-guide-link small {
+  margin-top: 3px;
+  color: #4c6570;
+  font-size: 12px;
+}
+
+.support-workbench {
+  padding-block: clamp(58px, 8vw, 94px);
+}
+
+.support-workbench-heading {
+  max-width: 680px;
+  margin-bottom: 34px;
+}
+
+.support-workbench h2 {
+  font-size: clamp(34px, 5vw, 48px);
+}
+
+.support-workbench-heading > p:last-child {
+  margin: 12px 0 0;
+  color: var(--text-soft);
+}
+
+.workflow-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.workflow-group {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.55fr) minmax(0, 1.45fr);
+  gap: 28px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: var(--surface);
+  box-shadow: 0 8px 28px rgba(16, 38, 48, 0.05);
+}
+
+.workflow-label {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+
+.workflow-label > span {
+  color: #08779f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.workflow-label h3 {
+  margin: 0 0 5px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.workflow-label p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.workflow-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.workflow-links-single {
+  grid-template-columns: 1fr;
+}
+
+.workflow-links > a {
+  min-height: 88px;
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--canvas);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.workflow-links > a:hover {
+  border-color: #269cc6;
+  background: color-mix(in srgb, var(--surface) 88%, var(--support-accent));
+}
+
+.workflow-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface-soft) 75%, var(--support-accent));
+  color: #076789;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 700;
+}
+
+.workflow-links strong,
+.workflow-links small {
+  display: block;
+}
+
+.workflow-links strong {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+}
+
+.workflow-links small {
+  margin-top: 3px;
+  color: var(--text-soft);
+  font-size: 12px;
+}
+
+.workflow-link-hosted {
+  border-color: #82c8e4 !important;
+}
+
+.workflow-group-staff {
+  border-color: color-mix(in srgb, var(--line) 65%, #9b8cff);
+}
+
+.workflow-link-staff {
+  background: color-mix(in srgb, var(--canvas) 92%, #9b8cff) !important;
+}
+
+.support-safety {
+  padding-block: 20px;
+  background: #0c2632;
+  color: #bfd2da;
+  font-size: 13px;
+}
+
+.support-safety strong {
+  color: var(--support-accent);
+}
+
+.support-footer {
+  border-color: #d1e1e8;
+}
+
+@media (prefers-color-scheme: dark) {
+  .surface-datecalc .eyebrow,
+  .surface-datecalc .breadcrumb a,
+  .support-guide .support-section-label,
+  .support-workbench .support-section-label,
+  .workflow-label > span,
+  .workflow-icon {
+    color: var(--support-accent);
+  }
+
+  .support-guide-link {
+    border-color: #28576a;
+    background: #152d37;
+    color: #dff6ff;
+  }
+
+  .support-guide-link small {
+    color: #a9c0ca;
+  }
+}
+
+@media (max-width: 920px) {
+  .support-hero-layout,
+  .support-guide-layout,
+  .workflow-group {
+    grid-template-columns: 1fr;
+  }
+
+  .support-role-card {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 680px) {
+  .support-hero-layout {
+    min-height: 0;
+    padding-block: 48px 58px;
+  }
+
+  .support-hero h1 {
+    font-size: clamp(43px, 13vw, 62px);
+  }
+
+  .workflow-links {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-links > a {
+    grid-template-columns: 36px 1fr;
+  }
+
+  .workflow-links .tool-badge {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

@@ -1,0 +1,84 @@
+# EdgeTools architecture
+
+## Source layout
+
+```text
+apps/
+  hub/        edgetools.app
+  support/    support.edgetools.app
+  datecalc/   support.edgetools.app/datecalc
+  staff/      staff.edgetools.app company-wide router
+  support-staff/  support.edgetools.app/staff Support operations
+shared/       visual system, public brand assets, and canonical public-tool facts
+scripts/      dependency-free build, preview, and link checks
+test/         date-math and site-contract tests
+```
+
+`scripts/build.mjs` creates four independent static outputs:
+
+- `dist/main` for `edgetools.app`
+- `dist/support` for `support.edgetools.app`
+- `dist/staff` for `staff.edgetools.app`
+- `dist/support-staff` for `support.edgetools.app/staff/`
+
+DateCalc remains a self-contained source app under `apps/datecalc/`; the build
+places it at `dist/support/datecalc/` because Support owns its public URL.
+Shared public-tool destinations live in `shared/tools.mjs`; Main and Support
+render different task-appropriate descriptions from the same canonical facts.
+The company-wide Staff hub routes to department workspaces and contains only
+resources with company-wide usefulness: the Clawdia team guide, release
+planning, and HUDL. Support-private voucher and account tools live on the
+Support staff route instead of adding noise to the company hub.
+
+All non-routing Staff destinations are injected from environment variables or
+the ignored local review file `config/staff-targets.local.json`. Their URLs do
+not live in public source. Missing destinations render as disabled cards rather
+than guessed links.
+
+## Boundaries
+
+- This repository is public, and all browser-delivered content must be treated
+  as discoverable. The Staff surface may link to restricted destinations but
+  must never contain credentials, customer data, or confidential instructions.
+- DateCalc performs all date work in the browser and sends or stores nothing.
+- Existing dynamic tools remain links to their canonical origins.
+- `support.edgetools.app` is an organizational lane, not authentication.
+- `staff.edgetools.app` and `support.edgetools.app/staff/` are protected
+  directories, not authorization layers for their linked tools. Each
+  destination must enforce its own identity and permissions.
+- Every approved staff identity may enter every department workspace. The
+  department split controls relevance and navigation, not staff eligibility.
+
+## Link behavior
+
+Every main surface links to `https://edge.app/`. Support Utilities and DateCalc
+also link prominently to the official Help Center at
+`https://support.edge.app/`.
+
+Production cross-host links use their canonical `edgetools.app` URLs. The local
+preview script rewrites only elements carrying `data-preview-href`, allowing
+all four surfaces to be reviewed through one private development origin.
+
+## Deployment intent
+
+The official company upstream is `EdgeApp/edgetools`. The writable working and
+production fork is `JP0P/edgetools`. DigitalOcean and Cloudflare Workers Builds
+both deploy its `main` branch after repository checks pass.
+
+The public Main and Support outputs may share the planned DigitalOcean static
+App. Neither protected Staff output may be attached to that public App because
+App Platform's starter domain would bypass the custom-host or path Access
+gate.
+
+Production Staff therefore uses Cloudflare Worker static assets with no public
+provider alias. `wrangler.staff.jsonc` deploys the whole-host company Staff
+origin, while `wrangler.support-staff.jsonc` intercepts the exact Support
+`/staff` path and its wildcard. Both disable `workers.dev` and preview URLs.
+Apply Google-backed Cloudflare Access to the whole `staff.edgetools.app` host
+and separately to both `support.edgetools.app/staff` and
+`support.edgetools.app/staff/*`. Passing either gate does not grant access to
+linked Google, Asana, or internal tools.
+
+The existing `bizdev.edgetools.app/staff/` workspace remains independently
+owned and deployed. The company Staff hub links to it; changing that site to
+link back is a separate repository change.

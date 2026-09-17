@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "edgetools-support-staff",
+  "main": "worker/support-staff.js",
+  "compatibility_date": "2026-09-17",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "support.edgetools.app/staff",
+      "zone_name": "edgetools.app"
+    },
+    {
+      "pattern": "support.edgetools.app/staff/*",
+      "zone_name": "edgetools.app"
+    }
+  ],
+  "assets": {
+    "directory": "./dist/support-staff",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
+}

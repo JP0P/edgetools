@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Public-safe utilities organized around Edge Wallet Support workflows."
+    />
+    <meta name="theme-color" content="#0c2632" />
+    <title>Support Utilities — EdgeTools</title>
+    <link rel="canonical" href="https://support.edgetools.app/" />
+    <link rel="icon" href="./assets/edge-icon.png" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="stylesheet" href="./assets/support.css" />
+    <script type="module" src="./assets/site.js"></script>
+  </head>
+  <body class="surface surface-support">
+    <a class="skip-link" href="#support-workflows">Skip to Support workflows</a>
+
+    <header class="site-header support-header">
+      <div class="header-inner page-width">
+        <a
+          class="brand-link"
+          href="https://support.edgetools.app/"
+          data-preview-href="/support/"
+          aria-label="EdgeTools Support utilities"
+        >
+          <img src="./assets/edge-logo.svg" alt="Edge" width="92" height="27" />
+          <span class="brand-divider" aria-hidden="true"></span>
+          <span class="brand-product">Tools / Support</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="https://edgetools.app/" data-preview-href="/">All EdgeTools</a>
+          <a
+            class="nav-optional"
+            href="https://support.edgetools.app/staff/"
+            data-preview-href="/support/staff/"
+          >Support staff sign-in</a>
+          <a class="nav-emphasis support-nav-emphasis" href="https://support.edge.app/">
+            Official Support <span class="external-mark" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="support-hero">
+        <div class="page-width support-hero-layout">
+          <div>
+            <p class="support-overline">EdgeTools / Support utilities</p>
+            <h1>Resolve. Verify. <span>Hand off.</span></h1>
+            <p>
+              A public-safe workbench built around Support tasks—not a second copy of the main
+              directory. Wallet help lives at the official Help Center.
+            </p>
+            <div class="hero-actions">
+              <a class="button support-button-primary" href="#support-workflows">
+                Open the workbench <span aria-hidden="true">↓</span>
+              </a>
+              <a class="button support-button-secondary" href="https://support.edge.app/">
+                Customer Help Center <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <aside class="support-role-card" aria-label="About Support utilities">
+            <span class="support-role-badge">Public-safe</span>
+            <h2>For Support workflows</h2>
+            <p>
+              No staff account is required here. Internal account and voucher operations live in
+              the Support staff workspace.
+            </p>
+            <a href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">
+              Support staff sign-in <span aria-hidden="true">→</span>
+            </a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="support-guide" aria-labelledby="support-guide-heading">
+        <div class="page-width support-guide-layout">
+          <div>
+            <p class="support-section-label">Before using a utility</p>
+            <h2 id="support-guide-heading">Need wallet guidance?</h2>
+            <p>
+              The official Help Center owns instructions, troubleshooting, and contact options.
+              This page owns lightweight utilities.
+            </p>
+          </div>
+          <a class="support-guide-link" href="https://support.edge.app/">
+            <span><strong>Visit support.edge.app</strong><small>Articles and human Support</small></span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="support-workbench page-width" id="support-workflows" aria-labelledby="support-workflows-heading">
+        <div class="support-workbench-heading">
+          <p class="support-section-label">Choose the task</p>
+          <h2 id="support-workflows-heading">Support workbench</h2>
+          <p>Grouped by what you are trying to finish—not by where a tool happens to be hosted.</p>
+        </div>
+
+        <div class="workflow-stack">
+          <section class="workflow-group" aria-labelledby="case-check-heading">
+            <div class="workflow-label">
+              <span aria-hidden="true">01</span>
+              <div>
+                <h3 id="case-check-heading">Check a customer case</h3>
+                <p>Verify public identifiers and provider-side status.</p>
+              </div>
+            </div>
+            <div class="workflow-links">
+              <a href="{{tool.orders.href}}" target="_blank" rel="noopener noreferrer">
+                <span class="workflow-icon" aria-hidden="true">↗</span>
+                <span><strong>{{tool.orders.name}}</strong><small>{{tool.orders.supportDescription}}</small></span>
+                <span class="tool-badge">External ↗</span>
+              </a>
+              <a href="{{tool.fio.href}}" target="_blank" rel="noopener noreferrer">
+                <span class="workflow-icon" aria-hidden="true">@</span>
+                <span><strong>{{tool.fio.name}}</strong><small>{{tool.fio.supportDescription}}</small></span>
+                <span class="tool-badge">External ↗</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="workflow-group" aria-labelledby="diagnose-heading">
+            <div class="workflow-label">
+              <span aria-hidden="true">02</span>
+              <div>
+                <h3 id="diagnose-heading">Inspect public infrastructure</h3>
+                <p>Separate a service problem from a wallet question.</p>
+              </div>
+            </div>
+            <div class="workflow-links">
+              <a href="{{tool.status.href}}" target="_blank" rel="noopener noreferrer">
+                <span class="workflow-icon" aria-hidden="true">▥</span>
+                <span><strong>{{tool.status.name}}</strong><small>{{tool.status.supportDescription}}</small></span>
+                <span class="tool-badge">External ↗</span>
+              </a>
+              <a href="{{tool.icon.href}}" target="_blank" rel="noopener noreferrer">
+                <span class="workflow-icon" aria-hidden="true">◇</span>
+                <span><strong>{{tool.icon.name}}</strong><small>{{tool.icon.supportDescription}}</small></span>
+                <span class="tool-badge">External ↗</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="workflow-group" aria-labelledby="follow-up-heading">
+            <div class="workflow-label">
+              <span aria-hidden="true">03</span>
+              <div>
+                <h3 id="follow-up-heading">Calculate a follow-up</h3>
+                <p>Turn ISO timestamps into exact day and reduction dates.</p>
+              </div>
+            </div>
+            <div class="workflow-links workflow-links-single">
+              <a class="workflow-link-hosted" href="./datecalc/">
+                <span class="workflow-icon" aria-hidden="true">⌁</span>
+                <span><strong>Date difference calculator</strong><small>Calculate midpoint, 75% reduction, and seven-day follow-up dates</small></span>
+                <span class="tool-badge">Hosted here</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="workflow-group workflow-group-staff" aria-labelledby="staff-operations-heading">
+            <div class="workflow-label">
+              <span aria-hidden="true">04</span>
+              <div>
+                <h3 id="staff-operations-heading">Continue with staff operations</h3>
+                <p>Voucher, account lookup, and restricted internal tools.</p>
+              </div>
+            </div>
+            <div class="workflow-links workflow-links-single">
+              <a
+                class="workflow-link-staff"
+                href="https://support.edgetools.app/staff/"
+                data-preview-href="/support/staff/"
+              >
+                <span class="workflow-icon" aria-hidden="true">⌾</span>
+                <span><strong>Open Support staff</strong><small>Production entry requires an approved Edge Google account</small></span>
+                <span class="tool-badge">Staff only →</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <aside class="support-safety" aria-label="Safety reminder">
+        <div class="page-width">
+          <strong>Public utility rule:</strong>
+          Never paste a password, PIN, OTP, seed phrase, private key, recovery artifact, or
+          unnecessary customer data into these tools.
+        </div>
+      </aside>
+    </main>
+
+    <footer class="site-footer support-footer">
+      <div class="footer-inner page-width">
+        <span>© <span data-current-year>2026</span> Edge Wallet · Public Support utilities</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="https://edge.app/">Edge.app</a>
+          <a href="https://support.edge.app/">Official Support</a>
+          <a href="https://edgetools.app/" data-preview-href="/">All EdgeTools</a>
+          <a href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">Support staff sign-in</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
