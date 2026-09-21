@@ -243,6 +243,7 @@
 
 .workflow-label {
   display: block;
+  min-width: 0;
 }
 
 .workflow-label h3 {
@@ -267,7 +268,7 @@
 .workflow-links > a {
   min-height: 88px;
   display: grid;
-  grid-template-columns: 36px 1fr auto;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
   padding: 15px;
@@ -276,6 +277,10 @@
   background: var(--canvas);
   color: var(--text);
   text-decoration: none;
+}
+
+.workflow-links > a > span:nth-child(2) {
+  min-width: 0;
 }
 
 .workflow-links > a:hover {
@@ -366,6 +371,15 @@
 
   .support-role-card {
     max-width: 560px;
+  }
+
+  .workflow-links > a {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .workflow-links .tool-badge {
+    grid-column: 2;
+    justify-self: start;
   }
 }
 

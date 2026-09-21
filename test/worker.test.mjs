@@ -57,6 +57,13 @@ test('Support Staff worker strips only the protected route prefix', async () => 
   assert.equal(response.headers.get('X-Asset-Path'), '/assets/site.js')
   assert.equal(response.headers.get('Cache-Control'), 'private, no-store')
 
+  const workflow = await supportStaffWorker.fetch(
+    new Request('https://support.edgetools.app/staff/account-access/'),
+    { ASSETS: assets() }
+  )
+  assert.equal(workflow.status, 200)
+  assert.equal(workflow.headers.get('X-Asset-Path'), '/account-access/')
+
   const outside = await supportStaffWorker.fetch(
     new Request('https://support.edgetools.app/datecalc/'),
     { ASSETS: assets() }

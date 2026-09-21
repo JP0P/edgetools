@@ -14,7 +14,7 @@
     <script type="module" src="./assets/site.js"></script>
   </head>
   <body class="surface surface-staff">
-    <a class="skip-link" href="#department-workspaces">Skip to staff tools</a>
+    <a class="skip-link" href="#shared-resources">Skip to shared staff tools</a>
 
     <header class="site-header staff-header">
       <div class="header-inner page-width">
@@ -23,17 +23,9 @@
           <span class="brand-divider" aria-hidden="true"></span>
           <span class="brand-product">Tools / Staff</span>
         </a>
-        <nav class="site-nav" aria-label="Staff navigation">
-          <a aria-current="page" href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff home</a>
-          <a href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">Support</a>
-          <a href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">QA</a>
-          <a href="https://bizdev.edgetools.app/staff/">BizDev</a>
-        </nav>
+        {{nav.header}}
       </div>
-      <nav class="official-nav page-width" aria-label="Official Edge links">
-        <a href="https://edge.app/"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-wallet"></use></svg>Edge Wallet</a>
-        <a href="https://support.edge.app/"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-help"></use></svg>Help Center</a>
-      </nav>
+      {{nav.official}}
     </header>
 
     <main>
@@ -41,8 +33,8 @@
         <div class="page-width staff-hero-layout">
           <div>
             <p class="staff-overline">EdgeTools / Staff</p>
-            <h1>Staff tools.</h1>
-            <p>Choose a team workspace or open a shared company tool.</p>
+            <h1>Staff home.</h1>
+            <p>Open shared company tools. Use the navigation for Support and QA workspaces.</p>
           </div>
         </div>
       </section>
@@ -51,25 +43,7 @@
         <div class="page-width"><span class="staff-preview-icon" aria-hidden="true">i</span><div><strong>Preview mode</strong><p>Google login is not being simulated. Sign-in is enforced on the live Staff site.</p></div></div>
       </section>
 
-      <section class="staff-content page-width" id="department-workspaces" aria-labelledby="department-workspaces-heading">
-        <div class="staff-content-heading"><div><p class="staff-section-label">Teams</p><h2 id="department-workspaces-heading">Workspaces</h2></div></div>
-        <div class="staff-tool-grid">
-          <a class="staff-tool-card staff-tool-primary" href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">
-            <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-headset"></use></svg></span>
-            <h3>Support</h3><p>Inbox, logs, account, voucher, and date tools.</p><span class="staff-tool-action">Open Support <span aria-hidden="true">→</span></span>
-          </a>
-          <a class="staff-tool-card" href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">
-            <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-qa"></use></svg></span>
-            <h3>QA</h3><p>Builds, testing, issues, browsers, and devices.</p><span class="staff-tool-action">Open QA <span aria-hidden="true">→</span></span>
-          </a>
-          <a class="staff-tool-card" href="https://bizdev.edgetools.app/staff/">
-            <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-briefcase"></use></svg></span>
-            <h3>BizDev</h3><p>Partner intake and review.</p><span class="staff-tool-action">Open BizDev <span aria-hidden="true">↗</span></span>
-          </a>
-        </div>
-      </section>
-
-      <section class="staff-section-alt" aria-labelledby="shared-resources-heading">
+      <section class="staff-section-alt" id="shared-resources" aria-labelledby="shared-resources-heading">
         <div class="page-width staff-content">
           <div class="staff-content-heading"><div><p class="staff-section-label">Company</p><h2 id="shared-resources-heading">Shared tools</h2></div></div>
           <div class="staff-tool-grid">

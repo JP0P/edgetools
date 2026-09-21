@@ -4,6 +4,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { publicTools } from '../shared/tools.mjs'
+import { renderNavigation } from '../shared/navigation.mjs'
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const distRoot = resolve(repositoryRoot, 'dist')
@@ -68,7 +69,7 @@ const qaStaffTargetDefinitions = {
 
 const supportStaffTargetDefinitions = {
   voucher: {
-    action: 'Open voucher form',
+    action: 'Submit authorization case',
     envName: 'EDGETOOLS_SUPPORT_STAFF_VOUCHER_URL'
   },
   userLookup: {
@@ -208,7 +209,13 @@ function staffTemplateValue(staffTargets, targetId, field) {
   return values[field] ?? null
 }
 
-async function renderTemplate(sourcePath, outputPath, staffTargets = {}, assetVersion) {
+async function renderTemplate(
+  sourcePath,
+  outputPath,
+  staffTargets = {},
+  assetVersion,
+  navigation = {}
+) {
   const source = await readFile(sourcePath, 'utf8')
   const toolsRendered = source.replace(
     /\{\{tool\.([a-z0-9]+)\.([A-Za-z]+)\}\}/g,
@@ -228,10 +235,18 @@ async function renderTemplate(sourcePath, outputPath, staffTargets = {}, assetVe
     }
   )
 
-  if (rendered.includes('{{tool.') || rendered.includes('{{staff.')) {
+  const withNavigation = rendered.replace(
+    /\{\{nav\.([A-Za-z]+)\}\}/g,
+    (token, name) => {
+      if (!['header', 'official'].includes(name)) throw new Error(`Unknown navigation template token: ${token}`)
+      return renderNavigation({ ...navigation, part: name })
+    }
+  )
+
+  if (withNavigation.includes('{{tool.') || withNavigation.includes('{{staff.') || withNavigation.includes('{{nav.')) {
     throw new Error(`Unresolved template token in ${sourcePath}`)
   }
-  await writeFile(outputPath, versionLocalAssets(rendered, assetVersion))
+  await writeFile(outputPath, versionLocalAssets(withNavigation, assetVersion))
 }
 
 export async function build() {
@@ -257,26 +272,30 @@ export async function build() {
     resolve(repositoryRoot, 'apps', 'hub', 'index.html'),
     resolve(mainOutput, 'index.html'),
     {},
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: 'tools' }
   )
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'hub', '404.html'),
     resolve(mainOutput, '404.html'),
     {},
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: '' }
   )
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support', 'index.html'),
     resolve(supportOutput, 'index.html'),
     {},
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: 'support' }
   )
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support', '404.html'),
     resolve(supportOutput, '404.html'),
     {},
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: '' }
   )
   await cp(resolve(repositoryRoot, 'apps', 'datecalc'), resolve(supportOutput, 'datecalc'), {
     recursive: true
@@ -285,40 +304,55 @@ export async function build() {
     resolve(repositoryRoot, 'apps', 'datecalc', 'index.html'),
     resolve(supportOutput, 'datecalc', 'index.html'),
     {},
-    assetVersion
+    assetVersion,
+    { assetPrefix: '..', current: 'support' }
   )
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'staff', 'index.html'),
     resolve(staffOutput, 'index.html'),
     staffTargets,
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: 'staff', mode: 'staff' }
   )
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'staff', '404.html'),
     resolve(staffOutput, '404.html'),
     {},
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: '', mode: 'staff' }
   )
   await mkdir(resolve(staffOutput, 'qa'), { recursive: true })
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'qa-staff', 'index.html'),
     resolve(staffOutput, 'qa', 'index.html'),
     staffTargets,
-    assetVersion
+    assetVersion,
+    { assetPrefix: '..', current: 'qa', mode: 'staff' }
   )
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support-staff', 'index.html'),
     resolve(supportStaffOutput, 'index.html'),
     staffTargets,
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: 'supportStaff', mode: 'staff' }
   )
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support-staff', '404.html'),
     resolve(supportStaffOutput, '404.html'),
     {},
-    assetVersion
+    assetVersion,
+    { assetPrefix: '.', current: '', mode: 'staff' }
+  )
+
+  await mkdir(resolve(supportStaffOutput, 'account-access'), { recursive: true })
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'support-staff', 'account-access', 'index.html'),
+    resolve(supportStaffOutput, 'account-access', 'index.html'),
+    staffTargets,
+    assetVersion,
+    { assetPrefix: '..', current: 'supportStaff', mode: 'staff' }
   )
 
   return {

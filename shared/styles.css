@@ -198,6 +198,85 @@ svg {
   color: #ffffff;
 }
 
+.nav-disclosure {
+  position: relative;
+}
+
+.nav-disclosure summary {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  color: #d9dfdb;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nav-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-disclosure summary:hover,
+.nav-disclosure[open] summary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.nav-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 270px;
+  padding: 10px;
+  border: 1px solid #354039;
+  border-radius: 13px;
+  background: #1b201d;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3);
+}
+
+.nav-menu-kicker {
+  margin: 4px 8px 7px;
+  color: #8edfc2;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-menu a {
+  min-height: 52px;
+  display: block;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #ffffff;
+}
+
+.nav-menu a:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-menu a strong,
+.nav-menu a small {
+  display: block;
+}
+
+.nav-menu a strong {
+  font-size: 13px;
+}
+
+.nav-menu a small {
+  margin-top: 2px;
+  color: #aeb8b2;
+  font-size: 11px;
+  font-weight: 400;
+}
+
 .site-nav .nav-emphasis {
   margin-left: 4px;
   background: var(--mint);
@@ -1173,12 +1252,18 @@ svg {
     font-size: 12px;
   }
 
+  .nav-disclosure summary {
+    padding-inline: 9px;
+    font-size: 12px;
+  }
+
   .surface-hub .site-nav,
   .surface-support .site-nav,
   .surface-datecalc .site-nav {
     width: 100%;
     order: 2;
-    justify-content: space-between;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .site-nav .nav-optional {
@@ -1253,16 +1338,20 @@ svg {
     margin-left: 0;
   }
 
-  .surface-hub .site-nav a[href*="bizdev"],
-  .surface-support .site-nav a[href*="bizdev"],
-  .surface-datecalc .site-nav a[href*="bizdev"] {
-    display: none;
-  }
-
   .surface-hub .site-nav,
   .surface-support .site-nav,
   .surface-datecalc .site-nav {
     gap: 3px;
+  }
+
+  .nav-disclosure[open] {
+    width: 100%;
+  }
+
+  .nav-menu {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
   }
 
   .surface-staff .header-inner {

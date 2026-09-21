@@ -3,14 +3,15 @@
 EdgeTools is Edge Wallet's resource and utility directory. The repository
 builds four distinct surfaces:
 
-- `edgetools.app` — public discovery organized by audience.
+- `edgetools.app` — public discovery for Edge Wallet lookups and utility tools.
 - `support.edgetools.app` — public-safe Support workflows and absorbed static
   tools such as DateCalc.
 - `staff.edgetools.app` — a restricted company-wide router for department
   workspaces and shared staff resources, including the focused `/qa/`
   workspace.
-- `support.edgetools.app/staff/` — a restricted, Support-specific launcher for
-  voucher and account operations.
+- `support.edgetools.app/staff/` — a restricted, Support-specific workflow
+  launcher for customer response, investigation, account access and device
+  authorization, and service diagnostics.
 
 The site is static-only. It contains no analytics, account system, server
 runtime, secrets, or retained user data. The Staff surfaces are only launchers:
@@ -40,6 +41,8 @@ three production hosts:
   login
 - `/support/staff/` — Support staff workspace; local preview does not simulate
   Google login
+- `/support/staff/account-access/` — protected Account Access & Device
+  Authorization workflow; local preview does not simulate Google login
 
 To share a temporary preview over a private network, bind the server to the
 machine's private interface:
@@ -59,7 +62,8 @@ these keys:
   `posthog`, and `prometheus`
 - QA staff: `zealot`, `testrail`, `sentry`, `jenkins`, `browserstack`, and
   `unifi`
-- Support staff: `voucher`, `userLookup`, `internalTools`, `logsUpload`, and
+- Support staff: `voucher` (the legacy target identifier for the authorization
+  request destination), `userLookup`, `internalTools`, `logsUpload`, and
   `intercomInbox`
 
 Cloudflare Workers Builds provide the matching build-time environment
