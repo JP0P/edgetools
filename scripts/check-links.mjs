@@ -24,6 +24,7 @@ const htmlFiles = [
   resolve(staffOutput, 'qa', 'index.html'),
   resolve(staffOutput, '404.html'),
   resolve(supportStaffOutput, 'index.html'),
+  resolve(supportStaffOutput, 'account-access', 'index.html'),
   resolve(supportStaffOutput, '404.html')
 ]
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Edge staff workspaces and public tools." />
+    <meta name="description" content="Public Edge Wallet lookups, service checks, and utility tools." />
     <meta name="theme-color" content="#141715" />
     <title>EdgeTools</title>
     <link rel="canonical" href="https://edgetools.app/" />
@@ -14,7 +14,7 @@
     <script type="module" src="./assets/intercom.js"></script>
   </head>
   <body class="surface surface-hub">
-    <a class="skip-link" href="#staff-workspaces">Skip to tools</a>
+    <a class="skip-link" href="#public-tools">Skip to public tools</a>
 
     <header class="site-header">
       <div class="header-inner page-width">
@@ -23,23 +23,9 @@
           <span class="brand-divider" aria-hidden="true"></span>
           <span class="brand-product">Tools</span>
         </a>
-        <nav class="site-nav" aria-label="Primary navigation">
-          <a aria-current="page" href="https://edgetools.app/" data-preview-href="/">Tools</a>
-          <a href="https://support.edgetools.app/" data-preview-href="/support/">Support</a>
-          <a href="https://bizdev.edgetools.app/intake/">Partners</a>
-          <a class="nav-emphasis" href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff sign in</a>
-        </nav>
+        {{nav.header}}
       </div>
-      <nav class="official-nav page-width" aria-label="Official Edge links">
-        <a href="https://edge.app/">
-          <svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-wallet"></use></svg>
-          Edge Wallet
-        </a>
-        <a href="https://support.edge.app/">
-          <svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-help"></use></svg>
-          Help Center
-        </a>
-      </nav>
+      {{nav.official}}
     </header>
 
     <main>
@@ -47,39 +33,12 @@
         <div class="page-width hub-hero-layout">
           <div class="hub-hero-copy">
             <p class="eyebrow">EdgeTools</p>
-            <h1>Find an Edge tool.</h1>
-            <p class="hero-lede">Sign in for staff workspaces, or use the public tools below.</p>
+            <h1>Find a public Edge tool.</h1>
+            <p class="hero-lede">Look up orders, check service health, and find public token or FIO information.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="https://staff.edgetools.app/" data-preview-href="/staff/">
-                Staff sign in <span aria-hidden="true">→</span>
-              </a>
-              <a class="button button-secondary" href="#public-tools">Public tools <span aria-hidden="true">↓</span></a>
+              <a class="button button-primary" href="#public-tools">Browse public tools <span aria-hidden="true">↓</span></a>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section class="directory-section page-width" id="staff-workspaces" aria-labelledby="staff-workspaces-heading">
-        <div class="directory-heading">
-          <p class="eyebrow">Staff workspaces</p>
-          <h2 id="staff-workspaces-heading">Choose your team.</h2>
-        </div>
-        <div class="directory-grid directory-grid-three">
-          <a class="directory-card directory-card-featured" href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">
-            <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-headset"></use></svg></span>
-            <span><strong>Support</strong><small>Inbox, logs, account, and voucher tools</small></span>
-            <span aria-hidden="true">→</span>
-          </a>
-          <a class="directory-card" href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">
-            <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-qa"></use></svg></span>
-            <span><strong>QA</strong><small>Builds, testing, issues, and devices</small></span>
-            <span aria-hidden="true">→</span>
-          </a>
-          <a class="directory-card" href="https://bizdev.edgetools.app/staff/">
-            <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-briefcase"></use></svg></span>
-            <span><strong>BizDev</strong><small>Partner intake and review</small></span>
-            <span class="tool-badge">External ↗</span>
-          </a>
         </div>
       </section>
 
@@ -114,17 +73,6 @@
         </div>
       </section>
 
-      <section class="partner-strip">
-        <div class="page-width partner-strip-layout">
-          <div>
-            <p class="eyebrow">Partners and builders</p>
-            <h2>Working with Edge?</h2>
-          </div>
-          <a class="button button-secondary-light" href="https://bizdev.edgetools.app/intake/">
-            Partner intake <span class="tool-badge">External ↗</span>
-          </a>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">

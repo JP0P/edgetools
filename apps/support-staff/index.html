@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Edge Support inbox, logs, account, voucher, and date tools." />
+    <meta name="description" content="Edge Support workflows for customer conversations, investigations, account access, and service diagnostics." />
     <meta name="theme-color" content="#11141b" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Support Tools — EdgeTools Staff</title>
@@ -22,26 +22,18 @@
           <img src="./assets/edge-logo.svg" alt="Edge" width="92" height="27" />
           <span class="brand-divider" aria-hidden="true"></span><span class="brand-product">Tools / Support</span>
         </a>
-        <nav class="site-nav" aria-label="Staff navigation">
-          <a href="https://staff.edgetools.app/" data-preview-href="/staff/">Staff home</a>
-          <a aria-current="page" href="https://support.edgetools.app/staff/" data-preview-href="/support/staff/">Support</a>
-          <a href="https://staff.edgetools.app/qa/" data-preview-href="/staff/qa/">QA</a>
-          <a href="https://bizdev.edgetools.app/staff/">BizDev</a>
-        </nav>
+        {{nav.header}}
       </div>
-      <nav class="official-nav page-width" aria-label="Official Edge links">
-        <a href="https://edge.app/"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-wallet"></use></svg>Edge Wallet</a>
-        <a href="https://support.edge.app/"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-help"></use></svg>Help Center</a>
-      </nav>
+      {{nav.official}}
     </header>
 
     <main>
-      <section class="staff-hero"><div class="page-width staff-hero-layout"><div><p class="staff-overline">EdgeTools / Support</p><h1>Support tools.</h1><p>Open conversations, logs, account tools, and voucher resources.</p></div></div></section>
+      <section class="staff-hero"><div class="page-width staff-hero-layout"><div><p class="staff-overline">EdgeTools / Support</p><h1>Support workspace.</h1><p>Move from a customer conversation to investigation, account-access help, and service diagnostics in one place.</p></div></div></section>
 
       <section class="staff-preview-note" data-preview-only hidden aria-label="Preview status"><div class="page-width"><span class="staff-preview-icon" aria-hidden="true">i</span><div><strong>Preview mode</strong><p>Google login is not being simulated. Sign-in is enforced on the live Staff site.</p></div></div></section>
 
       <section class="staff-content page-width" id="support-tools" aria-labelledby="support-diagnostics-heading">
-        <div class="staff-content-heading"><div><p class="staff-section-label">Daily work</p><h2 id="support-diagnostics-heading">Conversations & follow-up</h2></div></div>
+        <div class="staff-content-heading"><div><p class="staff-section-label">Respond to customers</p><h2 id="support-diagnostics-heading">Conversations and follow-up</h2></div></div>
         <div class="staff-tool-grid">
           <a class="staff-tool-card staff-tool-primary {{staff.intercomInbox.stateClass}}" href="{{staff.intercomInbox.href}}" {{staff.intercomInbox.linkAttributes}}>
             <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-inbox"></use></svg></span><h3>Intercom Inbox</h3><p>Customer conversations and follow-up.</p><span class="staff-tool-action">{{staff.intercomInbox.action}} <span aria-hidden="true">{{staff.intercomInbox.arrow}}</span></span>
@@ -55,19 +47,39 @@
         </div>
       </section>
 
-      <section class="staff-section-alt" aria-labelledby="support-account-tools-heading">
+      <section class="staff-section-alt" aria-labelledby="support-investigation-heading">
         <div class="page-width staff-content">
-          <div class="staff-content-heading"><div><p class="staff-section-label">Operations</p><h2 id="support-account-tools-heading">Accounts & vouchers</h2></div></div>
+          <div class="staff-content-heading"><div><p class="staff-section-label">Investigate an issue</p><h2 id="support-investigation-heading">Account and case context</h2></div></div>
           <div class="staff-tool-grid">
             <a class="staff-tool-card {{staff.userLookup.stateClass}}" href="{{staff.userLookup.href}}" {{staff.userLookup.linkAttributes}}>
-              <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-user-search"></use></svg></span><h3>User Lookup</h3><p>Look up an Edge account.</p><span class="staff-tool-action">{{staff.userLookup.action}} <span aria-hidden="true">{{staff.userLookup.arrow}}</span></span>
-            </a>
-            <a class="staff-tool-card {{staff.voucher.stateClass}}" href="{{staff.voucher.href}}" {{staff.voucher.linkAttributes}}>
-              <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-ticket"></use></svg></span><h3>Voucher Project Form</h3><p>Open the required voucher request form.</p><span class="staff-tool-action">{{staff.voucher.action}} <span aria-hidden="true">{{staff.voucher.arrow}}</span></span>
+              <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-user-search"></use></svg></span><h3>Customer account lookup</h3><p>Look up an Edge account while investigating a customer issue.</p><span class="staff-tool-action">{{staff.userLookup.action}} <span aria-hidden="true">{{staff.userLookup.arrow}}</span></span>
             </a>
             <a class="staff-tool-card {{staff.internalTools.stateClass}}" href="{{staff.internalTools.href}}" {{staff.internalTools.linkAttributes}}>
               <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-tools"></use></svg></span><h3>Internal account tools</h3><p>Open protected account utilities.</p><span class="staff-tool-action">{{staff.internalTools.action}} <span aria-hidden="true">{{staff.internalTools.arrow}}</span></span>
             </a>
+            <a class="staff-tool-card" href="{{tool.orders.href}}" target="_blank" rel="noopener noreferrer">
+              <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-order"></use></svg></span><h3>Order lookup</h3><p>Track a supported order by ID.</p><span class="staff-tool-action">Open order lookup <span aria-hidden="true">↗</span></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="staff-content page-width" aria-labelledby="account-access-heading">
+        <div class="staff-content-heading"><div><p class="staff-section-label">Account Access &amp; Device Authorization</p><h2 id="account-access-heading">Internal login-help resources</h2></div></div>
+        <div class="staff-tool-grid staff-tool-grid-single">
+          <a class="staff-tool-card staff-tool-primary" href="https://support.edgetools.app/staff/account-access/" data-preview-href="/support/staff/account-access/">
+            <span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-ticket"></use></svg></span><h3>Account Access &amp; Device Authorization</h3><p>Follow the focused workflow for account-access assistance and authorization cases.</p><span class="staff-tool-action">Open workflow <span aria-hidden="true">→</span></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="staff-section-alt" aria-labelledby="service-diagnostics-heading">
+        <div class="page-width staff-content">
+          <div class="staff-content-heading"><div><p class="staff-section-label">Service diagnostics</p><h2 id="service-diagnostics-heading">Check public services and metadata</h2></div></div>
+          <div class="staff-tool-grid">
+            <a class="staff-tool-card" href="{{tool.status.href}}" target="_blank" rel="noopener noreferrer"><span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-status"></use></svg></span><h3>Edge service status</h3><p>Check the health of Edge’s public Blockbook services.</p><span class="staff-tool-action">Open service status <span aria-hidden="true">↗</span></span></a>
+            <a class="staff-tool-card" href="{{tool.icon.href}}" target="_blank" rel="noopener noreferrer"><span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-image"></use></svg></span><h3>Token metadata lookup</h3><p>Find token metadata and artwork by network and contract.</p><span class="staff-tool-action">Open token lookup <span aria-hidden="true">↗</span></span></a>
+            <a class="staff-tool-card" href="{{tool.fio.href}}" target="_blank" rel="noopener noreferrer"><span class="staff-tool-icon" aria-hidden="true"><svg><use href="./assets/tool-icons.svg#icon-fio"></use></svg></span><h3>FIO Handle lookup</h3><p>Find public wallet addresses linked to a FIO Handle.</p><span class="staff-tool-action">Open FIO lookup <span aria-hidden="true">↗</span></span></a>
           </div>
         </div>
       </section>

@@ -32,16 +32,19 @@ recoverable. It contains no credentials or private destination URLs.
 - `https://edgetools.app/` returns the Main surface without authentication.
 - `https://support.edgetools.app/` and `/datecalc/` return the public Support
   surfaces without authentication.
+- The public Main and Support navigation exposes a working click/tap Staff
+  disclosure containing Staff home, Support workspace, and QA workspace links.
 - Anonymous requests to `https://staff.edgetools.app/`,
   `https://staff.edgetools.app/qa/`,
   `https://support.edgetools.app/staff`, and
-  `https://support.edgetools.app/staff/` go to Cloudflare Access.
+  `https://support.edgetools.app/staff/` and
+  `https://support.edgetools.app/staff/account-access/` go to Cloudflare Access.
 - An approved staff identity reaches both Staff surfaces; a non-approved
   identity does not.
 - Authenticated Staff responses include `private, no-store`, `noindex`, and
   frame-denial headers.
-- The voucher form, User Lookup, internal account tools, Support inbox and log
-  server, shared guide, release planning, HUDL, reports, analytics, metrics,
+- The authorization request form (legacy voucher target), User Lookup, internal
+  account tools, Support inbox and log server, shared guide, release planning, HUDL, reports, analytics, metrics,
   QA builds, test systems, issue reports, and device links are active and open
   their canonical targets.
 - Each linked protected destination still enforces its own login and

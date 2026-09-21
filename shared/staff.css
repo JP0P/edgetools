@@ -200,6 +200,10 @@
   gap: 16px;
 }
 
+.staff-tool-grid-single {
+  grid-template-columns: minmax(0, 720px);
+}
+
 .staff-tool-card {
   min-height: 260px;
   display: flex;

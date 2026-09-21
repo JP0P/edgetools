@@ -7,20 +7,20 @@ export const publicTools = {
   },
   fio: {
     href: 'https://fio.jpop.cloud/',
-    name: 'FIO resolver',
-    mainDescription: 'Find addresses linked to a FIO Handle',
+    name: 'FIO Handle lookup',
+    mainDescription: 'Find public addresses linked to a FIO Handle',
     supportDescription: 'Find the public wallet addresses linked to a FIO Handle'
   },
   status: {
     href: 'https://status.jpop.cloud/',
-    name: 'Blockbook status',
-    mainDescription: 'Public server health',
+    name: 'Edge service status',
+    mainDescription: 'Check public service health',
     supportDescription: 'Check the health of Edge’s public Blockbook services'
   },
   icon: {
     href: 'https://icon.jpop.cloud/',
-    name: 'Token icon lookup',
-    mainDescription: 'Metadata and artwork',
+    name: 'Token metadata lookup',
+    mainDescription: 'Find token metadata and artwork',
     supportDescription: 'Find token metadata and artwork by network and contract'
   }
 }

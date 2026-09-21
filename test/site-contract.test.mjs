@@ -50,19 +50,27 @@ test('the staff surfaces have distinct jobs and routes', async () => {
   const staff = await read('apps/staff/index.html')
   const qaStaff = await read('apps/qa-staff/index.html')
   const supportStaff = await read('apps/support-staff/index.html')
+  const navigation = await read('shared/navigation.mjs')
 
-  assert.match(hub, /Staff workspaces/)
+  assert.doesNotMatch(hub, /Choose your team|Staff workspaces/)
   assert.match(hub, /Public tools/)
-  assert.match(hub, /https:\/\/bizdev\.edgetools\.app\/intake\//)
+  assert.match(navigation, /details class="nav-disclosure"/)
+  assert.match(navigation, /https:\/\/staff\.edgetools\.app\/qa\//)
+  assert.match(navigation, /Support workspace/)
+  assert.match(navigation, /https:\/\/bizdev\.edgetools\.app\//)
   assert.match(support, /What do you need\?/)
-  assert.match(support, /Support staff sign in/)
-  assert.match(staff, /Choose a team workspace/)
+  assert.match(support, /Support workspace/)
+  assert.match(staff, /Shared tools/)
+  assert.doesNotMatch(staff, /Choose a team workspace|BizDev/)
   assert.match(staff, /Shared tools/)
   assert.match(qaStaff, /Download builds, run tests, report issues/)
   assert.match(qaStaff, /Build lab/)
-  assert.match(supportStaff, /Open conversations, logs, account tools/)
-  assert.match(supportStaff, /Conversations & follow-up/)
-  assert.match(supportStaff, /Accounts & vouchers/)
+  assert.match(supportStaff, /Support workspace/)
+  assert.match(supportStaff, /Conversations and follow-up/)
+  assert.match(supportStaff, /Investigate an issue/)
+  assert.match(supportStaff, /Account Access &amp; Device Authorization/)
+  assert.match(supportStaff, /Internal login-help resources/)
+  assert.match(supportStaff, /Service diagnostics/)
 })
 
 test('shared public-tool facts have one canonical source', async () => {
@@ -77,11 +85,25 @@ test('shared public-tool facts have one canonical source', async () => {
   }
 })
 
+test('built public navigation exposes staff discovery without private tool targets', async () => {
+  const { mainOutput, supportOutput } = await build()
+  for (const path of [resolve(mainOutput, 'index.html'), resolve(supportOutput, 'index.html')]) {
+    const html = await readFile(path, 'utf8')
+    assert.match(html, /<details class="nav-disclosure">/)
+    assert.match(html, /https:\/\/staff\.edgetools\.app\/qa\//)
+    assert.match(html, /https:\/\/support\.edgetools\.app\/staff\//)
+    assert.match(html, /href="https:\/\/bizdev\.edgetools\.app\/"/)
+    assert.doesNotMatch(html, /bizdev\.edgetools\.app\/(?:staff|intake)/)
+    assert.doesNotMatch(html, /form\.asana\.com|app\.intercom\.com|logs1\.edge\.app/)
+  }
+})
+
 test('Support operations appear only in the Support staff surface', async () => {
   const hub = await read('apps/hub/index.html')
   const support = await read('apps/support/index.html')
   const staff = await read('apps/staff/index.html')
   const supportStaff = await read('apps/support-staff/index.html')
+  const accountAccess = await read('apps/support-staff/account-access/index.html')
 
   const qaStaff = await read('apps/qa-staff/index.html')
 
@@ -90,19 +112,22 @@ test('Support operations appear only in the Support staff surface', async () => 
   }
 
   assert.doesNotMatch(supportStaff, /form\.asana\.com|logindb-logs-support|internal-tools\.edge\.app/)
-  assert.match(supportStaff, /\{\{staff\.voucher\.href\}\}/)
   assert.match(supportStaff, /\{\{staff\.userLookup\.href\}\}/)
   assert.match(supportStaff, /\{\{staff\.internalTools\.href\}\}/)
   assert.match(supportStaff, /\{\{staff\.logsUpload\.href\}\}/)
   assert.match(supportStaff, /\{\{staff\.intercomInbox\.href\}\}/)
+  assert.match(accountAccess, /\{\{staff\.voucher\.href\}\}/)
+  assert.match(accountAccess, /Submit authorization case/)
   assert.doesNotMatch(supportStaff, /<form\b/i)
 })
 
-test('company Staff hub federates department workspaces and shared resources', async () => {
+test('company Staff hub contains shared resources and routes through shared navigation', async () => {
   const html = await read('apps/staff/index.html')
-  assert.match(html, /https:\/\/support\.edgetools\.app\/staff\//)
-  assert.match(html, /https:\/\/bizdev\.edgetools\.app\/staff\//)
-  assert.match(html, /https:\/\/staff\.edgetools\.app\/qa\//)
+  const navigation = await read('shared/navigation.mjs')
+  assert.match(html, /\{\{nav\.header\}\}/)
+  assert.doesNotMatch(html, /bizdev\.edgetools\.app\/staff|Choose a team workspace/)
+  assert.match(navigation, /https:\/\/support\.edgetools\.app\/staff\//)
+  assert.match(navigation, /https:\/\/staff\.edgetools\.app\/qa\//)
   assert.match(html, /\{\{staff\.teamGuide\.href\}\}/)
   assert.match(html, /\{\{staff\.releasePlanning\.href\}\}/)
   assert.match(html, /\{\{staff\.hudl\.href\}\}/)
@@ -129,11 +154,10 @@ test('QA operations appear only in the QA staff workspace', async () => {
 
 test('public Support links clearly to its own protected staff route', async () => {
   const html = await read('apps/support/index.html')
-  assert.match(html, /Support staff sign in/)
+  assert.match(html, /Support workspace/)
   assert.match(html, /href="https:\/\/support\.edgetools\.app\/staff\/"/)
   assert.match(html, /data-preview-href="\/support\/staff\/"/)
-  assert.doesNotMatch(html, /datecalc/)
-  assert.doesNotMatch(html, /Date calculator/)
+  assert.doesNotMatch(html, /datecalc|Date calculator/)
 })
 
 test('staff previews explain only the preview login state', async () => {
@@ -218,6 +242,7 @@ test('site source contains no first-party analytics or storage code', async () =
     read('apps/staff/index.html'),
     read('apps/qa-staff/index.html'),
     read('apps/support-staff/index.html'),
+    read('apps/support-staff/account-access/index.html'),
     read('apps/datecalc/index.html'),
     read('apps/datecalc/datecalc.js'),
     read('shared/site.js'),
@@ -251,6 +276,7 @@ test('built pages fingerprint local assets so HTML and CSS deploy atomically', a
     resolve(staffOutput, 'qa', 'index.html'),
     resolve(staffOutput, '404.html'),
     resolve(supportStaffOutput, 'index.html'),
+    resolve(supportStaffOutput, 'account-access', 'index.html'),
     resolve(supportStaffOutput, '404.html')
   ]) {
     const html = await readFile(path, 'utf8')
@@ -274,6 +300,7 @@ test('built pages fingerprint local assets so HTML and CSS deploy atomically', a
     resolve(staffOutput, 'qa', 'index.html'),
     resolve(staffOutput, '404.html'),
     resolve(supportStaffOutput, 'index.html'),
+    resolve(supportStaffOutput, 'account-access', 'index.html'),
     resolve(supportStaffOutput, '404.html')
   ]) {
     const html = await readFile(path, 'utf8')
