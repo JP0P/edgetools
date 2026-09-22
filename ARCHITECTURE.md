@@ -108,11 +108,10 @@ The status and token pages use narrow same-origin `GET /api/status` and
 bounded parallel fetches, a summarized response, and a 20-second Cache API
 cache. Token accepts only four validated lookup shapes and caches successful
 CoinGecko responses for five minutes; it cannot proxy an arbitrary URL.
-Because the connected deployment is the existing Support Staff Worker,
-`worker/support-staff.js` branches only for those exact public host/paths before
-the private Support route. This adds shared deployment blast radius; keep the
-public-route and private-header tests together and roll back the Worker if
-either surface regresses.
+`worker/public-api.js` owns only those exact public host/paths. It deploys as
+the separate `edgetools-public-api` Worker so the Support Staff Worker's Access
+application cannot gate public requests. The Worker rejects every other host
+and path, while `workers.dev` and preview URLs remain disabled.
 
 The existing BizDev site, including its protected workspace, remains
 independently owned and deployed. This repository links only to its public

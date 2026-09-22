@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "edgetools-public-api",
+  "main": "worker/public-api.js",
+  "compatibility_date": "2026-09-17",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "edgetools.app/api/status",
+      "zone_name": "edgetools.app"
+    },
+    {
+      "pattern": "edgetools.app/api/token",
+      "zone_name": "edgetools.app"
+    }
+  ]
+}

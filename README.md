@@ -15,7 +15,7 @@ builds the public catalog, four local browser tools, and protected staff surface
   authorization, and service diagnostics.
 
 The public site is static-only. The only runtime is two narrow, stateless
-public API routes on the existing Support Staff Worker; there are no
+public API routes on a dedicated public Worker; there are no
 analytics, account system, secrets, or retained user data. The Staff surfaces
 are only launchers:
 production must protect the Staff host and the Support `/staff/` route with
@@ -103,14 +103,14 @@ build.
   `edgetools.app` and `support.edgetools.app` by hostname. DigitalOcean builds
   only `dist/main` and `dist/support` from `JP0P/edgetools:main`.
 - The exact `edgetools.app/api/status` and `edgetools.app/api/token` routes are
-  attached to the existing `edgetools-support-staff` Worker. They are public
+  attached to the dedicated `edgetools-public-api` Worker. They are public
   routes with no private Support headers. The status route aggregates a fixed
   upstream list; the token route exposes only validated CoinGecko lookups.
 - `wrangler.staff.jsonc` deploys `dist/staff` as the origin for the entire
   `staff.edgetools.app` hostname.
 - `wrangler.support-staff.jsonc` deploys `dist/support-staff` only on
   `support.edgetools.app/staff` and `/staff/*`.
-- Both Workers disable `workers.dev` and preview URLs. Cloudflare Access must
+- All three Workers disable `workers.dev` and preview URLs. Cloudflare Access must
   protect the whole Staff hostname plus both Support Staff paths.
 
 The protected Worker builds need the relevant target URL variables above.
@@ -123,11 +123,12 @@ The public DigitalOcean build needs none of them.
 npm run build          # create the two public and two protected static outputs
 npm test               # unit and source-contract tests
 npm run check:links    # verify local routes and live external links
-npm run check:deploy   # dry-run both protected Worker bundles
+npm run check:deploy   # dry-run all three Worker bundles
 npm run check:secrets  # scan the repository with gitleaks
 npm run check          # build, test, link check, and secret scan
 npm run deploy:staff   # require global Staff URLs, then deploy that Worker
 npm run deploy:support-staff # require Support Staff URLs, then deploy that Worker
+npm run deploy:public-api # deploy the exact public API routes
 ```
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for host routing and deployment

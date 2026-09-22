@@ -9,7 +9,7 @@ recoverable. It contains no credentials or private destination URLs.
 2. Build the protected outputs with all 17 Staff destination variables set.
    After adding or rotating a build variable, trigger a fresh build; changing
    the variable alone does not redeploy the Worker.
-3. Deploy the two Cloudflare Workers and confirm their alternate
+3. Deploy the three Cloudflare Workers and confirm their alternate
    `workers.dev` and preview URLs are disabled.
 4. Create or update the DigitalOcean static App from `.do/app.static.yaml`.
 5. Point the proxied Cloudflare records for `edgetools.app` and
@@ -56,7 +56,7 @@ recoverable. It contains no credentials or private destination URLs.
   their canonical targets.
 - Each linked protected destination still enforces its own login and
   authorization.
-- Neither Worker is reachable through a `workers.dev` or preview URL.
+- None of the three Workers is reachable through a `workers.dev` or preview URL.
 - The DigitalOcean starter domain exposes no Staff content.
 - DateCalc is available only at `https://support.edgetools.app/staff/datecalc/`
   after Access; `dist/support/datecalc` is absent.
@@ -65,7 +65,8 @@ recoverable. It contains no credentials or private destination URLs.
 
 1. Restore the prior DNS targets if routing is the failure.
 2. Roll back each Worker to its captured version if a protected surface or a
-   shared public API route is the failure.
+   public API route is the failure. Keep the public API routes on the dedicated
+   `edgetools-public-api` Worker so Support Access cannot gate them.
 3. Redeploy the last known-good DigitalOcean deployment if a public surface is
    the failure.
 4. Restore the captured Access policy if authentication or eligibility is the
