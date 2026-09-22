@@ -3,6 +3,7 @@ import test from 'node:test'
 
 import staffWorker from '../worker/staff.js'
 import supportStaffWorker from '../worker/support-staff.js'
+import publicApiWorker from '../worker/public-api.js'
 import { blockbookOrigins, collectPublicStatus } from '../worker/public-status.js'
 import { tokenUpstreamPath } from '../worker/public-token.js'
 
@@ -132,8 +133,8 @@ test('public status classifies upstream error, sync, and stale-block states', as
   assert.equal(response.services.find(service => service.name === 'Bitcoin Cash').status, 'error')
 })
 
-test('Support Staff Worker exposes only the exact public status route without private headers', async () => {
-  const response = await supportStaffWorker.fetch(
+test('Public API Worker exposes only the exact status route without private headers', async () => {
+  const response = await publicApiWorker.fetch(
     new Request('https://edgetools.app/api/status'),
     {
       fetch: async () => new Response(JSON.stringify({ blockbook: { bestHeight: 1 }, backend: { blocks: 1 } }))
@@ -143,8 +144,10 @@ test('Support Staff Worker exposes only the exact public status route without pr
   assert.match(response.headers.get('Cache-Control'), /max-age=15/)
   assert.equal(response.headers.get('X-Robots-Tag'), null)
 
-  const wrongPath = await supportStaffWorker.fetch(new Request('https://edgetools.app/api/status/'))
+  const wrongPath = await publicApiWorker.fetch(new Request('https://edgetools.app/api/status/'))
   assert.equal(wrongPath.status, 404)
+  const wrongHost = await publicApiWorker.fetch(new Request('https://edgetools-public-api.workers.dev/api/status'))
+  assert.equal(wrongHost.status, 404)
 })
 
 test('public status HEAD preserves headers without poisoning the GET body', async () => {
@@ -160,12 +163,12 @@ test('public status HEAD preserves headers without poisoning the GET body', asyn
     fetch: async () => new Response(JSON.stringify({ blockbook: { bestHeight: 1 }, backend: { blocks: 1 } }))
   }
   try {
-    const head = await supportStaffWorker.fetch(new Request('https://edgetools.app/api/status', { method: 'HEAD' }), env)
+    const head = await publicApiWorker.fetch(new Request('https://edgetools.app/api/status', { method: 'HEAD' }), env)
     assert.equal(head.status, 200)
     assert.equal(await head.text(), '')
     assert.match(head.headers.get('Cache-Control'), /max-age=15/)
 
-    const get = await supportStaffWorker.fetch(new Request('https://edgetools.app/api/status'), env)
+    const get = await publicApiWorker.fetch(new Request('https://edgetools.app/api/status'), env)
     assert.equal(get.status, 200)
     assert.match(await get.text(), /"services"/)
   } finally {
@@ -185,9 +188,9 @@ test('public token endpoint accepts only bounded lookup shapes', () => {
   assert.equal(tokenUpstreamPath(new URL('https://edgetools.app/api/token?kind=contract&network=solana&contract=0xA0b86991c6218b36c1d19d4a2e9eb0ce3606eb48')), null)
 })
 
-test('Support Staff Worker exposes only the exact public token route without private headers', async () => {
+test('Public API Worker exposes only the exact token route without private headers', async () => {
   let upstream
-  const response = await supportStaffWorker.fetch(
+  const response = await publicApiWorker.fetch(
     new Request('https://edgetools.app/api/token?kind=native&network=ethereum'),
     {
       fetch: async url => {
@@ -202,9 +205,9 @@ test('Support Staff Worker exposes only the exact public token route without pri
   assert.equal(response.headers.get('X-Robots-Tag'), null)
   assert.equal((await response.json()).id, 'ethereum')
 
-  const invalid = await supportStaffWorker.fetch(new Request('https://edgetools.app/api/token?kind=coin&id=https://evil.example'))
+  const invalid = await publicApiWorker.fetch(new Request('https://edgetools.app/api/token?kind=coin&id=https://evil.example'))
   assert.equal(invalid.status, 400)
-  const wrongPath = await supportStaffWorker.fetch(new Request('https://edgetools.app/api/token/'))
+  const wrongPath = await publicApiWorker.fetch(new Request('https://edgetools.app/api/token/'))
   assert.equal(wrongPath.status, 404)
 })
 
@@ -214,7 +217,7 @@ test('public token endpoint maps upstream failures without leaking response bodi
     [429, 429, 'rate limiting'],
     [403, 502, 'temporarily unavailable']
   ]) {
-    const response = await supportStaffWorker.fetch(
+    const response = await publicApiWorker.fetch(
       new Request('https://edgetools.app/api/token?kind=native&network=ethereum'),
       { fetch: async () => new Response('upstream detail must not leak', { status: upstreamStatus }) }
     )
@@ -222,7 +225,7 @@ test('public token endpoint maps upstream failures without leaking response bodi
     assert.match((await response.json()).error, new RegExp(message, 'i'))
   }
 
-  const unavailable = await supportStaffWorker.fetch(
+  const unavailable = await publicApiWorker.fetch(
     new Request('https://edgetools.app/api/token?kind=native&network=ethereum'),
     { fetch: async () => { throw new Error('network detail must not leak') } }
   )
