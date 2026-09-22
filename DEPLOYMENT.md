@@ -30,8 +30,15 @@ recoverable. It contains no credentials or private destination URLs.
 ## Verification
 
 - `https://edgetools.app/` returns the Main surface without authentication.
-- `https://support.edgetools.app/` and `/datecalc/` return the public Support
-  surfaces without authentication.
+- `https://edgetools.app/fio/`, `/token/`, `/status/`, and `/orders/` return
+  the four local public tools without authentication.
+- `https://support.edgetools.app/` is only the legacy Help Center handoff and
+  has no public tool cards.
+- `https://edgetools.app/api/status` returns summarized health data with public
+  caching headers and no private Support headers.
+- `https://edgetools.app/api/token?kind=native&network=ethereum` returns a
+  validated CoinGecko response with public caching headers and no private
+  Support headers.
 - The public Main and Support navigation exposes a working click/tap Staff
   disclosure containing Staff home, Support workspace, and QA workspace links.
 - Anonymous requests to `https://staff.edgetools.app/`,
@@ -51,12 +58,14 @@ recoverable. It contains no credentials or private destination URLs.
   authorization.
 - Neither Worker is reachable through a `workers.dev` or preview URL.
 - The DigitalOcean starter domain exposes no Staff content.
+- DateCalc is available only at `https://support.edgetools.app/staff/datecalc/`
+  after Access; `dist/support/datecalc` is absent.
 
 ## Rollback
 
 1. Restore the prior DNS targets if routing is the failure.
-2. Roll back each Worker to its captured version if a protected surface is the
-   failure.
+2. Roll back each Worker to its captured version if a protected surface or a
+   shared public API route is the failure.
 3. Redeploy the last known-good DigitalOcean deployment if a public surface is
    the failure.
 4. Restore the captured Access policy if authentication or eligibility is the

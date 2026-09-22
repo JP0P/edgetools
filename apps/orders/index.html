@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Look up supported Edge exchange partner order IDs locally in your browser." />
+    <meta name="theme-color" content="#141715" />
+    <title>Order Lookup — EdgeTools</title>
+    <link rel="canonical" href="https://edgetools.app/orders/" />
+    <link rel="icon" href="../assets/edge-icon.png" />
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="../assets/tool.css" />
+    <script type="module" src="../assets/site.js"></script>
+    <script type="module" src="../assets/intercom.js"></script>
+    <script type="module" src="./orders.js"></script>
+  </head>
+  <body class="surface tool-page">
+    <a class="skip-link" href="#order-form">Skip to order lookup</a>
+    <header class="site-header"><div class="header-inner page-width"><a class="brand-link" href="https://edgetools.app/" data-preview-href="/" aria-label="EdgeTools home"><img src="../assets/edge-logo.svg" alt="Edge" width="92" height="27" /><span class="brand-divider" aria-hidden="true"></span><span class="brand-product">Order Lookup</span></a>{{nav.header}}</div>{{nav.official}}</header>
+    <main class="tool-main page-width"><header class="tool-intro"><p class="eyebrow">Public tool / partner orders</p><h1>Order lookup.</h1><p>Enter an order ID to identify supported partners or recognize a blockchain transaction. Nothing is sent to a server.</p></header>
+      <section class="tool-panel" aria-labelledby="order-heading"><h2 id="order-heading">Check an order ID</h2><form class="tool-form" id="order-form"><div class="tool-field"><label for="order-id">Order ID</label><input class="tool-input" id="order-id" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste an order ID or transaction hash" aria-describedby="order-status" /></div><div class="tool-actions"><button class="button button-primary" type="submit">Check ID</button><button class="button button-quiet" type="button" id="order-clear">Clear</button></div><p class="tool-status" id="order-status" role="status" aria-live="polite"></p></form><section class="tool-result" id="order-results" hidden aria-labelledby="order-results-heading"><h2 id="order-results-heading">Possible matches</h2><div id="order-content"></div></section><p class="tool-attribution">Supported partner links open only after you choose a result. Order IDs are not stored or added to the URL.</p></section>
+    </main>
+    <footer class="site-footer"><div class="footer-inner page-width"><span>© <span data-current-year>2026</span> Edge Wallet</span><nav class="footer-links" aria-label="Footer navigation"><a href="https://edgetools.app/" data-preview-href="/">Tools</a><a href="https://support.edge.app/">Help Center</a></nav></div></footer>
+  </body>
+</html>

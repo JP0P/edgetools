@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Public health summary for Edge Blockbook services." />
+    <meta name="theme-color" content="#141715" />
+    <title>Edge Service Status — EdgeTools</title>
+    <link rel="canonical" href="https://edgetools.app/status/" />
+    <link rel="icon" href="../assets/edge-icon.png" />
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="../assets/tool.css" />
+    <script type="module" src="../assets/site.js"></script>
+    <script type="module" src="../assets/intercom.js"></script>
+    <script type="module" src="./status.js"></script>
+  </head>
+  <body class="surface tool-page">
+    <a class="skip-link" href="#status-panel">Skip to service status</a>
+    <header class="site-header"><div class="header-inner page-width"><a class="brand-link" href="https://edgetools.app/" data-preview-href="/" aria-label="EdgeTools home"><img src="../assets/edge-logo.svg" alt="Edge" width="92" height="27" /><span class="brand-divider" aria-hidden="true"></span><span class="brand-product">Service Status</span></a>{{nav.header}}</div>{{nav.official}}</header>
+    <main class="tool-main page-width" id="status-panel">
+      <header class="tool-intro"><p class="eyebrow">Public tool / Edge services</p><h1>Service status.</h1><p>A summarized view of the public Blockbook service fleet. Results refresh every 20 seconds from the EdgeTools status endpoint.</p></header>
+      <section class="tool-panel" aria-labelledby="status-heading"><div class="tool-actions"><h2 id="status-heading">Current health</h2><button class="button button-secondary" id="status-refresh" type="button">Refresh</button></div><p class="tool-status" id="status-message" role="status" aria-live="polite">Loading service health…</p><div class="status-summary" id="status-summary"></div><div class="status-service-grid" id="status-services"></div><p class="tool-attribution" id="status-updated"></p></section>
+    </main>
+    <footer class="site-footer"><div class="footer-inner page-width"><span>© <span data-current-year>2026</span> Edge Wallet</span><nav class="footer-links" aria-label="Footer navigation"><a href="https://edgetools.app/" data-preview-href="/">Tools</a><a href="https://support.edge.app/">Help Center</a></nav></div></footer>
+  </body>
+</html>

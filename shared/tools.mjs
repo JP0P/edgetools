@@ -1,26 +1,22 @@
 export const publicTools = {
   orders: {
-    href: 'https://orders.edge.app/',
+    href: '/orders/',
     name: 'Order lookup',
-    mainDescription: 'Track a supported order by ID',
-    supportDescription: 'Track a supported buy, sell, or exchange order by ID'
+    mainDescription: 'Track a supported order by ID'
   },
   fio: {
-    href: 'https://fio.jpop.cloud/',
+    href: '/fio/',
     name: 'FIO Handle lookup',
-    mainDescription: 'Find public addresses linked to a FIO Handle',
-    supportDescription: 'Find the public wallet addresses linked to a FIO Handle'
+    mainDescription: 'Find public addresses linked to a FIO Handle'
   },
   status: {
-    href: 'https://status.jpop.cloud/',
+    href: '/status/',
     name: 'Edge service status',
-    mainDescription: 'Check public service health',
-    supportDescription: 'Check the health of Edge’s public Blockbook services'
+    mainDescription: 'Check public service health'
   },
-  icon: {
-    href: 'https://icon.jpop.cloud/',
+  token: {
+    href: '/token/',
     name: 'Token metadata lookup',
-    mainDescription: 'Find token metadata and artwork',
-    supportDescription: 'Find token metadata and artwork by network and contract'
+    mainDescription: 'Find token metadata and artwork'
   }
 }

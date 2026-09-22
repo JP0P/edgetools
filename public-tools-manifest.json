@@ -1,0 +1,10 @@
+{
+  "policy": "Selective behavior port; no wholesale source copy.",
+  "tools": {
+    "fio": { "source": "JP0P/FIO-Resolver", "commit": "40652ccc0bfffea7123a7cff280ce40b561e1466", "ported": ["FIO handle/network/token lookup", "copyable address", "accessible error states"] },
+    "token": { "source": "JP0P/TokenIconLookup", "commit": "55f8a68b969429caf3ab0d65568cab6b4f842cc8", "ported": ["network and contract/native lookup", "CoinGecko name search", "metadata and artwork presentation"] },
+    "status": { "source": "JP0P/Status-Dashboard", "commit": "e889c7051d112e9115fbc38456c3c00f8451284a", "ported": ["11 Blockbook origin inventory", "health classification", "block height and sync summary"] },
+    "orders": { "source": "JP0P/order-lookup", "commit": "525e2084decf91b3e044c94c9ccb88ddeed5f4c6", "ported": ["partner and transaction regex logic", "supported partner destinations", "ambiguity behavior"] }
+  },
+  "excluded": ["legacy Express servers", "database scaffolding", "analytics", "persistence", "generic proxies", "query-parameter autosearch", "order statistics"]
+}
