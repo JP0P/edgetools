@@ -4,6 +4,8 @@ import { createServer } from 'node:http'
 import { extname, resolve, sep } from 'node:path'
 
 import { build } from './build.mjs'
+import { handlePublicStatus } from '../worker/public-status.js'
+import { handlePublicToken } from '../worker/public-token.js'
 
 const args = process.argv.slice(2)
 
@@ -112,6 +114,19 @@ const server = createServer(async (request, response) => {
     return
   }
 
+  const requestUrl = new URL(request.url ?? '/', `http://${request.headers.host ?? `${host}:${port}`}`)
+  const apiHandler = requestUrl.pathname === '/api/status'
+    ? handlePublicStatus
+    : requestUrl.pathname === '/api/token'
+      ? handlePublicToken
+      : null
+  if (apiHandler) {
+    const apiResponse = await apiHandler(new Request(requestUrl, { method: request.method, headers: request.headers }))
+    response.writeHead(apiResponse.status, Object.fromEntries(apiResponse.headers))
+    response.end(request.method === 'HEAD' ? undefined : Buffer.from(await apiResponse.arrayBuffer()))
+    return
+  }
+
   const { outputRoot, pathname } = chooseOutput(request)
   const { filePath, statusCode } = await findResponseFile(outputRoot, pathname)
   const contentType = contentTypes.get(extname(filePath).toLowerCase()) ?? 'application/octet-stream'
@@ -135,7 +150,7 @@ server.listen(port, host, () => {
   const displayHost = host.includes(':') ? `[${host}]` : host
   console.log(`EdgeTools preview: http://${displayHost}:${port}/`)
   console.log(`Support preview: http://${displayHost}:${port}/support/`)
-  console.log(`DateCalc preview: http://${displayHost}:${port}/support/datecalc/`)
+  console.log(`DateCalc preview: http://${displayHost}:${port}/support/staff/datecalc/`)
   console.log(`Staff hub preview: http://${displayHost}:${port}/staff/`)
   console.log(`QA staff preview: http://${displayHost}:${port}/staff/qa/`)
   console.log(`Support staff preview: http://${displayHost}:${port}/support/staff/`)

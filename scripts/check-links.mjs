@@ -17,13 +17,17 @@ const {
 const htmlFiles = [
   resolve(mainOutput, 'index.html'),
   resolve(mainOutput, '404.html'),
+  resolve(mainOutput, 'fio', 'index.html'),
+  resolve(mainOutput, 'token', 'index.html'),
+  resolve(mainOutput, 'status', 'index.html'),
+  resolve(mainOutput, 'orders', 'index.html'),
   resolve(supportOutput, 'index.html'),
   resolve(supportOutput, '404.html'),
-  resolve(supportOutput, 'datecalc', 'index.html'),
   resolve(staffOutput, 'index.html'),
   resolve(staffOutput, 'qa', 'index.html'),
   resolve(staffOutput, '404.html'),
   resolve(supportStaffOutput, 'index.html'),
+  resolve(supportStaffOutput, 'datecalc', 'index.html'),
   resolve(supportStaffOutput, 'account-access', 'index.html'),
   resolve(supportStaffOutput, '404.html')
 ]
@@ -31,6 +35,7 @@ const htmlFiles = [
 const failures = []
 const externalUrls = new Set()
 const protectedOrigins = new Set(protectedStaffOrigins)
+const externallyRateLimitedHosts = new Set(['www.coingecko.com'])
 
 function productionUrlToLocal(url) {
   if (url.hostname === 'edgetools.app') {
@@ -114,6 +119,10 @@ if (checkExternal) {
       const target = new URL(url)
       if (protectedOrigins.has(target.origin)) {
         console.log(`Skipped authenticated destination ${target.origin}`)
+        continue
+      }
+      if (externallyRateLimitedHosts.has(target.hostname)) {
+        console.log(`Skipped attribution destination ${target.origin}`)
         continue
       }
 

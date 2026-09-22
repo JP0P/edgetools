@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Resolve a FIO Handle to a public wallet address." />
+    <meta name="theme-color" content="#141715" />
+    <title>FIO Handle Lookup — EdgeTools</title>
+    <link rel="canonical" href="https://edgetools.app/fio/" />
+    <link rel="icon" href="../assets/edge-icon.png" />
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="../assets/tool.css" />
+    <script type="module" src="../assets/site.js"></script>
+    <script type="module" src="../assets/intercom.js"></script>
+    <script type="module" src="./fio.js"></script>
+  </head>
+  <body class="surface tool-page">
+    <a class="skip-link" href="#fio-form">Skip to FIO lookup</a>
+    <header class="site-header">
+      <div class="header-inner page-width">
+        <a class="brand-link" href="https://edgetools.app/" data-preview-href="/" aria-label="EdgeTools home">
+          <img src="../assets/edge-logo.svg" alt="Edge" width="92" height="27" />
+          <span class="brand-divider" aria-hidden="true"></span><span class="brand-product">FIO Lookup</span>
+        </a>
+        {{nav.header}}
+      </div>
+      {{nav.official}}
+    </header>
+    <main class="tool-main page-width">
+      <header class="tool-intro">
+        <p class="eyebrow">Public tool / FIO Protocol</p>
+        <h1>FIO Handle lookup.</h1>
+        <p>Resolve a public wallet address for a FIO Handle, network, and token. The lookup runs directly in your browser.</p>
+      </header>
+      <section class="tool-panel" aria-labelledby="fio-heading">
+        <h2 id="fio-heading">Resolve an address</h2>
+        <form class="tool-form" id="fio-form">
+          <div class="tool-field">
+            <label for="fio-handle">FIO Handle</label>
+            <input class="tool-input" id="fio-handle" name="fioHandle" type="text" placeholder="name@domain" autocomplete="off" autocapitalize="off" spellcheck="false" required aria-describedby="fio-handle-hint fio-status" />
+            <p class="field-hint" id="fio-handle-hint">Use the format name@domain.</p>
+          </div>
+          <div class="tool-form-grid">
+            <div class="tool-field"><label for="fio-network">Network</label><select class="tool-select" id="fio-network" name="network"></select></div>
+            <div class="tool-field"><label for="fio-token">Token</label><select class="tool-select" id="fio-token" name="token"></select></div>
+          </div>
+          <div class="tool-actions"><button class="button button-primary" type="submit" id="fio-submit">Resolve address</button><button class="button button-quiet" type="button" id="fio-clear">Clear</button></div>
+          <p class="tool-status" id="fio-status" role="status" aria-live="polite"></p>
+        </form>
+        <section class="tool-result" id="fio-result" hidden aria-labelledby="fio-result-heading">
+          <h2 id="fio-result-heading">Public address</h2>
+          <code class="tool-code" id="fio-address"></code>
+          <button class="button button-secondary" type="button" id="fio-copy">Copy address</button>
+        </section>
+        <p class="tool-attribution">Lookup requests go directly from your browser to EOS USA’s public FIO API. EdgeTools does not store them.</p>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="footer-inner page-width"><span>© <span data-current-year>2026</span> Edge Wallet</span><nav class="footer-links" aria-label="Footer navigation"><a href="https://edgetools.app/" data-preview-href="/">Tools</a><a href="https://support.edge.app/">Help Center</a></nav></div></footer>
+  </body>
+</html>

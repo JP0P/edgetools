@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Look up public token metadata and artwork by network, contract, or CoinGecko name." />
+    <meta name="theme-color" content="#141715" />
+    <title>Token Metadata Lookup — EdgeTools</title>
+    <link rel="canonical" href="https://edgetools.app/token/" />
+    <link rel="icon" href="../assets/edge-icon.png" />
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="../assets/tool.css" />
+    <script type="module" src="../assets/site.js"></script>
+    <script type="module" src="../assets/intercom.js"></script>
+    <script type="module" src="./token.js"></script>
+  </head>
+  <body class="surface tool-page">
+    <a class="skip-link" href="#token-form">Skip to token lookup</a>
+    <header class="site-header"><div class="header-inner page-width"><a class="brand-link" href="https://edgetools.app/" data-preview-href="/" aria-label="EdgeTools home"><img src="../assets/edge-logo.svg" alt="Edge" width="92" height="27" /><span class="brand-divider" aria-hidden="true"></span><span class="brand-product">Token Lookup</span></a>{{nav.header}}</div>{{nav.official}}</header>
+    <main class="tool-main page-width">
+      <header class="tool-intro"><p class="eyebrow">Public tool / CoinGecko</p><h1>Token metadata lookup.</h1><p>Find token names, symbols, images, and CoinGecko records by network and contract, native coin, or CoinGecko name.</p></header>
+      <section class="tool-panel" aria-labelledby="token-heading">
+        <h2 id="token-heading">Find a token</h2>
+        <form class="tool-form" id="token-form">
+          <div class="tool-form-grid"><div class="tool-field"><label for="token-network">Network</label><select class="tool-select" id="token-network"><option value="ethereum">Ethereum</option><option value="polygon-pos">Polygon</option><option value="binance-smart-chain">BNB Smart Chain</option><option value="arbitrum-one">Arbitrum</option><option value="optimistic-ethereum">Optimism</option><option value="base">Base</option><option value="avalanche">Avalanche</option><option value="solana">Solana</option></select></div><div class="tool-field token-search-results"><label for="token-query">Contract, native coin, or CoinGecko name</label><input class="tool-input" id="token-query" type="search" placeholder="Paste a contract or search USDC" autocomplete="off" spellcheck="false" aria-describedby="token-hint token-status" /><ul class="token-suggestions" id="token-suggestions" hidden></ul><p class="field-hint" id="token-hint">Leave blank and choose a network to look up its native coin.</p></div></div>
+          <div class="tool-actions"><button class="button button-primary" type="submit" id="token-submit">Look up token</button><button class="button button-quiet" type="button" id="token-clear">Clear</button></div>
+          <p class="tool-status" id="token-status" role="status" aria-live="polite"></p>
+        </form>
+        <section class="tool-result" id="token-result" hidden aria-labelledby="token-result-heading"><h2 id="token-result-heading"><span id="token-name"></span> <small id="token-symbol"></small></h2><p id="token-network-name"></p><img id="token-image" alt="" width="96" height="96" hidden /><dl class="tool-list"><div><dt>CoinGecko ID</dt><dd id="token-id"></dd></div><div><dt>Contract address</dt><dd><code id="token-contract"></code> <button class="tool-link-button" type="button" id="token-copy">Copy</button></dd></div><div><dt>Market cap rank</dt><dd id="token-rank"></dd></div></dl><p><a id="token-gecko-link" target="_blank" rel="noopener noreferrer">View on CoinGecko ↗</a></p></section>
+        <p class="tool-attribution">Metadata and artwork provided by <a href="https://www.coingecko.com/" target="_blank" rel="noopener noreferrer">CoinGecko</a>. No API key or lookup history is stored.</p>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="footer-inner page-width"><span>© <span data-current-year>2026</span> Edge Wallet</span><nav class="footer-links" aria-label="Footer navigation"><a href="https://edgetools.app/" data-preview-href="/">Tools</a><a href="https://support.edge.app/">Help Center</a></nav></div></footer>
+  </body>
+</html>

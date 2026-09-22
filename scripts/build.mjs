@@ -119,7 +119,7 @@ async function copySharedAssets(outputRoot) {
   await cp(resolve(repositoryRoot, 'shared', 'assets'), resolve(outputRoot, 'assets'), {
     recursive: true
   })
-  for (const stylesheet of ['styles.css', 'hub.css', 'staff.css', 'support.css']) {
+  for (const stylesheet of ['styles.css', 'hub.css', 'staff.css', 'support.css', 'tool.css']) {
     await cp(resolve(repositoryRoot, 'shared', stylesheet), resolve(outputRoot, 'assets', stylesheet))
   }
   await cp(resolve(repositoryRoot, 'shared', 'site.js'), resolve(outputRoot, 'assets', 'site.js'))
@@ -132,10 +132,16 @@ async function computeAssetVersion() {
     resolve(repositoryRoot, 'shared', 'hub.css'),
     resolve(repositoryRoot, 'shared', 'staff.css'),
     resolve(repositoryRoot, 'shared', 'support.css'),
+    resolve(repositoryRoot, 'shared', 'tool.css'),
     resolve(repositoryRoot, 'shared', 'site.js'),
     resolve(repositoryRoot, 'shared', 'intercom.js'),
     resolve(repositoryRoot, 'shared', 'assets', 'tool-icons.svg'),
-    resolve(repositoryRoot, 'apps', 'datecalc', 'datecalc.js')
+    resolve(repositoryRoot, 'apps', 'datecalc', 'datecalc.js'),
+    resolve(repositoryRoot, 'apps', 'fio', 'fio.js'),
+    resolve(repositoryRoot, 'apps', 'token', 'token.js'),
+    resolve(repositoryRoot, 'apps', 'status', 'status.js'),
+    resolve(repositoryRoot, 'apps', 'orders', 'orders.js'),
+    resolve(repositoryRoot, 'apps', 'orders', 'order-logic.js')
   ]
   const hash = createHash('sha256')
   for (const assetPath of assetPaths) hash.update(await readFile(assetPath))
@@ -148,7 +154,8 @@ function versionLocalAssets(source, assetVersion) {
       /((?:\.\.\/|\.\/)assets\/[^"'#?]+)(?=[#"'])/g,
       `$1?v=${assetVersion}`
     )
-    .replace(/(\.\/datecalc\.js)(?=["'])/g, `$1?v=${assetVersion}`)
+    .replace(/((?:\.\.\/|\.\/)[^"'#?]+\.m?js)(?=["'])/g, `$1?v=${assetVersion}`)
+    .replace(/((?:\.\.\/|\.\/)[^"'#?]+\.css)(?=["'])/g, `$1?v=${assetVersion}`)
 }
 
 function escapeHtml(value) {
@@ -249,6 +256,19 @@ async function renderTemplate(
   await writeFile(outputPath, versionLocalAssets(withNavigation, assetVersion))
 }
 
+async function renderPublicTool(toolId, outputRoot, assetVersion) {
+  const sourceRoot = resolve(repositoryRoot, 'apps', toolId)
+  const outputPath = resolve(outputRoot, toolId)
+  await cp(sourceRoot, outputPath, { recursive: true })
+  await renderTemplate(
+    resolve(sourceRoot, 'index.html'),
+    resolve(outputPath, 'index.html'),
+    {},
+    assetVersion,
+    { assetPrefix: '..', current: 'tools' }
+  )
+}
+
 export async function build() {
   const mainOutput = resolve(distRoot, 'main')
   const supportOutput = resolve(distRoot, 'support')
@@ -297,16 +317,7 @@ export async function build() {
     assetVersion,
     { assetPrefix: '.', current: '' }
   )
-  await cp(resolve(repositoryRoot, 'apps', 'datecalc'), resolve(supportOutput, 'datecalc'), {
-    recursive: true
-  })
-  await renderTemplate(
-    resolve(repositoryRoot, 'apps', 'datecalc', 'index.html'),
-    resolve(supportOutput, 'datecalc', 'index.html'),
-    {},
-    assetVersion,
-    { assetPrefix: '..', current: 'support' }
-  )
+  for (const toolId of ['fio', 'token', 'status', 'orders']) await renderPublicTool(toolId, mainOutput, assetVersion)
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'staff', 'index.html'),
@@ -337,6 +348,14 @@ export async function build() {
     staffTargets,
     assetVersion,
     { assetPrefix: '.', current: 'supportStaff', mode: 'staff' }
+  )
+  await cp(resolve(repositoryRoot, 'apps', 'datecalc'), resolve(supportStaffOutput, 'datecalc'), { recursive: true })
+  await renderTemplate(
+    resolve(repositoryRoot, 'apps', 'datecalc', 'index.html'),
+    resolve(supportStaffOutput, 'datecalc', 'index.html'),
+    {},
+    assetVersion,
+    { assetPrefix: '..', current: 'supportStaff', mode: 'staff' }
   )
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'support-staff', '404.html'),

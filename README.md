@@ -1,11 +1,12 @@
 # EdgeTools
 
 EdgeTools is Edge Wallet's resource and utility directory. The repository
-builds four distinct surfaces:
+builds the public catalog, four local browser tools, and protected staff surfaces:
 
-- `edgetools.app` — public discovery for Edge Wallet lookups and utility tools.
-- `support.edgetools.app` — public-safe Support workflows and absorbed static
-  tools such as DateCalc.
+- `edgetools.app` — the one public catalog, with `/fio/`, `/token/`, `/status/`,
+  and `/orders/` local tool routes.
+- `support.edgetools.app` — a lean legacy handoff to the official Help Center
+  plus the protected Support workspace.
 - `staff.edgetools.app` — a restricted company-wide router for department
   workspaces and shared staff resources, including the focused `/qa/`
   workspace.
@@ -13,8 +14,10 @@ builds four distinct surfaces:
   launcher for customer response, investigation, account access and device
   authorization, and service diagnostics.
 
-The site is static-only. It contains no analytics, account system, server
-runtime, secrets, or retained user data. The Staff surfaces are only launchers:
+The public site is static-only. The only runtime is two narrow, stateless
+public API routes on the existing Support Staff Worker; there are no
+analytics, account system, secrets, or retained user data. The Staff surfaces
+are only launchers:
 production must protect the Staff host and the Support `/staff/` route with
 Google-backed Cloudflare Access, and each linked destination remains
 responsible for its own authorization. Staff target URLs are injected during a
@@ -30,11 +33,12 @@ npm run preview
 ```
 
 The preview defaults to `http://127.0.0.1:4173`. Its local routes mirror the
-three production hosts:
+production hosts and protected paths:
 
 - `/` — main EdgeTools directory
-- `/support/` — Support Utilities directory
-- `/support/datecalc/` — DateCalc
+- `/support/` — legacy Help Center and Support Staff handoff
+- `/support/staff/datecalc/` — protected DateCalc
+- `/fio/`, `/token/`, `/status/`, `/orders/` — public tool previews
 - `/staff/` — company-wide Staff hub; local preview does not simulate Google
   login
 - `/staff/qa/` — QA staff workspace; local preview does not simulate Google
@@ -98,6 +102,10 @@ build.
 - `.do/app.static.yaml` defines the two public static components and routes
   `edgetools.app` and `support.edgetools.app` by hostname. DigitalOcean builds
   only `dist/main` and `dist/support` from `JP0P/edgetools:main`.
+- The exact `edgetools.app/api/status` and `edgetools.app/api/token` routes are
+  attached to the existing `edgetools-support-staff` Worker. They are public
+  routes with no private Support headers. The status route aggregates a fixed
+  upstream list; the token route exposes only validated CoinGecko lookups.
 - `wrangler.staff.jsonc` deploys `dist/staff` as the origin for the entire
   `staff.edgetools.app` hostname.
 - `wrangler.support-staff.jsonc` deploys `dist/support-staff` only on
@@ -124,4 +132,5 @@ npm run deploy:support-staff # require Support Staff URLs, then deploy that Work
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for host routing and deployment
 boundaries. See [DEPLOYMENT.md](DEPLOYMENT.md) for the release, verification,
-and rollback checklist.
+and rollback checklist. See [public-tools-manifest.json](public-tools-manifest.json)
+for pinned source provenance and selective migration notes.

@@ -1,6 +1,6 @@
 const routes = {
   tools: 'https://edgetools.app/',
-  support: 'https://support.edgetools.app/',
+  helpCenter: 'https://support.edge.app/',
   partners: 'https://bizdev.edgetools.app/',
   staff: 'https://staff.edgetools.app/',
   supportStaff: 'https://support.edgetools.app/staff/',
@@ -19,7 +19,7 @@ function publicNavigation({ assetPrefix, current }) {
   return `
         <nav class="site-nav" aria-label="Primary navigation">
           <a${currentAttribute(current, 'tools')} href="${routes.tools}"${previewAttribute('/')}>Tools</a>
-          <a${currentAttribute(current, 'support')} href="${routes.support}"${previewAttribute('/support/')}>Support</a>
+          <a href="${routes.helpCenter}">Help Center <span class="external-mark" aria-hidden="true">↗</span></a>
           <a${currentAttribute(current, 'partners')} href="${routes.partners}">Partners <span class="external-mark" aria-hidden="true">↗</span></a>
           <details class="nav-disclosure">
             <summary>Staff <span aria-hidden="true">⌄</span></summary>
@@ -37,7 +37,7 @@ function staffNavigation({ current }) {
   return `
         <nav class="site-nav" aria-label="Staff navigation">
           <a href="${routes.tools}"${previewAttribute('/')}>Tools</a>
-          <a href="${routes.support}"${previewAttribute('/support/')}>Support</a>
+          <a href="${routes.helpCenter}">Help Center</a>
           <a${currentAttribute(current, 'staff')} href="${routes.staff}"${previewAttribute('/staff/')}>Staff home</a>
           <a${currentAttribute(current, 'supportStaff')} href="${routes.supportStaff}"${previewAttribute('/support/staff/')}>Support workspace</a>
           <a${currentAttribute(current, 'qa')} href="${routes.qa}"${previewAttribute('/staff/qa/')}>QA</a>
