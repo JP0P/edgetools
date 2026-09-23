@@ -7,11 +7,11 @@
   "preview_urls": false,
   "routes": [
     {
-      "pattern": "edgetools.app/api/status",
+      "pattern": "edgetools.app/api/status*",
       "zone_name": "edgetools.app"
     },
     {
-      "pattern": "edgetools.app/api/token",
+      "pattern": "edgetools.app/api/token*",
       "zone_name": "edgetools.app"
     }
   ]
