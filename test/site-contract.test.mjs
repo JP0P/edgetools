@@ -68,6 +68,17 @@ test('public tool behavior is local and stateless', async () => {
   assert.match(orders, /window\.open/)
 })
 
+test('public API routes include query strings while the Worker enforces exact paths', async () => {
+  const config = JSON.parse(await read('wrangler.public-api.jsonc'))
+  assert.deepEqual(
+    config.routes.map(route => route.pattern),
+    ['edgetools.app/api/status*', 'edgetools.app/api/token*']
+  )
+  const worker = await read('worker/public-api.js')
+  assert.match(worker, /url\.pathname === '\/api\/status'/)
+  assert.match(worker, /url\.pathname === '\/api\/token'/)
+})
+
 test('built routes include each public tool and protected DateCalc', async () => {
   const outputs = await build()
   for (const toolId of ['fio', 'token', 'status', 'orders']) {
