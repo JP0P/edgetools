@@ -135,7 +135,7 @@ async function computeAssetVersion() {
     resolve(repositoryRoot, 'shared', 'tool.css'),
     resolve(repositoryRoot, 'shared', 'site.js'),
     resolve(repositoryRoot, 'shared', 'intercom.js'),
-    resolve(repositoryRoot, 'shared', 'assets', 'edge-tools-social.png'),
+    resolve(repositoryRoot, 'shared', 'assets', 'edge-tools-social-91ccf865.png'),
     resolve(repositoryRoot, 'shared', 'assets', 'tool-icons.svg'),
     resolve(repositoryRoot, 'apps', 'datecalc', 'datecalc.js'),
     resolve(repositoryRoot, 'apps', 'fio', 'fio.js'),
