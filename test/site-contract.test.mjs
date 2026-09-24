@@ -20,15 +20,15 @@ test('Main is the one public catalog and uses local tool routes', async () => {
 
 test('Main provides a complete large-image social preview', async () => {
   const html = await read('apps/hub/index.html')
-  const imageUrl = 'https://edgetools.app/assets/edge-tools-social-91ccf865.png'
+  const imageUrl = 'https://edgetools.app/assets/edge-tools-social-91ccf865.png?v=1'
   assert.match(html, /property="og:type" content="website"/)
   assert.match(html, /property="og:title" content="EdgeTools — Public Edge Wallet tools"/)
-  assert.match(html, new RegExp(`property="og:image" content="${imageUrl.replaceAll('.', '\\.')}`))
+  assert.ok(html.includes(`property="og:image" content="${imageUrl}"`))
   assert.match(html, /property="og:image:width" content="1200"/)
   assert.match(html, /property="og:image:height" content="630"/)
   assert.match(html, /property="og:image:alt"/)
   assert.match(html, /name="twitter:card" content="summary_large_image"/)
-  assert.match(html, new RegExp(`name="twitter:image" content="${imageUrl.replaceAll('.', '\\.')}`))
+  assert.ok(html.includes(`name="twitter:image" content="${imageUrl}"`))
 
   const previewImagePath = resolve(repositoryRoot, 'shared/assets/edge-tools-social-91ccf865.png')
   const previewImage = await stat(previewImagePath)
@@ -41,7 +41,7 @@ test('Main provides a complete large-image social preview', async () => {
   const { mainOutput } = await build()
   const builtHtml = await readFile(resolve(mainOutput, 'index.html'), 'utf8')
   await stat(resolve(mainOutput, 'assets/edge-tools-social-91ccf865.png'))
-  assert.match(builtHtml, new RegExp(`property="og:image" content="${imageUrl.replaceAll('.', '\\.')}`))
+  assert.ok(builtHtml.includes(`property="og:image" content="${imageUrl}"`))
 })
 
 test('public navigation points Help Center directly to support.edge.app', async () => {
