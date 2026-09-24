@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readFile, stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import test from 'node:test'
 
@@ -16,6 +16,32 @@ test('Main is the one public catalog and uses local tool routes', async () => {
     assert.match(publicTools[toolId].href, new RegExp(`^/${toolId}/$`))
   }
   assert.doesNotMatch(html, /target="_blank"|External ↗|jpop\.cloud|orders\.edge\.app/)
+})
+
+test('Main provides a complete large-image social preview', async () => {
+  const html = await read('apps/hub/index.html')
+  const imageUrl = 'https://edgetools.app/assets/edge-tools-social.png'
+  assert.match(html, /property="og:type" content="website"/)
+  assert.match(html, /property="og:title" content="EdgeTools — Public Edge Wallet tools"/)
+  assert.match(html, new RegExp(`property="og:image" content="${imageUrl.replaceAll('.', '\\.')}`))
+  assert.match(html, /property="og:image:width" content="1200"/)
+  assert.match(html, /property="og:image:height" content="630"/)
+  assert.match(html, /property="og:image:alt"/)
+  assert.match(html, /name="twitter:card" content="summary_large_image"/)
+  assert.match(html, new RegExp(`name="twitter:image" content="${imageUrl.replaceAll('.', '\\.')}`))
+
+  const previewImagePath = resolve(repositoryRoot, 'shared/assets/edge-tools-social.png')
+  const previewImage = await stat(previewImagePath)
+  assert.ok(previewImage.size > 10_000, 'social preview image must be a real rendered asset')
+  const previewImageBytes = await readFile(previewImagePath)
+  assert.equal(previewImageBytes.subarray(1, 4).toString('ascii'), 'PNG')
+  assert.equal(previewImageBytes.readUInt32BE(16), 1200)
+  assert.equal(previewImageBytes.readUInt32BE(20), 630)
+
+  const { mainOutput } = await build()
+  const builtHtml = await readFile(resolve(mainOutput, 'index.html'), 'utf8')
+  await stat(resolve(mainOutput, 'assets/edge-tools-social.png'))
+  assert.match(builtHtml, new RegExp(`property="og:image" content="${imageUrl.replaceAll('.', '\\.')}`))
 })
 
 test('public navigation points Help Center directly to support.edge.app', async () => {
