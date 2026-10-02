@@ -94,6 +94,19 @@ test('public tool behavior is local and stateless', async () => {
   assert.match(orders, /window\.open/)
 })
 
+test('status restores detailed server cards and direct xpub explorer links', async () => {
+  const html = await read('apps/status/index.html')
+  const script = await read('apps/status/status.js')
+  assert.match(html, /Blockbook status/)
+  assert.match(html, /xpub explorer/)
+  assert.match(script, /Open xpub explorer/)
+  assert.match(script, /service\.url/)
+  assert.match(script, /Last mempool update/)
+  assert.match(script, /Version/)
+  assert.match(script, /matchMedia\('\(max-width: 640px\)'\)/)
+  assert.match(script, /status-service-updated/)
+})
+
 test('public API routes include query strings while the Worker enforces exact paths', async () => {
   const config = JSON.parse(await read('wrangler.public-api.jsonc'))
   assert.deepEqual(

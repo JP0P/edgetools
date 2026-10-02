@@ -94,7 +94,7 @@ test('Support Staff worker redirects the bare protected path', async () => {
 test('public status aggregates only the fixed Blockbook allowlist', async () => {
   assert.equal(blockbookOrigins.length, 11)
   const requested = []
-  const data = { blockbook: { bestHeight: 42, inSync: true, inSyncMempool: true }, backend: { blocks: 42 } }
+  const data = { blockbook: { coin: 'Bitcoin', version: '0.4.0', bestHeight: 42, inSync: true, inSyncMempool: true, lastBlockTime: '2026-10-02T18:00:00.000Z', lastMempoolTime: '2026-10-02T18:01:00.000Z' }, backend: { blocks: 42 } }
   const response = await collectPublicStatus(async url => {
     requested.push(url)
     return new Response(JSON.stringify(data), { status: 200 })
@@ -104,6 +104,11 @@ test('public status aggregates only the fixed Blockbook allowlist', async () => 
   assert.equal(requested.length, 11)
   assert.ok(requested.every(url => url.endsWith('/api/v2')))
   assert.ok(response.services.every(service => service.status === 'online'))
+  assert.ok(response.services.every(service => service.url.startsWith('https://') && service.url.endsWith('/')))
+  assert.deepEqual(
+    Object.keys(response.services[0]).sort(),
+    ['blockHeight', 'coin', 'inSync', 'inSyncMempool', 'lastBlockTime', 'lastMempoolTime', 'name', 'region', 'status', 'url', 'version', 'warnings'].sort()
+  )
 })
 
 test('public status never exceeds six simultaneous upstream requests', async () => {
