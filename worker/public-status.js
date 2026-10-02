@@ -25,13 +25,31 @@ function summarize([name, region, origin], payload) {
   const warnings = []
   let status = 'online'
   if (typeof backend.error === 'string' && backend.error) { status = 'error'; warnings.push('Backend reported an error') }
-  if (blockbook.inSync === false || blockbook.inSyncMempool === false) { if (status === 'online') status = 'warning'; warnings.push('Service is catching up') }
+  if (typeof backend.warnings === 'string' && backend.warnings.trim()) {
+    if (status === 'online') status = 'warning'
+    warnings.push(backend.warnings.trim())
+  }
+  if (blockbook.inSync === false) { if (status === 'online') status = 'warning'; warnings.push('Blockbook is not synchronized') }
+  if (blockbook.inSyncMempool === false) { if (status === 'online') status = 'warning'; warnings.push('Mempool is not synchronized') }
   if (typeof blockbook.lastBlockTime === 'string') {
     const age = Date.now() - Date.parse(blockbook.lastBlockTime)
     if (Number.isFinite(age) && age > 24 * 60 * 60 * 1000) { status = 'error'; warnings.push('Latest block is more than a day old') }
     else if (Number.isFinite(age) && age > 2 * 60 * 60 * 1000 && status === 'online') { status = 'warning'; warnings.push('Latest block is more than two hours old') }
   }
-  return { name, region, status, blockHeight: Number.isFinite(backend.blocks) ? backend.blocks : (Number.isFinite(blockbook.bestHeight) ? blockbook.bestHeight : null), inSync: blockbook.inSync ?? null, inSyncMempool: blockbook.inSyncMempool ?? null, warnings }
+  return {
+    name,
+    region,
+    url: origin,
+    status,
+    coin: typeof blockbook.coin === 'string' ? blockbook.coin : null,
+    version: typeof blockbook.version === 'string' ? blockbook.version : null,
+    blockHeight: Number.isFinite(backend.blocks) ? backend.blocks : (Number.isFinite(blockbook.bestHeight) ? blockbook.bestHeight : null),
+    inSync: blockbook.inSync ?? null,
+    inSyncMempool: blockbook.inSyncMempool ?? null,
+    lastBlockTime: typeof blockbook.lastBlockTime === 'string' ? blockbook.lastBlockTime : null,
+    lastMempoolTime: typeof blockbook.lastMempoolTime === 'string' ? blockbook.lastMempoolTime : null,
+    warnings
+  }
 }
 
 export async function collectPublicStatus(fetchImpl = fetch) {
@@ -47,7 +65,7 @@ export async function collectPublicStatus(fetchImpl = fetch) {
         if (!response.ok) throw new Error(`HTTP ${response.status}`)
         return summarize(definition, await response.json())
       } catch {
-        return { name: definition[0], region: definition[1], status: 'offline', blockHeight: null, inSync: null, inSyncMempool: null, warnings: ['Unable to reach service'] }
+        return { name: definition[0], region: definition[1], url: definition[2], status: 'offline', coin: null, version: null, blockHeight: null, inSync: null, inSyncMempool: null, lastBlockTime: null, lastMempoolTime: null, warnings: ['Unable to reach service'] }
       }
     })))
   }
