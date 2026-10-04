@@ -26,7 +26,17 @@
           <div class="tool-actions"><button class="button button-primary" type="submit" id="token-submit">Look up token</button><button class="button button-quiet" type="button" id="token-clear">Clear</button></div>
           <p class="tool-status" id="token-status" role="status" aria-live="polite"></p>
         </form>
-        <section class="tool-result" id="token-result" hidden aria-labelledby="token-result-heading"><h2 id="token-result-heading"><span id="token-name"></span> <small id="token-symbol"></small></h2><p id="token-network-name"></p><img id="token-image" alt="" width="96" height="96" hidden /><dl class="tool-list"><div><dt>CoinGecko ID</dt><dd id="token-id"></dd></div><div><dt>Contract address</dt><dd><code id="token-contract"></code> <button class="tool-link-button" type="button" id="token-copy">Copy</button></dd></div><div><dt>Market cap rank</dt><dd id="token-rank"></dd></div></dl><p><a id="token-gecko-link" target="_blank" rel="noopener noreferrer">View on CoinGecko ↗</a></p></section>
+        <section class="tool-result" id="token-result" hidden aria-labelledby="token-result-heading">
+          <h2 id="token-result-heading" tabindex="-1"><span id="token-name"></span> <small id="token-symbol"></small></h2>
+          <p class="tool-result-context" id="token-network-name"></p>
+          <img id="token-image" alt="" width="96" height="96" hidden />
+          <dl class="tool-list tool-definition-list">
+            <div><dt>CoinGecko ID</dt><dd class="tool-inline-value"><code id="token-id"></code><button class="tool-link-button" type="button" id="token-copy-id">Copy ID</button></dd></div>
+            <div id="token-contract-row"><dt>Contract address</dt><dd class="tool-inline-value"><code id="token-contract"></code><button class="tool-link-button" type="button" id="token-copy-contract">Copy address</button></dd></div>
+            <div><dt>Market cap rank</dt><dd id="token-rank"></dd></div>
+          </dl>
+          <div class="tool-result-links"><a id="token-gecko-link" target="_blank" rel="noopener noreferrer">View on CoinGecko ↗</a><a id="token-explorer-link" target="_blank" rel="noopener noreferrer" hidden>View contract in explorer ↗</a></div>
+        </section>
         <p class="tool-attribution">Metadata and artwork provided by <a href="https://www.coingecko.com/" target="_blank" rel="noopener noreferrer">CoinGecko</a>. No API key or lookup history is stored.</p>
       </section>
     </main>

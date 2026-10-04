@@ -48,9 +48,14 @@
           <p class="tool-status" id="fio-status" role="status" aria-live="polite"></p>
         </form>
         <section class="tool-result" id="fio-result" hidden aria-labelledby="fio-result-heading">
-          <h2 id="fio-result-heading">Public address</h2>
+          <h2 id="fio-result-heading" tabindex="-1">Public address</h2>
+          <p class="tool-result-context" id="fio-result-context"></p>
           <code class="tool-code" id="fio-address"></code>
-          <button class="button button-secondary" type="button" id="fio-copy">Copy address</button>
+          <div class="tool-result-actions">
+            <button class="button button-primary" type="button" id="fio-copy">Copy address</button>
+            <button class="button button-quiet" type="button" id="fio-share" hidden>Share result</button>
+          </div>
+          <p class="tool-result-links">Learn more about <a href="https://fio.net/discover/fio-handles" target="_blank" rel="noopener noreferrer">FIO Handles</a> and the <a href="https://fio.net/" target="_blank" rel="noopener noreferrer">FIO Protocol</a>.</p>
         </section>
         <p class="tool-attribution">Lookup requests go directly from your browser to EOS USA’s public FIO API. EdgeTools does not store them.</p>
       </section>

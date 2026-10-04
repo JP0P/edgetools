@@ -26,7 +26,11 @@ const tokenInput = document.querySelector('#fio-token')
 const submit = document.querySelector('#fio-submit')
 const status = document.querySelector('#fio-status')
 const result = document.querySelector('#fio-result')
+const resultHeading = document.querySelector('#fio-result-heading')
+const resultContext = document.querySelector('#fio-result-context')
 const address = document.querySelector('#fio-address')
+const share = document.querySelector('#fio-share')
+let lookupVersion = 0
 
 function setStatus(message, state = '') {
   status.textContent = message
@@ -41,6 +45,13 @@ function fillNetworks() {
 
 function fillTokens() {
   tokenInput.replaceChildren(...(networkTokens[networkInput.value] ?? [networkInput.value]).map(token => new Option(token, token)))
+}
+
+function resetResult() {
+  result.hidden = true
+  resultContext.textContent = ''
+  address.textContent = ''
+  share.hidden = true
 }
 
 async function resolveHandle(handle, chainCode, tokenCode) {
@@ -62,25 +73,40 @@ async function resolveHandle(handle, chainCode, tokenCode) {
 
 form.addEventListener('submit', async event => {
   event.preventDefault()
+  const version = ++lookupVersion
   const handle = handleInput.value.trim()
-  result.hidden = true
+  resetResult()
   if (!/^[^@\s]+@[^@\s]+$/.test(handle)) { setStatus('Enter a valid FIO Handle in the format name@domain.', 'error'); handleInput.focus(); return }
   submit.disabled = true
   setStatus('Resolving address…')
   try {
     const value = await resolveHandle(handle, networkInput.value, tokenInput.value)
+    if (version !== lookupVersion) return
     address.textContent = value
+    resultContext.textContent = `${handle} · ${tokenInput.value} on ${networkNames[networkInput.value]}`
+    share.hidden = !navigator.share
     result.hidden = false
     setStatus('Address resolved.', 'success')
+    resultHeading.focus()
   } catch (error) {
+    if (version !== lookupVersion) return
     setStatus(error.name === 'TimeoutError' ? 'The FIO service took too long to respond. Try again.' : (error.message || 'Unable to resolve this handle.'), 'error')
-  } finally { submit.disabled = false }
+  } finally { if (version === lookupVersion) submit.disabled = false }
 })
 
 document.querySelector('#fio-copy').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText(address.textContent); setStatus('Address copied to clipboard.', 'success') }
   catch { setStatus('Copy failed — select the address manually.', 'error') }
 })
-networkInput.addEventListener('change', fillTokens)
-document.querySelector('#fio-clear').addEventListener('click', () => { form.reset(); networkInput.value = 'BTC'; fillTokens(); result.hidden = true; address.textContent = ''; setStatus(''); handleInput.focus() })
+share.addEventListener('click', async () => {
+  try {
+    await navigator.share({ title: 'FIO Handle result', text: `${resultContext.textContent}: ${address.textContent}` })
+  } catch (error) {
+    if (error.name !== 'AbortError') setStatus('Sharing is not available right now.', 'error')
+  }
+})
+handleInput.addEventListener('input', () => { lookupVersion += 1; submit.disabled = false; resetResult(); setStatus('') })
+tokenInput.addEventListener('change', () => { lookupVersion += 1; submit.disabled = false; resetResult(); setStatus('') })
+networkInput.addEventListener('change', () => { lookupVersion += 1; submit.disabled = false; fillTokens(); resetResult(); setStatus('') })
+document.querySelector('#fio-clear').addEventListener('click', () => { lookupVersion += 1; form.reset(); networkInput.value = 'BTC'; fillTokens(); resetResult(); setStatus(''); handleInput.focus() })
 fillNetworks()

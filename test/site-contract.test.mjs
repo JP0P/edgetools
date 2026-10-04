@@ -84,14 +84,20 @@ test('public tool behavior is local and stateless', async () => {
   const fio = await read('apps/fio/fio.js')
   assert.match(fio, /fio\.eosusa\.io\/v1\/chain\/get_pub_address/)
   assert.match(fio, /navigator\.clipboard/)
+  assert.match(fio, /navigator\.share/)
+  assert.match(await read('apps/fio/index.html'), /fio\.net\/discover\/fio-handles/)
   const token = await read('apps/token/token.js')
   assert.match(token, /\/api\/token/)
   assert.doesNotMatch(token, /api\.coingecko\.com/)
   assert.match(token, /429/)
   assert.match(token, /setTimeout\(/)
+  assert.match(token, /etherscan\.io\/token/)
+  assert.match(await read('apps/token/index.html'), /token-copy-id/)
   const orders = `${await read('apps/orders/orders.js')}\n${await read('apps/orders/order-logic.js')}`
   assert.doesNotMatch(orders, /localStorage|sessionStorage|\/api\/stats|URLSearchParams/)
   assert.match(orders, /window\.open/)
+  assert.match(await read('apps/orders/index.html'), /order-id-hint/)
+  assert.match(await read('apps/orders/index.html'), /order-copy/)
 })
 
 test('status restores detailed server cards and direct xpub explorer links', async () => {
