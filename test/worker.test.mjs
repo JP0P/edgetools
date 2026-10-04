@@ -94,7 +94,8 @@ test('Support Staff worker redirects the bare protected path', async () => {
 test('public status aggregates only the fixed Blockbook allowlist', async () => {
   assert.equal(blockbookOrigins.length, 11)
   const requested = []
-  const data = { blockbook: { coin: 'Bitcoin', version: '0.4.0', bestHeight: 42, inSync: true, inSyncMempool: true, lastBlockTime: '2026-10-02T18:00:00.000Z', lastMempoolTime: '2026-10-02T18:01:00.000Z' }, backend: { blocks: 42 } }
+  const current = new Date().toISOString()
+  const data = { blockbook: { coin: 'Bitcoin', version: '0.4.0', bestHeight: 42, inSync: true, inSyncMempool: true, lastBlockTime: current, lastMempoolTime: current }, backend: { blocks: 42 } }
   const response = await collectPublicStatus(async url => {
     requested.push(url)
     return new Response(JSON.stringify(data), { status: 200 })
