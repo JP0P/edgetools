@@ -6,7 +6,7 @@ recoverable. It contains no credentials or private destination URLs.
 ## Release sequence
 
 1. Merge a green pull request into `JP0P/edgetools:main`.
-2. Build the protected outputs with all 17 Staff destination variables set.
+2. Build the protected outputs with all 18 Staff destination variables set.
    After adding or rotating a build variable, trigger a fresh build; changing
    the variable alone does not redeploy the Worker.
 3. Deploy the three Cloudflare Workers and confirm their alternate
@@ -51,7 +51,7 @@ recoverable. It contains no credentials or private destination URLs.
 - Authenticated Staff responses include `private, no-store`, `noindex`, and
   frame-denial headers.
 - The authorization request form (legacy voucher target), User Lookup, internal
-  account tools, Support inbox and log server, shared guide, release planning, HUDL, reports, analytics, metrics,
+  account tools, Support inbox and log server, shared guide, release planning, HUDL, Proof of Work-Life Ideas, reports, analytics, metrics,
   QA builds, test systems, issue reports, and device links are active and open
   their canonical targets.
 - Each linked protected destination still enforces its own login and

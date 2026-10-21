@@ -168,6 +168,8 @@ test('the staff surfaces retain distinct jobs and routes', async () => {
   assert.match(navigation, /Support workspace/)
   assert.match(navigation, /https:\/\/bizdev\.edgetools\.app\//)
   assert.match(staff, /Shared tools/)
+  assert.match(staff, /Proof of Work-Life Ideas/)
+  assert.match(staff, /\{\{staff\.proofOfWorkLifeIdeas\.href\}\}/)
   assert.doesNotMatch(staff, /Choose a team workspace|BizDev/)
   assert.match(qaStaff, /Download builds, run tests, report issues/)
   assert.match(qaStaff, /Build lab/)
@@ -175,6 +177,26 @@ test('the staff surfaces retain distinct jobs and routes', async () => {
   assert.match(supportStaff, /Investigate an issue/)
   assert.match(supportStaff, /Account Access &amp; Device Authorization/)
   assert.match(supportStaff, /Service diagnostics/)
+})
+
+test('the Proof of Work-Life Ideas target is injected only during protected builds', async () => {
+  const envName = 'EDGETOOLS_GLOBAL_STAFF_PROOF_OF_WORK_LIFE_IDEAS_URL'
+  const priorValue = process.env[envName]
+  process.env[envName] = 'https://example.com/proof-of-work-life-ideas'
+  try {
+    const { mainOutput, staffOutput, supportOutput } = await build()
+    const staff = await readFile(resolve(staffOutput, 'index.html'), 'utf8')
+    assert.match(staff, /Proof of Work-Life Ideas/)
+    assert.match(staff, /href="https:\/\/example\.com\/proof-of-work-life-ideas" target="_blank" rel="noopener noreferrer"/)
+    assert.doesNotMatch(staff, /staff\.proofOfWorkLifeIdeas/)
+    for (const output of [mainOutput, supportOutput]) {
+      const html = await readFile(resolve(output, 'index.html'), 'utf8')
+      assert.doesNotMatch(html, /example\.com\/proof-of-work-life-ideas/)
+    }
+  } finally {
+    if (priorValue === undefined) delete process.env[envName]
+    else process.env[envName] = priorValue
+  }
 })
 
 test('built public navigation exposes staff discovery without private tool targets', async () => {
@@ -234,6 +256,7 @@ test('protected destination URLs are not committed in HTML', async () => {
   assert.doesNotMatch(html, /reports-wusa1|posthog\.com|prometheus\.edge\.app|zealot\.edge\.app/)
   assert.doesNotMatch(html, /testrail\.io|sentry\.edge\.app|jack2|browserstack\.com|10\.10\.8\.1/)
   assert.doesNotMatch(html, /logs1\.edge\.app|app\.intercom\.com/)
+  assert.doesNotMatch(html, /claude\.(?:ai|site)\//)
   assert.match(html, /\{\{staff\./)
 })
 

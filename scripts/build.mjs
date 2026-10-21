@@ -36,6 +36,10 @@ const globalStaffTargetDefinitions = {
   prometheus: {
     action: 'Open Prometheus',
     envName: 'EDGETOOLS_GLOBAL_STAFF_PROMETHEUS_URL'
+  },
+  proofOfWorkLifeIdeas: {
+    action: 'Open ideas',
+    envName: 'EDGETOOLS_GLOBAL_STAFF_PROOF_OF_WORK_LIFE_IDEAS_URL'
   }
 }
 
@@ -393,5 +397,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.log(`Built ${outputs.supportOutput}`)
   console.log(`Built ${outputs.staffOutput}`)
   console.log(`Built ${outputs.supportStaffOutput}`)
-  console.log(`Configured ${outputs.staffTargetsConfigured}/17 protected Staff targets`)
+  console.log(`Configured ${outputs.staffTargetsConfigured}/18 protected Staff targets`)
 }
