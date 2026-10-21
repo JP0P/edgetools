@@ -63,7 +63,7 @@ For a local review, create ignored `config/staff-targets.local.json` with any of
 these keys:
 
 - Company-wide hub: `teamGuide`, `releasePlanning`, `hudl`, `reports`,
-  `posthog`, and `prometheus`
+  `posthog`, `prometheus`, and `proofOfWorkLifeIdeas`
 - QA staff: `zealot`, `testrail`, `sentry`, `jenkins`, `browserstack`, and
   `unifi`
 - Support staff: `voucher` (the legacy target identifier for the authorization
@@ -79,6 +79,7 @@ variables for the protected outputs:
 - `EDGETOOLS_GLOBAL_STAFF_REPORTS_URL`
 - `EDGETOOLS_GLOBAL_STAFF_POSTHOG_URL`
 - `EDGETOOLS_GLOBAL_STAFF_PROMETHEUS_URL`
+- `EDGETOOLS_GLOBAL_STAFF_PROOF_OF_WORK_LIFE_IDEAS_URL`
 - `EDGETOOLS_QA_STAFF_ZEALOT_URL`
 - `EDGETOOLS_QA_STAFF_TESTRAIL_URL`
 - `EDGETOOLS_QA_STAFF_SENTRY_URL`
