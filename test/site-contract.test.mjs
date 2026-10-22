@@ -168,7 +168,7 @@ test('the staff surfaces retain distinct jobs and routes', async () => {
   assert.match(navigation, /Support workspace/)
   assert.match(navigation, /https:\/\/bizdev\.edgetools\.app\//)
   assert.match(staff, /Shared tools/)
-  assert.match(staff, /Proof of Work-Life Ideas/)
+  assert.match(staff, /Proof of Work-Life Balance/)
   assert.match(staff, /\{\{staff\.proofOfWorkLifeIdeas\.href\}\}/)
   assert.doesNotMatch(staff, /Choose a team workspace|BizDev/)
   assert.match(qaStaff, /Download builds, run tests, report issues/)
@@ -179,14 +179,14 @@ test('the staff surfaces retain distinct jobs and routes', async () => {
   assert.match(supportStaff, /Service diagnostics/)
 })
 
-test('the Proof of Work-Life Ideas target is injected only during protected builds', async () => {
+test('the Proof of Work-Life Balance target is injected only during protected builds', async () => {
   const envName = 'EDGETOOLS_GLOBAL_STAFF_PROOF_OF_WORK_LIFE_IDEAS_URL'
   const priorValue = process.env[envName]
   process.env[envName] = 'https://example.com/proof-of-work-life-ideas'
   try {
     const { mainOutput, staffOutput, supportOutput } = await build()
     const staff = await readFile(resolve(staffOutput, 'index.html'), 'utf8')
-    assert.match(staff, /Proof of Work-Life Ideas/)
+    assert.match(staff, /Proof of Work-Life Balance/)
     assert.match(staff, /href="https:\/\/example\.com\/proof-of-work-life-ideas" target="_blank" rel="noopener noreferrer"/)
     assert.doesNotMatch(staff, /staff\.proofOfWorkLifeIdeas/)
     for (const output of [mainOutput, supportOutput]) {

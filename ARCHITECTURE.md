@@ -34,7 +34,7 @@ Main surface renders the only public tool catalog. Shared primary and staff navi
 `shared/navigation.mjs` during the static build, so public and protected
 surfaces keep the same route names and disclosure behavior. The company-wide
 Staff hub contains only resources with company-wide usefulness: the Clawdia
-team guide, release planning, HUDL, Proof of Work-Life Ideas, reports, analytics,
+team guide, release planning, HUDL, Proof of Work-Life Balance, reports, analytics,
 and shared operational metrics. QA build, test, issue, and device systems live at `/qa/` inside the
 same protected Staff output. Support-private customer, account, log, and
 authorization tools live on the Support staff route. The first dedicated

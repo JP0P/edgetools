@@ -51,7 +51,7 @@ recoverable. It contains no credentials or private destination URLs.
 - Authenticated Staff responses include `private, no-store`, `noindex`, and
   frame-denial headers.
 - The authorization request form (legacy voucher target), User Lookup, internal
-  account tools, Support inbox and log server, shared guide, release planning, HUDL, Proof of Work-Life Ideas, reports, analytics, metrics,
+  account tools, Support inbox and log server, shared guide, release planning, HUDL, Proof of Work-Life Balance, reports, analytics, metrics,
   QA builds, test systems, issue reports, and device links are active and open
   their canonical targets.
 - Each linked protected destination still enforces its own login and
