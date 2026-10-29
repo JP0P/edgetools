@@ -11,6 +11,7 @@ apps/
   token/      edgetools.app/token
   status/     edgetools.app/status
   orders/     edgetools.app/orders
+  balance/    edgetools.app/balance
   staff/      staff.edgetools.app company-wide router
   qa-staff/   staff.edgetools.app/qa QA-focused workspace
   support-staff/  support.edgetools.app/staff Support operations and workflows
@@ -41,6 +42,13 @@ authorization tools live on the Support staff route. The first dedicated
 workflow is `/staff/account-access/`, which groups the existing protected
 destinations without performing account changes itself.
 
+BTC Balance History is a self-contained static app under `apps/balance/`. The
+browser sends the submitted xpub directly to the selected allowlisted
+Blockbook WebSocket server and sends transaction timestamps—not the xpub—to
+Edge's rates service. It has no backend, persistence, Intercom, or analytics.
+Its page-level Content Security Policy prevents any other script or network
+destination from entering that data path.
+
 All non-routing Staff destinations are injected from environment variables or
 the ignored local review file `config/staff-targets.local.json`. Their URLs do
 not live in public source. Missing destinations render as disabled cards rather
@@ -54,8 +62,10 @@ origin, which is useful only on the Edge network and contains no credentials.
   must never contain credentials, customer data, or confidential instructions.
 - DateCalc performs all date work in the browser and sends or stores nothing;
   the protected output does not load Intercom.
-- Main, the legacy Support handoff, public tools, and their public 404 pages load Edge's existing
-  Intercom Messenger for anonymous visitors. EdgeTools sends no account identity
+- Main, the legacy Support handoff, four ordinary public tools, and their public
+  404 pages load Edge's existing Intercom Messenger for anonymous visitors.
+  BTC Balance History deliberately does not, because its page accepts an xpub.
+  EdgeTools sends no account identity
   or customer attributes; Intercom manages its own visitor cookie and receives
   conversation and page context under Edge's existing Messenger configuration.
   Protected Staff outputs do not load the Messenger.

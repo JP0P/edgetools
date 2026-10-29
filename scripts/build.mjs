@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -146,7 +146,9 @@ async function computeAssetVersion() {
     resolve(repositoryRoot, 'apps', 'token', 'token.js'),
     resolve(repositoryRoot, 'apps', 'status', 'status.js'),
     resolve(repositoryRoot, 'apps', 'orders', 'orders.js'),
-    resolve(repositoryRoot, 'apps', 'orders', 'order-logic.js')
+    resolve(repositoryRoot, 'apps', 'orders', 'order-logic.js'),
+    ...['app.js', 'blockbook.js', 'chart-data.js', 'chart.js', 'csv.js', 'history.js', 'key.js', 'rates.js', 'servers.js', 'style.css']
+      .map(file => resolve(repositoryRoot, 'apps', 'balance', file))
   ]
   const hash = createHash('sha256')
   for (const assetPath of assetPaths) hash.update(await readFile(assetPath))
@@ -265,6 +267,11 @@ async function renderPublicTool(toolId, outputRoot, assetVersion) {
   const sourceRoot = resolve(repositoryRoot, 'apps', toolId)
   const outputPath = resolve(outputRoot, toolId)
   await cp(sourceRoot, outputPath, { recursive: true })
+  for (const file of await readdir(sourceRoot)) {
+    if (!file.endsWith('.js')) continue
+    const source = await readFile(resolve(sourceRoot, file), 'utf8')
+    await writeFile(resolve(outputPath, file), versionLocalAssets(source, assetVersion))
+  }
   await renderTemplate(
     resolve(sourceRoot, 'index.html'),
     resolve(outputPath, 'index.html'),
@@ -322,7 +329,7 @@ export async function build() {
     assetVersion,
     { assetPrefix: '.', current: '' }
   )
-  for (const toolId of ['fio', 'token', 'status', 'orders']) await renderPublicTool(toolId, mainOutput, assetVersion)
+  for (const toolId of ['balance', 'fio', 'token', 'status', 'orders']) await renderPublicTool(toolId, mainOutput, assetVersion)
 
   await renderTemplate(
     resolve(repositoryRoot, 'apps', 'staff', 'index.html'),

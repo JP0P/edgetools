@@ -1,6 +1,7 @@
 {
-  "policy": "Selective behavior port; no wholesale source copy.",
+  "policy": "Selective behavior port or approved self-contained absorption; no wholesale legacy scaffolding.",
   "tools": {
+    "balance": { "source": "dan2all/xpub-cumulative-balance", "commit": "a55cea98ad8f0b90d76e3f04fa06db0cfbbd6167", "absorbed": ["static browser app", "xpub safety validation", "Blockbook WebSocket history", "historical Edge rates", "running-balance chart and CSV", "26 source tests"] },
     "fio": { "source": "JP0P/FIO-Resolver", "commit": "40652ccc0bfffea7123a7cff280ce40b561e1466", "ported": ["FIO handle/network/token lookup", "copyable address", "accessible error states"] },
     "token": { "source": "JP0P/TokenIconLookup", "commit": "55f8a68b969429caf3ab0d65568cab6b4f842cc8", "ported": ["network and contract/native lookup", "CoinGecko name search", "metadata and artwork presentation"] },
     "status": { "source": "JP0P/Status-Dashboard", "commit": "e889c7051d112e9115fbc38456c3c00f8451284a", "ported": ["11 Blockbook origin inventory", "health classification", "block height and sync summary"] },

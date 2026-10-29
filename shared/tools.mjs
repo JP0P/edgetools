@@ -1,4 +1,9 @@
 export const publicTools = {
+  balance: {
+    href: '/balance/',
+    name: 'BTC balance history',
+    mainDescription: 'See the running balance after every transaction'
+  },
   orders: {
     href: '/orders/',
     name: 'Order lookup',

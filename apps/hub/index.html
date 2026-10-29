@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Public Edge Wallet lookups, service checks, and utility tools." />
+    <meta name="description" content="Public Edge Wallet lookups, balance history, service checks, and utility tools." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="EdgeTools" />
     <meta property="og:title" content="EdgeTools — Public Edge Wallet tools" />
-    <meta property="og:description" content="Look up orders, resolve FIO Handles, check Edge service health, and find token metadata." />
+    <meta property="og:description" content="Review BTC balance history, look up orders, resolve FIO Handles, check Edge service health, and find token metadata." />
     <meta property="og:url" content="https://edgetools.app/" />
     <meta property="og:image" content="https://edgetools.app/assets/edge-tools-social-91ccf865.png?v=1" />
     <meta property="og:image:secure_url" content="https://edgetools.app/assets/edge-tools-social-91ccf865.png?v=1" />
@@ -17,7 +17,7 @@
     <meta property="og:image:alt" content="EdgeTools — public Edge Wallet lookups and service checks" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="EdgeTools — Public Edge Wallet tools" />
-    <meta name="twitter:description" content="Look up orders, resolve FIO Handles, check Edge service health, and find token metadata." />
+    <meta name="twitter:description" content="Review BTC balance history, look up orders, resolve FIO Handles, check Edge service health, and find token metadata." />
     <meta name="twitter:image" content="https://edgetools.app/assets/edge-tools-social-91ccf865.png?v=1" />
     <meta name="twitter:image:alt" content="EdgeTools — public Edge Wallet lookups and service checks" />
     <meta name="theme-color" content="#141715" />
@@ -50,7 +50,7 @@
           <div class="hub-hero-copy">
             <p class="eyebrow">EdgeTools</p>
             <h1>Find a public Edge tool.</h1>
-            <p class="hero-lede">Look up orders, check service health, and find public token or FIO information.</p>
+            <p class="hero-lede">Review BTC balance history, look up orders, check service health, and find public token or FIO information.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#public-tools">Browse public tools <span aria-hidden="true">↓</span></a>
             </div>
@@ -65,6 +65,11 @@
             <h2 id="public-tools-heading">Lookups and status.</h2>
           </div>
           <div class="directory-grid directory-grid-four">
+            <a class="directory-card directory-card-featured" href="{{tool.balance.href}}">
+              <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-chart"></use></svg></span>
+              <span><strong>{{tool.balance.name}}</strong><small>{{tool.balance.mainDescription}}</small></span>
+              <span class="tool-badge">Open tool →</span>
+            </a>
             <a class="directory-card" href="{{tool.orders.href}}">
               <span class="directory-icon"><svg aria-hidden="true"><use href="./assets/tool-icons.svg#icon-order"></use></svg></span>
               <span><strong>{{tool.orders.name}}</strong><small>{{tool.orders.mainDescription}}</small></span>

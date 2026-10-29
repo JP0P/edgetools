@@ -30,8 +30,11 @@ recoverable. It contains no credentials or private destination URLs.
 ## Verification
 
 - `https://edgetools.app/` returns the Main surface without authentication.
-- `https://edgetools.app/fio/`, `/token/`, `/status/`, and `/orders/` return
-  the four local public tools without authentication.
+- `https://edgetools.app/balance/`, `/fio/`, `/token/`, `/status/`, and
+  `/orders/` return the five local public tools without authentication.
+- BTC Balance History loads no Intercom or analytics script, retains its
+  restrictive Content Security Policy, and connects only to its allowlisted
+  Blockbook and Edge rates servers.
 - `https://support.edgetools.app/` is only the legacy Help Center handoff and
   has no public tool cards.
 - `https://edgetools.app/api/status` returns summarized health data with public
