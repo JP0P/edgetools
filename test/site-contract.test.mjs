@@ -11,7 +11,7 @@ const read = relativePath => readFile(resolve(repositoryRoot, relativePath), 'ut
 
 test('Main is the one public catalog and uses local tool routes', async () => {
   const html = await read('apps/hub/index.html')
-  for (const toolId of ['fio', 'token', 'status', 'orders']) {
+  for (const toolId of ['balance', 'fio', 'token', 'status', 'orders']) {
     assert.match(html, new RegExp(`href="\\{\\{tool\\.${toolId}\\.href\\}\\}"`))
     assert.match(publicTools[toolId].href, new RegExp(`^/${toolId}/$`))
   }
@@ -59,13 +59,24 @@ test('Support is a noindex legacy handoff without a duplicated catalog', async (
   assert.doesNotMatch(html, /\{\{tool\.|workflow-links|directory-card/)
 })
 
-test('all four public tool pages have shared chrome and Intercom', async () => {
+test('the standard public tool pages have shared chrome and Intercom', async () => {
   for (const toolId of ['fio', 'token', 'status', 'orders']) {
     const html = await read(`apps/${toolId}/index.html`)
     assert.match(html, /\{\{nav\.header\}\}/)
     assert.match(html, /assets\/intercom\.js/)
     assert.match(html, /site-footer/)
   }
+})
+
+test('BTC balance history keeps the xpub page isolated from third-party scripts', async () => {
+  const html = await read('apps/balance/index.html')
+  assert.match(html, /canonical" href="https:\/\/edgetools\.app\/balance\//)
+  assert.match(html, /Content-Security-Policy/)
+  assert.match(html, /script-src 'self'/)
+  assert.match(html, /connect-src wss:\/\/btc-wusa1\.edge\.app/)
+  assert.match(html, /https:\/\/rates3\.edge\.app/)
+  assert.doesNotMatch(html, /intercom|analytics|googletagmanager/i)
+  assert.match(await read('apps/balance/key.js'), /Never share or enter a seed phrase here/)
 })
 
 test('DateCalc is protected staff-only and has no Intercom', async () => {
@@ -131,14 +142,28 @@ test('built routes include each public tool and protected DateCalc', async () =>
     assert.match(html, new RegExp(`assets/tool\\.css\\?v=${outputs.assetVersion}`))
     assert.doesNotMatch(html, /\{\{nav\./)
   }
+  const balance = await readFile(resolve(outputs.mainOutput, 'balance', 'index.html'), 'utf8')
+  assert.match(balance, new RegExp(`style\\.css\\?v=${outputs.assetVersion}`))
+  assert.match(balance, new RegExp(`app\\.js\\?v=${outputs.assetVersion}`))
+  assert.doesNotMatch(balance, /assets\/intercom\.js|widget\.intercom\.io/)
+  assert.match(
+    await readFile(resolve(outputs.mainOutput, 'balance', 'app.js'), 'utf8'),
+    new RegExp(`\\.\/key\\.js\\?v=${outputs.assetVersion}`)
+  )
   assert.match(await readFile(resolve(outputs.supportStaffOutput, 'datecalc', 'index.html'), 'utf8'), /noindex, nofollow/)
 })
 
-test('provenance manifest pins the four approved source commits', async () => {
+test('provenance manifest pins the five approved source commits', async () => {
   const manifest = JSON.parse(await read('public-tools-manifest.json'))
   assert.deepEqual(
     Object.fromEntries(Object.entries(manifest.tools).map(([id, tool]) => [id, tool.source])),
-    { fio: 'JP0P/FIO-Resolver', token: 'JP0P/TokenIconLookup', status: 'JP0P/Status-Dashboard', orders: 'JP0P/order-lookup' }
+    {
+      balance: 'dan2all/xpub-cumulative-balance',
+      fio: 'JP0P/FIO-Resolver',
+      token: 'JP0P/TokenIconLookup',
+      status: 'JP0P/Status-Dashboard',
+      orders: 'JP0P/order-lookup'
+    }
   )
   for (const tool of Object.values(manifest.tools)) assert.match(tool.commit, /^[a-f0-9]{40}$/)
 })
@@ -302,6 +327,7 @@ test('site source contains no first-party analytics or persistence code', async 
     'apps/support-staff/account-access/index.html', 'apps/datecalc/index.html',
     'apps/datecalc/datecalc.js', 'apps/fio/fio.js', 'apps/token/token.js',
     'apps/status/status.js', 'apps/orders/orders.js', 'apps/orders/order-logic.js',
+    'apps/balance/index.html', 'apps/balance/app.js',
     'shared/site.js', 'shared/intercom.js'
   ].map(read))
   const combined = source.join('\n')
@@ -340,6 +366,11 @@ test('built pages fingerprint local assets and preserve the privacy boundary', a
     ...['fio', 'token', 'status', 'orders'].map(id => resolve(mainOutput, id, 'index.html')),
     resolve(supportOutput, 'index.html'), resolve(supportOutput, '404.html')
   ]) assert.match(await readFile(path, 'utf8'), new RegExp(`assets/intercom\\.js\\?v=${assetVersion}`), path)
+
+  assert.doesNotMatch(
+    await readFile(resolve(mainOutput, 'balance', 'index.html'), 'utf8'),
+    /assets\/intercom\.js|widget\.intercom\.io/
+  )
 
   for (const path of [
     resolve(staffOutput, 'index.html'), resolve(staffOutput, 'qa', 'index.html'), resolve(staffOutput, '404.html'),

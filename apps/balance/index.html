@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="See the running BTC and USD balance after every transaction in a Bitcoin wallet.">
+  <!-- The page may only load its own files and talk to Edge's Blockbook
+       servers (see servers.js) and Edge's rates servers. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src wss://btc-wusa1.edge.app wss://btc-eu1.edge.app wss://btc1.trezor.io wss://btc2.trezor.io wss://btc3.trezor.io wss://btc4.trezor.io wss://btc5.trezor.io https://rates3.edge.app https://rates4.edge.app; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#141715">
+  <title>BTC Balance History — EdgeTools</title>
+  <link rel="canonical" href="https://edgetools.app/balance/">
+  <link rel="icon" href="../assets/edge-icon.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <nav class="site-brand" aria-label="EdgeTools">
+    <a class="brand-link" href="https://edgetools.app/">
+      <img src="../assets/edge-logo.svg" alt="Edge" width="92" height="27">
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span>BTC Balance History</span>
+    </a>
+    <a href="https://edgetools.app/">All tools</a>
+  </nav>
+  <main>
+    <header>
+      <h1>BTC Balance History</h1>
+      <p class="muted">See every transaction in a Bitcoin wallet and the balance right after each one, in USD and BTC. Useful when a balance changed after a Resync and you want to see where the funds went.</p>
+    </header>
+
+    <form id="lookup" autocomplete="off">
+      <label for="key">Wallet xpub, ypub, or zpub</label>
+      <textarea id="key" rows="2" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="zpub6r…"></textarea>
+      <p class="muted small">In Edge, open your Bitcoin wallet, tap the <strong>⋮</strong> menu, choose <strong>View XPub Address</strong>, and copy it here.</p>
+
+      <div class="row">
+        <button type="submit" id="submit">Show history</button>
+      </div>
+
+      <p class="muted small">Your zpub lets anyone view this wallet's transaction history, but it can't move funds. It goes only to the Bitcoin server you choose (an Edge server by default) and is never saved. Edge will never ask for your recovery phrase (seed words).</p>
+
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <label for="server">Blockbook server</label>
+        <select id="server"></select>
+      </details>
+    </form>
+
+    <p id="error" class="error" role="alert" hidden></p>
+    <p id="loading" class="muted" hidden>Loading…</p>
+
+    <section id="result" hidden>
+      <p id="checks" role="status" hidden></p>
+
+      <h2>Summary</h2>
+      <dl id="summary" class="stats"></dl>
+
+      <div class="section-head">
+        <h2>Balance over time</h2>
+        <div class="segmented" role="group" aria-label="Chart unit">
+          <button type="button" data-unit="btc" aria-pressed="true">BTC</button>
+          <button type="button" data-unit="usd" aria-pressed="false" disabled>USD</button>
+        </div>
+      </div>
+      <p id="chart-caption" class="muted small"></p>
+      <div id="chart"></div>
+
+      <div class="section-head">
+        <h2>Transactions</h2>
+        <div class="controls">
+          <label class="inline"><input type="checkbox" id="newest-first" checked> Newest first</label>
+          <button type="button" id="csv" class="secondary">Download CSV</button>
+        </div>
+      </div>
+      <p class="muted small">Each row is one transaction. USD Balance is what the wallet held right after it, valued at the BTC price at that moment. Times are in your local time zone.</p>
+      <p id="usd-status" hidden></p>
+      <p id="history-empty" class="muted" hidden>No transactions for this wallet.</p>
+      <div id="history-wrap" class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th class="num">Change in USD</th>
+              <th>Type</th>
+              <th class="num">USD Balance</th>
+              <th class="num">BTC Balance</th>
+              <th class="num">Change in BTC</th>
+              <th class="num">BTC Price</th>
+              <th>Txid</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </div>
+
+      <details class="advanced">
+        <summary>Technical details</summary>
+        <dl id="status" class="stats"></dl>
+      </details>
+    </section>
+
+    <footer class="muted small">
+      USD values are estimates based on historical BTC prices and are not tax or financial advice.
+      <a href="https://edgetools.app/">EdgeTools</a> ·
+      Questions? <a href="https://support.edge.app/" target="_blank" rel="noopener noreferrer">Contact Edge support</a>.
+    </footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

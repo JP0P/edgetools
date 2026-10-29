@@ -149,6 +149,7 @@ const server = createServer(async (request, response) => {
 server.listen(port, host, () => {
   const displayHost = host.includes(':') ? `[${host}]` : host
   console.log(`EdgeTools preview: http://${displayHost}:${port}/`)
+  console.log(`BTC balance history preview: http://${displayHost}:${port}/balance/`)
   console.log(`Support preview: http://${displayHost}:${port}/support/`)
   console.log(`DateCalc preview: http://${displayHost}:${port}/support/staff/datecalc/`)
   console.log(`Staff hub preview: http://${displayHost}:${port}/staff/`)

@@ -1,10 +1,10 @@
 # EdgeTools
 
 EdgeTools is Edge Wallet's resource and utility directory. The repository
-builds the public catalog, four local browser tools, and protected staff surfaces:
+builds the public catalog, five local browser tools, and protected staff surfaces:
 
-- `edgetools.app` — the one public catalog, with `/fio/`, `/token/`, `/status/`,
-  and `/orders/` local tool routes.
+- `edgetools.app` — the one public catalog, with `/balance/`, `/fio/`, `/token/`,
+  `/status/`, and `/orders/` local tool routes.
 - `support.edgetools.app` — a lean legacy handoff to the official Help Center
   plus the protected Support workspace.
 - `staff.edgetools.app` — a restricted company-wide router for department
@@ -38,7 +38,7 @@ production hosts and protected paths:
 - `/` — main EdgeTools directory
 - `/support/` — legacy Help Center and Support Staff handoff
 - `/support/staff/datecalc/` — protected DateCalc
-- `/fio/`, `/token/`, `/status/`, `/orders/` — public tool previews
+- `/balance/`, `/fio/`, `/token/`, `/status/`, `/orders/` — public tool previews
 - `/staff/` — company-wide Staff hub; local preview does not simulate Google
   login
 - `/staff/qa/` — QA staff workspace; local preview does not simulate Google
@@ -136,3 +136,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for host routing and deployment
 boundaries. See [DEPLOYMENT.md](DEPLOYMENT.md) for the release, verification,
 and rollback checklist. See [public-tools-manifest.json](public-tools-manifest.json)
 for pinned source provenance and selective migration notes.
+
+`/balance/` is intentionally stricter than the other public pages: it loads no
+Intercom or analytics script because visitors paste an xpub. Its Content
+Security Policy permits scripts only from the page itself and network traffic
+only to the listed Bitcoin Blockbook and Edge rates servers.

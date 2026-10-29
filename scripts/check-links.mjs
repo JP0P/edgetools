@@ -17,6 +17,7 @@ const {
 const htmlFiles = [
   resolve(mainOutput, 'index.html'),
   resolve(mainOutput, '404.html'),
+  resolve(mainOutput, 'balance', 'index.html'),
   resolve(mainOutput, 'fio', 'index.html'),
   resolve(mainOutput, 'token', 'index.html'),
   resolve(mainOutput, 'status', 'index.html'),

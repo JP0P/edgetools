@@ -1,5 +1,5 @@
 # DigitalOcean App Platform spec for the public catalog and lean Support
-# handoff. Four public tools are paths inside dist/main. Protected Staff assets
+# handoff. Five public tools are paths inside dist/main. Protected Staff assets
 # and the exact public status/token API routes are deployed through Cloudflare
 # Worker builds; the API routes share the existing Support Staff Worker.
 
