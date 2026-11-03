@@ -165,6 +165,13 @@ function versionLocalAssets(source, assetVersion) {
     .replace(/((?:\.\.\/|\.\/)[^"'#?]+\.css)(?=["'])/g, `$1?v=${assetVersion}`)
 }
 
+function rootPublicToolAssets(source, toolId) {
+  return source.replace(
+    /((?:href|src)=(["']))\.\/([^"']+)\2/g,
+    `$1/${toolId}/$3$2`
+  )
+}
+
 function escapeHtml(value) {
   return value
     .replaceAll('&', '&amp;')
@@ -228,7 +235,8 @@ async function renderTemplate(
   outputPath,
   staffTargets = {},
   assetVersion,
-  navigation = {}
+  navigation = {},
+  publicToolId = null
 ) {
   const source = await readFile(sourcePath, 'utf8')
   const toolsRendered = source.replace(
@@ -260,7 +268,11 @@ async function renderTemplate(
   if (withNavigation.includes('{{tool.') || withNavigation.includes('{{staff.') || withNavigation.includes('{{nav.')) {
     throw new Error(`Unresolved template token in ${sourcePath}`)
   }
-  await writeFile(outputPath, versionLocalAssets(withNavigation, assetVersion))
+  const withVersionedAssets = versionLocalAssets(withNavigation, assetVersion)
+  const withStableToolAssets = publicToolId
+    ? rootPublicToolAssets(withVersionedAssets, publicToolId)
+    : withVersionedAssets
+  await writeFile(outputPath, withStableToolAssets)
 }
 
 async function renderPublicTool(toolId, outputRoot, assetVersion) {
@@ -277,7 +289,8 @@ async function renderPublicTool(toolId, outputRoot, assetVersion) {
     resolve(outputPath, 'index.html'),
     {},
     assetVersion,
-    { assetPrefix: '..', current: 'tools' }
+    { assetPrefix: '..', current: 'tools' },
+    toolId
   )
 }
 

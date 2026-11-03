@@ -137,14 +137,26 @@ test('public API routes include query strings while the Worker enforces exact pa
 
 test('built routes include each public tool and protected DateCalc', async () => {
   const outputs = await build()
-  for (const toolId of ['fio', 'token', 'status', 'orders']) {
+  const toolAssets = {
+    balance: ['style.css', 'app.js'],
+    fio: ['fio.js'],
+    token: ['token.js'],
+    status: ['status.js'],
+    orders: ['orders.js']
+  }
+  for (const [toolId, assets] of Object.entries(toolAssets)) {
     const html = await readFile(resolve(outputs.mainOutput, toolId, 'index.html'), 'utf8')
-    assert.match(html, new RegExp(`assets/tool\\.css\\?v=${outputs.assetVersion}`))
+    if (toolId !== 'balance') {
+      assert.match(html, new RegExp(`assets/tool\\.css\\?v=${outputs.assetVersion}`))
+    }
+    for (const asset of assets) {
+      assert.match(html, new RegExp(`(?:href|src)="/${toolId}/${asset.replace('.', '\\.')}\\?v=${outputs.assetVersion}"`))
+      await stat(resolve(outputs.mainOutput, toolId, asset))
+    }
+    assert.doesNotMatch(html, /(?:href|src)="\.\//)
     assert.doesNotMatch(html, /\{\{nav\./)
   }
   const balance = await readFile(resolve(outputs.mainOutput, 'balance', 'index.html'), 'utf8')
-  assert.match(balance, new RegExp(`style\\.css\\?v=${outputs.assetVersion}`))
-  assert.match(balance, new RegExp(`app\\.js\\?v=${outputs.assetVersion}`))
   assert.doesNotMatch(balance, /assets\/intercom\.js|widget\.intercom\.io/)
   assert.match(
     await readFile(resolve(outputs.mainOutput, 'balance', 'app.js'), 'utf8'),
