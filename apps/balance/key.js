@@ -37,21 +37,7 @@ async function sha256 (bytes) {
 
 const toHex = bytes => Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('')
 
-/**
- * Returns { ok: true, key, prefix, format } or { ok: false, error }.
- */
-export async function parseExtendedPublicKey (input) {
-  const trimmed = input.trim()
-  if (trimmed === '') return { ok: false, error: 'Enter an xpub, ypub or zpub.' }
-
-  if (trimmed.split(/\s+/).length >= 12) {
-    return {
-      ok: false,
-      error: 'This looks like a seed phrase. Never share or enter a seed phrase here. Use the wallet\'s xpub instead (Edge: wallet menu → View XPub Address).'
-    }
-  }
-  // Keys pasted from email or chat are often wrapped across lines.
-  const key = trimmed.replace(/\s+/g, '')
+async function parseOnePublicKey (key) {
   if (/^[xyz]prv/.test(key)) {
     return { ok: false, error: 'This is a private key. Never share it. Use the extended public key (xpub, ypub or zpub) instead.' }
   }
@@ -78,4 +64,47 @@ export async function parseExtendedPublicKey (input) {
   if (info == null) return { ok: false, error: 'Unrecognized key type. Only xpub, ypub and zpub are supported.' }
 
   return { ok: true, key, ...info }
+}
+
+/**
+ * Returns { ok: true, keys: [{ key, prefix, format }] } or
+ * { ok: false, error }. A wrapped single key may contain whitespace or commas;
+ * two independently valid keys are kept separate.
+ */
+export async function parseExtendedPublicKey (input) {
+  const trimmed = input.trim()
+  if (trimmed === '') return { ok: false, error: 'Enter an xpub, ypub or zpub.' }
+
+  if (trimmed.split(/[\s,]+/).filter(Boolean).length >= 12) {
+    return {
+      ok: false,
+      error: 'This looks like a seed phrase. Never share or enter a seed phrase here. Use the wallet\'s xpub instead (Edge: wallet menu → View XPub Address).'
+    }
+  }
+
+  const pieces = trimmed.split(/[\s,]+/).filter(Boolean)
+  if (pieces.length >= 2) {
+    const parsedPieces = await Promise.all(pieces.map(parseOnePublicKey))
+    if (parsedPieces.every(result => result.ok)) {
+      const unique = parsedPieces.filter((result, index) =>
+        parsedPieces.findIndex(candidate => candidate.key === result.key) === index)
+      if (unique.length > 2) {
+        return { ok: false, error: 'Enter no more than two extended public keys.' }
+      }
+      if (new Set(unique.map(result => result.prefix)).size !== unique.length) {
+        return { ok: false, error: 'The two keys must be different types (for example, one ypub and one zpub).' }
+      }
+      return { ok: true, keys: unique }
+    }
+
+    // Never hide the important private/testnet refusal by gluing multiple
+    // independently pasted values together and returning a generic error.
+    const refused = parsedPieces.find(result =>
+      !result.ok && /private key|testnet key/.test(result.error))
+    if (refused != null) return refused
+  }
+
+  // Keys pasted from email or chat are often wrapped across lines.
+  const parsed = await parseOnePublicKey(pieces.join(''))
+  return parsed.ok ? { ok: true, keys: [parsed] } : parsed
 }

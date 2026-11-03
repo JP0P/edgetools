@@ -161,6 +161,10 @@ button:disabled { opacity: 0.6; cursor: default; }
   padding: 10px 14px;
 }
 
+#checks { margin-top: 16px; }
+#checks p { margin: 0 0 8px; }
+#checks p:last-child { margin-bottom: 0; }
+
 .warn-box {
   background: var(--warn-bg);
   color: var(--warn);
@@ -218,6 +222,7 @@ tr.pending td { font-style: italic; }
 td.note { color: var(--warn); font-size: 0.8rem; white-space: normal; min-width: 140px; }
 
 .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+.segmented[hidden] { display: none; }
 .segmented button {
   background: transparent;
   color: var(--muted);
@@ -227,6 +232,9 @@ td.note { color: var(--warn); font-size: 0.8rem; white-space: normal; min-width:
 }
 .segmented button + button { border-left: 1px solid var(--border); }
 .segmented button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
+.view-tabs { margin-top: 28px; max-width: 100%; }
+.view-tabs:not([hidden]) + h2 { margin-top: 14px; }
+.tab-short { display: none; }
 
 .chart {
   position: relative;
@@ -313,4 +321,11 @@ footer a { color: var(--accent); }
   td[data-label]::before { content: attr(data-label); color: var(--muted); font-weight: 400; }
   td.c-usdbal { order: 1; font-size: 0.95rem; padding: 4px 0 6px; }
   td.c-note { grid-column: 1 / -1; order: 3; padding-top: 4px; }
+}
+
+@media (max-width: 480px) {
+  .view-tabs { display: flex; width: 100%; }
+  .view-tabs button { flex: 1; min-width: 0; padding: 7px 8px; }
+  .view-tabs .tab-long { display: none; }
+  .view-tabs .tab-short { display: inline; }
 }
