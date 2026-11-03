@@ -31,14 +31,14 @@
 
     <form id="lookup" autocomplete="off">
       <label for="key">Wallet xpub, ypub, or zpub</label>
-      <textarea id="key" rows="2" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="zpub6r…"></textarea>
-      <p class="muted small">In Edge, open your Bitcoin wallet, tap the <strong>⋮</strong> menu, choose <strong>View XPub Address</strong>, and copy it here.</p>
+      <textarea id="key" rows="3" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="ypub6W…&#10;zpub6r…"></textarea>
+      <p class="muted small">In Edge, open your Bitcoin wallet, tap the <strong>⋮</strong> menu, choose <strong>View XPub Address</strong>, and paste everything here (both lines are supported).</p>
 
       <div class="row">
         <button type="submit" id="submit">Show history</button>
       </div>
 
-      <p class="muted small">Your zpub lets anyone view this wallet's transaction history, but it can't move funds. It goes only to the Bitcoin server you choose (an Edge server by default) and is never saved. Edge will never ask for your recovery phrase (seed words).</p>
+      <p class="muted small">Your public keys let anyone view this wallet's transaction history, but they can't move funds. They go only to the Bitcoin server you choose (an Edge server by default) and are never saved. Edge will never ask for your recovery phrase (seed words).</p>
 
       <details class="advanced">
         <summary>Advanced</summary>
@@ -51,14 +51,16 @@
     <p id="loading" class="muted" hidden>Loading…</p>
 
     <section id="result" hidden>
-      <p id="checks" role="status" hidden></p>
+      <div id="checks" role="status" hidden></div>
+
+      <div id="view-tabs" class="segmented view-tabs" role="group" aria-label="Wallet view" hidden></div>
 
       <h2>Summary</h2>
       <dl id="summary" class="stats"></dl>
 
       <div class="section-head">
         <h2>Balance over time</h2>
-        <div class="segmented" role="group" aria-label="Chart unit">
+        <div class="segmented chart-units" role="group" aria-label="Chart unit">
           <button type="button" data-unit="btc" aria-pressed="true">BTC</button>
           <button type="button" data-unit="usd" aria-pressed="false" disabled>USD</button>
         </div>

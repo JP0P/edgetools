@@ -6,6 +6,71 @@ const sumOwn = items => items.reduce((sum, item) => item.isOwn ? sum + BigInt(it
 
 const isPending = tx => !(tx.confirmations > 0)
 
+function itemId (item, index) {
+  return `${item.txid ?? ''}:${item.n ?? index}:${item.value ?? ''}`
+}
+
+function mergeOwnedItems (left = [], right = []) {
+  const merged = left.map(item => ({ ...item }))
+  const indexes = new Map(merged.map((item, index) => [itemId(item, index), index]))
+  right.forEach((item, index) => {
+    const id = itemId(item, index)
+    const existing = indexes.get(id)
+    if (existing == null) {
+      indexes.set(id, merged.length)
+      merged.push({ ...item })
+    } else if (item.isOwn) {
+      merged[existing].isOwn = true
+    }
+  })
+  return merged
+}
+
+/**
+ * Combines transactions from multiple wallet descriptors. A shared txid is
+ * kept once, and each input/output is considered wallet-owned when any
+ * descriptor marks it as owned.
+ */
+export function mergeWalletTransactions (...transactionLists) {
+  const transactions = new Map()
+  for (const list of transactionLists) {
+    for (const tx of list) {
+      const existing = transactions.get(tx.txid)
+      if (existing == null) {
+        transactions.set(tx.txid, {
+          ...tx,
+          vin: (tx.vin ?? []).map(item => ({ ...item })),
+          vout: (tx.vout ?? []).map(item => ({ ...item }))
+        })
+      } else {
+        existing.vin = mergeOwnedItems(existing.vin, tx.vin)
+        existing.vout = mergeOwnedItems(existing.vout, tx.vout)
+        const existingConfirmations = existing.confirmations ?? 0
+        const newConfirmations = tx.confirmations ?? 0
+        if (newConfirmations > existingConfirmations ||
+            (existing.blockHeight == null && tx.blockHeight != null)) {
+          existing.blockHeight = tx.blockHeight
+          existing.blockTime = tx.blockTime
+          existing.blockHash = tx.blockHash
+          existing.confirmations = newConfirmations
+        } else {
+          existing.confirmations = Math.max(existingConfirmations, newConfirmations)
+        }
+      }
+    }
+  }
+  return [...transactions.values()]
+}
+
+/** Picks the initial view for one or two histories. */
+export function chooseDefaultView (views) {
+  if (views.length === 1) return views[0].id
+  const populated = views.filter(view => view.rows.length > 0)
+  if (populated.length === views.length) return 'both'
+  if (populated.length === 1) return populated[0].id
+  return views.find(view => view.id === 'zpub')?.id ?? views[0].id
+}
+
 /**
  * Oldest first. Confirmed transactions by block height; pending ones last.
  * Within a block (or among pending), a transaction is placed after any

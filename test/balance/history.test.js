@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { buildHistory, checkAgainstServer, formatBtc, sortChronologically } from '../../apps/balance/history.js'
+import { buildHistory, checkAgainstServer, chooseDefaultView, formatBtc, mergeWalletTransactions, sortChronologically } from '../../apps/balance/history.js'
 
 // Minimal Blockbook-shaped transaction. vin/vout: [value, isOwn, prevTxid?]
 function tx (txid, blockHeight, vin, vout, fees = '0') {
@@ -91,4 +91,51 @@ test('formatBtc is exact', () => {
   assert.equal(formatBtc(-1n), '-0.00000001 BTC')
   assert.equal(formatBtc(5n, { signed: true, unit: false }), '+0.00000005')
   assert.equal(formatBtc(2_100_000_000_000_000n), '21,000,000.00000000 BTC')
+})
+
+test('Both adds balances and row counts when transaction ids do not overlap', () => {
+  const ypub = [tx('y-in', 1, [[101_000, false]], [[100_000, true]], '1000')]
+  const zpub = [tx('z-in', 2, [[202_000, false]], [[200_000, true]], '2000')]
+  const yHistory = buildHistory(ypub)
+  const zHistory = buildHistory(zpub)
+  const both = buildHistory(mergeWalletTransactions(ypub, zpub))
+
+  assert.equal(both.totals.balance, yHistory.totals.balance + zHistory.totals.balance)
+  assert.equal(both.rows.length, yHistory.rows.length + zHistory.rows.length)
+})
+
+test('Both keeps a shared txid once and unions ownership on its inputs and outputs', () => {
+  const funding = tx('fund-y', 1, [[1_100, false]], [[1_000, true]], '100')
+  const yShared = tx('shared', 2, [[1_000, true, 'fund-y']], [[400, false], [500, false]], '100')
+  const zShared = tx('shared', 2, [[1_000, false, 'fund-y']], [[400, true], [500, false]], '100')
+
+  const both = buildHistory(mergeWalletTransactions([yShared, funding], [zShared]))
+  assert.deepEqual(both.rows.map(row => row.txid), ['fund-y', 'shared'])
+  assert.equal(both.rows[1].net, -600n)
+  assert.equal(both.rows[1].balance, 400n)
+})
+
+test('Both takes confirmation metadata from a confirmed copy of a shared transaction', () => {
+  const pending = tx('shared', 0, [[1_000, false]], [[900, true]], '100')
+  const confirmed = {
+    ...pending,
+    blockHeight: 7,
+    blockTime: 1_700_000_007,
+    blockHash: 'confirmed-block',
+    confirmations: 3
+  }
+
+  const merged = mergeWalletTransactions([pending], [confirmed])
+  assert.equal(merged[0].blockHeight, 7)
+  assert.equal(merged[0].blockTime, 1_700_000_007)
+  assert.equal(merged[0].blockHash, 'confirmed-block')
+  assert.equal(merged[0].confirmations, 3)
+  assert.equal(buildHistory(merged).rows[0].pending, false)
+})
+
+test('default view uses Both, the populated side, or zpub when both are empty', () => {
+  assert.equal(chooseDefaultView([{ id: 'ypub', rows: [{}] }, { id: 'zpub', rows: [{}] }]), 'both')
+  assert.equal(chooseDefaultView([{ id: 'ypub', rows: [{}] }, { id: 'zpub', rows: [] }]), 'ypub')
+  assert.equal(chooseDefaultView([{ id: 'ypub', rows: [] }, { id: 'zpub', rows: [{}] }]), 'zpub')
+  assert.equal(chooseDefaultView([{ id: 'ypub', rows: [] }, { id: 'zpub', rows: [] }]), 'zpub')
 })
