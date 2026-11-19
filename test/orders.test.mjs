@@ -185,3 +185,16 @@ test('API rejects wrong host and near-match paths', async () => {
     assert.equal((await publicApi.fetch(new Request(url))).status, 404)
   }
 })
+
+// Observed Swapuz UID shape is a hint, not a guaranteed exclusive schema.
+test('Auto suggests Swapuz for eleven-character lowercase alphanumeric IDs', () => {
+  const result = lookupOrder('abcde12345f')
+  assert.equal(result.kind, 'candidates')
+  assert.equal(result.requiresProviderConfirmation, true)
+  assert.equal(result.verified, false)
+  assert.ok(result.matches.some(match => match.id === 'swapuz'))
+  const selected = lookupOrder('abcde12345f', 'swapuz')
+  assert.equal(selected.matches[0].links[0].url, 'https://swapuz.com/order/abcde12345f')
+  // A hint must never restrict valid provider-selected opaque IDs.
+  assert.equal(lookupOrder('different-length-id', 'swapuz').kind, 'resolved')
+})
