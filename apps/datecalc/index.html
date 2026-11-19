@@ -43,7 +43,7 @@
         <p class="eyebrow">DateCalc</p>
         <h1>Date difference calculator</h1>
         <p>
-          Paste two ISO dates to calculate completed 24-hour days, then copy the midpoint,
+          Paste two ISO dates or a date and UTC time for each to calculate completed 24-hour days, then copy the midpoint,
           75%-reduced interval, or seven-day follow-up date.
         </p>
       </header>
@@ -65,16 +65,16 @@
                 class="text-input text-area"
                 id="combined-dates"
                 name="combinedDates"
-                rows="2"
+                rows="4"
                 autocomplete="off"
                 autocapitalize="off"
                 spellcheck="false"
                 aria-describedby="combined-hint combined-error"
                 aria-invalid="false"
-                placeholder="2025-01-01&#9;2025-01-10"
+                placeholder="2026-11-13&#10;20:03&#10;2028-05-16&#10;20:03"
               ></textarea>
               <p class="field-hint" id="combined-hint">
-                Separate two values with a tab, space, or new line.
+                Two ISO values (tab, space, or new line), or four date/time lines (UTC).
               </p>
               <p class="field-error" id="combined-error" role="alert"></p>
             </div>

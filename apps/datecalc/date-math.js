@@ -5,7 +5,9 @@ const UTC_DATETIME_PATTERN =
 
 const DATE_TOKEN =
   '(?:\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z|\\d{4}-\\d{2}-\\d{2})'
-const COMBINED_PATTERN = new RegExp(`^(${DATE_TOKEN})[\\t\\n ]+(${DATE_TOKEN})$`)
+const COMBINED_PATTERN = new RegExp(`^(${DATE_TOKEN})\\s+(${DATE_TOKEN})$`)
+const DATE_TIME_PAIRS_PATTERN =
+  /^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})\s+(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})$/
 
 function invalidDate(value) {
   throw new TypeError(`Invalid ISO date: ${value}`)
@@ -64,12 +66,24 @@ export function formatLikeSource(date, parsedSource) {
 
 export function splitCombinedDates(value) {
   const normalized = String(value ?? '').trim()
-  const match = COMBINED_PATTERN.exec(normalized)
-  if (!match) throw new TypeError('Enter exactly two ISO dates separated by a tab, space, or new line.')
+  const isoMatch = COMBINED_PATTERN.exec(normalized)
+  if (isoMatch) {
+    parseIsoDate(isoMatch[1])
+    parseIsoDate(isoMatch[2])
+    return [isoMatch[1], isoMatch[2]]
+  }
 
-  parseIsoDate(match[1])
-  parseIsoDate(match[2])
-  return [match[1], match[2]]
+  const dateTimeMatch = DATE_TIME_PAIRS_PATTERN.exec(normalized)
+  if (dateTimeMatch) {
+    const [, startDate, startTime, endDate, endTime] = dateTimeMatch
+    const start = `${startDate}T${startTime}:00Z`
+    const end = `${endDate}T${endTime}:00Z`
+    parseIsoDate(start)
+    parseIsoDate(end)
+    return [start, end]
+  }
+
+  throw new TypeError('Paste two ISO dates, or a date and HH:MM time for each.')
 }
 
 function addWholeDays(date, days) {
