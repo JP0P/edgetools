@@ -41,7 +41,7 @@ function resetResults() { results.hidden = true; content.replaceChildren(); chec
 function render(lookup) {
   results.hidden = false
   checkedId.textContent = lookup.orderId
-  content.append(paragraph(lookup.message, 'tool-result-context'))
+  if (lookup.requiresProviderConfirmation && lookup.matches.length) content.append(paragraph('Possible matches — open the provider you used.', 'tool-result-context'))
   if (lookup.transaction) {
     const heading = document.createElement('h3')
     heading.textContent = lookup.transaction.label
@@ -64,18 +64,9 @@ function render(lookup) {
     li.append(details)
     const actions = document.createElement('div')
     actions.className = 'tool-actions'
-    if (lookup.requiresProviderConfirmation) {
-      // A candidate is not consent to send an ID to every matching provider.
-      const choose = document.createElement('button')
-      choose.type = 'button'
-      choose.className = 'tool-link-button'
-      choose.textContent = 'Choose ' + match.name
-      choose.addEventListener('click', () => { providerSelect.value = match.id; form.requestSubmit() })
-      actions.append(choose)
-    } else {
-      for (const destination of match.links) actions.append(link(destination))
-      if (!match.links.length) actions.append(paragraph('Original receipt needed', 'field-hint'))
-    }
+    // The destination link itself is the explicit choice; no intermediate gate.
+    for (const destination of match.links) actions.append(link(destination))
+    if (!match.links.length) actions.append(paragraph('Original receipt needed', 'field-hint'))
     li.append(actions)
     list.append(li)
   }
@@ -87,7 +78,7 @@ form.addEventListener('submit', event => {
   const lookup = lookupOrder(input.value, providerSelect.value)
   if (lookup.kind === 'empty' || lookup.kind === 'invalid') { setStatus(lookup.message, 'error'); input.focus(); return }
   render(lookup)
-  setStatus('Checked locally. No order status was requested.', 'success')
+  setStatus('')
   resultsHeading.focus()
 })
 input.addEventListener('input', resetResults)

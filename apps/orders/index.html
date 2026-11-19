@@ -19,21 +19,21 @@
     <a class="skip-link" href="#order-form">Skip to order lookup</a>
     <header class="site-header"><div class="header-inner page-width"><a class="brand-link" href="https://edgetools.app/" data-preview-href="/" aria-label="EdgeTools home"><img src="../assets/edge-logo.svg" alt="Edge" width="92" height="27" /><span class="brand-divider" aria-hidden="true"></span><span class="brand-product">Order Lookup</span></a>{{nav.header}}</div>{{nav.official}}</header>
     <main class="tool-main page-width">
-      <header class="tool-intro"><p class="eyebrow">Public tool / partner orders</p><h1>Order lookup.</h1><p>Find the right tracking page for an Edge swap or buy/sell order. Check an ID, tracking link or transaction hash locally in your browser.</p></header>
+      <header class="tool-intro"><p class="eyebrow">Public tool / partner orders</p><h1>Order lookup.</h1><p>Paste an order ID to find its tracking page.</p></header>
       <section class="tool-panel" aria-labelledby="order-heading">
         <h2 id="order-heading">Find a tracking link</h2>
         <form class="tool-form" id="order-form">
           <div class="tool-field">
             <label for="order-id">Order ID, tracking link or transaction hash</label>
             <input class="tool-input" id="order-id" type="text" maxlength="1024" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste one ID or tracking link" aria-describedby="order-id-hint order-status" />
-            <p class="field-hint" id="order-id-hint">Do not paste a seed phrase, private key, password or customer conversation. IDs and hashes are not proof of a provider; use the name shown in Edge or your receipt.</p>
+            <p class="field-hint" id="order-id-hint">Order IDs only — never enter passwords or recovery phrases.</p>
           </div>
-          <div class="tool-field">
+          <details class="tool-field"><summary>Provider filter (optional)</summary>
             <label for="order-provider">Provider</label>
             <select class="tool-input" id="order-provider" aria-describedby="order-provider-hint"><option value="">Auto / I’m not sure</option></select>
-            <p class="field-hint" id="order-provider-hint">All current Edge swap integrations and buy/sell providers are listed. Where a direct link cannot be rebuilt, we show how to find the original receipt.</p>
-          </div>
-          <div class="tool-actions"><button class="button button-primary" type="submit">Check ID</button><button class="button button-quiet" type="button" id="order-clear">Clear</button></div>
+            <p class="field-hint" id="order-provider-hint">Use this if the provider is not suggested automatically.</p>
+          </details>
+          <div class="tool-actions"><button class="button button-primary" type="submit">Search</button><button class="button button-quiet" type="button" id="order-clear">Clear</button></div>
           <p class="tool-status" id="order-status" role="status" aria-live="polite"></p>
         </form>
         <section class="tool-result" id="order-results" hidden aria-labelledby="order-results-heading">

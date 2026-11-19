@@ -98,7 +98,7 @@ response is the same pure resolver result used by the page:
 - `evidence`: provider-selected, tracking-url, or format-only;
 - `verified: false` always; no live status claim;
 - `requiresProviderConfirmation`: true for raw format-only input or a tracker
-  URL shared by multiple integrations;
+  URL shared by multiple integrations (identity uncertainty only, not a required UI step);
 - normalized `orderId`, provider `matches` with `links`/receipt `note`,
   and optional shared-format `transaction` explorer options.
 
@@ -113,6 +113,9 @@ bodies above 4096 bytes, including chunked bodies. Responses are no-store;
 there is no CORS, provider fetch, credential proxy, cache, database, queue,
 request-body logging or retention. Worker observability is disabled. The host
 platform may still process request metadata under its own policies.
+
+The browser displays direct destination links for candidates. Clicking the link is the
+provider choice; there is no intermediate confirmation button.
 
 ### Deployment and cost
 
