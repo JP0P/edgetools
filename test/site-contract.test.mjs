@@ -59,13 +59,26 @@ test('Support is a noindex legacy handoff without a duplicated catalog', async (
   assert.doesNotMatch(html, /\{\{tool\.|workflow-links|directory-card/)
 })
 
-test('the standard public tool pages have shared chrome and Intercom', async () => {
+test('the standard public tool pages have shared chrome', async () => {
   for (const toolId of ['fio', 'token', 'status', 'orders']) {
     const html = await read(`apps/${toolId}/index.html`)
     assert.match(html, /\{\{nav\.header\}\}/)
-    assert.match(html, /assets\/intercom\.js/)
+    if (toolId !== 'orders') assert.match(html, /assets\/intercom\.js/)
     assert.match(html, /site-footer/)
   }
+})
+
+test('Order Lookup isolates potentially sensitive IDs from third-party scripts and network calls', async () => {
+  const html = await read('apps/orders/index.html')
+  assert.match(html, /Content-Security-Policy/)
+  assert.match(html, /connect-src 'none'/)
+  assert.match(html, /script-src 'self'/)
+  assert.match(html, /name="referrer" content="no-referrer"/)
+  assert.doesNotMatch(html, /assets\/intercom\.js|widget\.intercom\.io/)
+  assert.match(html, /id="order-provider"/)
+  const source = await read('apps/orders/orders.js')
+  assert.doesNotMatch(source, /fetch\(|window\.open|innerHTML/)
+  assert.match(source, /noopener noreferrer/)
 })
 
 test('BTC balance history keeps the xpub page isolated from third-party scripts', async () => {
@@ -106,7 +119,7 @@ test('public tool behavior is local and stateless', async () => {
   assert.match(await read('apps/token/index.html'), /token-copy-id/)
   const orders = `${await read('apps/orders/orders.js')}\n${await read('apps/orders/order-logic.js')}`
   assert.doesNotMatch(orders, /localStorage|sessionStorage|\/api\/stats|URLSearchParams/)
-  assert.match(orders, /window\.open/)
+  assert.match(orders, /a\.target = '_blank'/)
   assert.match(await read('apps/orders/index.html'), /order-id-hint/)
   assert.match(await read('apps/orders/index.html'), /order-copy/)
 })
@@ -128,11 +141,13 @@ test('public API routes include query strings while the Worker enforces exact pa
   const config = JSON.parse(await read('wrangler.public-api.jsonc'))
   assert.deepEqual(
     config.routes.map(route => route.pattern),
-    ['edgetools.app/api/status*', 'edgetools.app/api/token*']
+    ['edgetools.app/api/status*', 'edgetools.app/api/token*', 'edgetools.app/api/orders/resolve*']
   )
   const worker = await read('worker/public-api.js')
   assert.match(worker, /url\.pathname === '\/api\/status'/)
   assert.match(worker, /url\.pathname === '\/api\/token'/)
+  assert.match(worker, /url\.pathname === '\/api\/orders\/resolve'/)
+  assert.equal(config.observability.enabled, false)
 })
 
 test('built routes include each public tool and protected DateCalc', async () => {
@@ -300,8 +315,7 @@ test('public pages load anonymous Intercom and protected pages do not', async ()
     'apps/support/404.html',
     'apps/fio/index.html',
     'apps/token/index.html',
-    'apps/status/index.html',
-    'apps/orders/index.html'
+    'apps/status/index.html'
   ]
   for (const path of publicPages) assert.match(await read(path), /assets\/intercom\.js/, path)
 
@@ -311,7 +325,8 @@ test('public pages load anonymous Intercom and protected pages do not', async ()
     'apps/qa-staff/index.html',
     'apps/support-staff/index.html',
     'apps/support-staff/404.html',
-    'apps/datecalc/index.html'
+    'apps/datecalc/index.html',
+    'apps/orders/index.html'
   ]
   for (const path of protectedPages) assert.doesNotMatch(await read(path), /assets\/intercom\.js|widget\.intercom\.io/, path)
 
@@ -363,12 +378,16 @@ test('built pages fingerprint local assets and preserve the privacy boundary', a
 
   for (const path of [
     resolve(mainOutput, 'index.html'), resolve(mainOutput, '404.html'),
-    ...['fio', 'token', 'status', 'orders'].map(id => resolve(mainOutput, id, 'index.html')),
+    ...['fio', 'token', 'status'].map(id => resolve(mainOutput, id, 'index.html')),
     resolve(supportOutput, 'index.html'), resolve(supportOutput, '404.html')
   ]) assert.match(await readFile(path, 'utf8'), new RegExp(`assets/intercom\\.js\\?v=${assetVersion}`), path)
 
   assert.doesNotMatch(
     await readFile(resolve(mainOutput, 'balance', 'index.html'), 'utf8'),
+    /assets\/intercom\.js|widget\.intercom\.io/
+  )
+  assert.doesNotMatch(
+    await readFile(resolve(mainOutput, 'orders', 'index.html'), 'utf8'),
     /assets\/intercom\.js|widget\.intercom\.io/
   )
 

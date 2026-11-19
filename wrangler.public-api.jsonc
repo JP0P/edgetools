@@ -5,6 +5,7 @@
   "compatibility_date": "2026-09-17",
   "workers_dev": false,
   "preview_urls": false,
+  "observability": { "enabled": false },
   "routes": [
     {
       "pattern": "edgetools.app/api/status*",
@@ -12,6 +13,10 @@
     },
     {
       "pattern": "edgetools.app/api/token*",
+      "zone_name": "edgetools.app"
+    },
+    {
+      "pattern": "edgetools.app/api/orders/resolve*",
       "zone_name": "edgetools.app"
     }
   ]

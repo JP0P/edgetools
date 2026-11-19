@@ -160,6 +160,33 @@
   text-transform: uppercase;
 }
 
+.order-matches > li {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.order-matches > li > div:first-child {
+  flex: 1 1 260px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.order-matches .tool-actions {
+  flex: 0 1 auto;
+  margin-top: 0;
+}
+
+.order-matches .field-hint {
+  margin-bottom: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .order-matches > li > div:first-child {
+    flex: initial;
+  }
+}
+
 .tool-code {
   display: block;
   margin: 12px 0;

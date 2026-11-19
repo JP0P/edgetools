@@ -1,11 +1,13 @@
 import { createReadStream } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import { createServer } from 'node:http'
+import { Readable } from 'node:stream'
 import { extname, resolve, sep } from 'node:path'
 
 import { build } from './build.mjs'
 import { handlePublicStatus } from '../worker/public-status.js'
 import { handlePublicToken } from '../worker/public-token.js'
+import { handlePublicOrders } from '../worker/public-orders.js'
 
 const args = process.argv.slice(2)
 
@@ -108,13 +110,20 @@ async function findResponseFile(outputRoot, pathname) {
 }
 
 const server = createServer(async (request, response) => {
+  const requestUrl = new URL(request.url ?? '/', `http://${request.headers.host ?? `${host}:${port}`}`)
+  if (requestUrl.pathname === '/api/orders/resolve') {
+    const body = ['GET', 'HEAD'].includes(request.method ?? 'GET') ? undefined : Readable.toWeb(request)
+    const apiResponse = await handlePublicOrders(new Request(requestUrl, { method: request.method, headers: request.headers, body, duplex: 'half' }))
+    response.writeHead(apiResponse.status, Object.fromEntries(apiResponse.headers))
+    response.end(request.method === 'HEAD' ? undefined : Buffer.from(await apiResponse.arrayBuffer()))
+    return
+  }
   if (!['GET', 'HEAD'].includes(request.method ?? 'GET')) {
     response.writeHead(405, { Allow: 'GET, HEAD' })
     response.end('Method not allowed')
     return
   }
 
-  const requestUrl = new URL(request.url ?? '/', `http://${request.headers.host ?? `${host}:${port}`}`)
   const apiHandler = requestUrl.pathname === '/api/status'
     ? handlePublicStatus
     : requestUrl.pathname === '/api/token'
