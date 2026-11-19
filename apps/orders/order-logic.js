@@ -30,7 +30,7 @@ export const providers = [
   direct('mptrade', 'MoonPay Trade (Centralized)', 'Swap', 'https://scan.swaps.xyz/transactions/', { transaction: true }),
   direct('mptradedefi', 'MoonPay Trade (DeFi)', 'Swap', 'https://scan.swaps.xyz/transactions/', { transaction: true }),
   direct('swapter', 'Swapter', 'Swap', 'https://swapter.io/exchange-status/'),
-  direct('swapuz', 'Swapuz', 'Swap', 'https://swapuz.com/order/'),
+  direct('swapuz', 'Swapuz', 'Swap', 'https://swapuz.com/order/', { hint: /^[a-z0-9]{11}$/ }),
   direct('mayaprotocol', 'Maya Protocol', 'Swap', 'https://www.mayascan.org/tx/', { transaction: true, pattern: txHash }),
   direct('thorchain', 'THORChain', 'Swap', 'https://track.thorchain.org/', { transaction: true, pattern: txHash }),
   receipt('swapkit', 'SwapKit', 'Swap', onChain),

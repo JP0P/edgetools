@@ -69,7 +69,7 @@ Sophia and Simplex hash-route templates were not substantiated as current.
   unsupported hosts and unsafe IDs are rejected. Only a rebuilt allowlisted
   URL can become an outgoing link; arbitrary URLs are never forwarded.
 - An explicitly chosen provider is a user assertion, not a verified identity.
-- Raw IDs produce only non-exhaustive format candidates. Short n.exchange,
+- Raw IDs produce only non-exhaustive format candidates. Observed eleven-character lowercase alphanumeric Swapuz IDs are suggested as candidates, never identified as proven orders. Short n.exchange,
   ChangeNOW, Banxa and SideShift shapes are hints, never exclusive schemas.
   UUIDs retain multiple candidates; no provider is auto-selected.
 - Hex hashes are shared by many chains and trackers, with or without `0x`.
