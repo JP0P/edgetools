@@ -141,3 +141,9 @@ for pinned source provenance and selective migration notes.
 Intercom or analytics script because visitors paste an xpub. Its Content
 Security Policy permits scripts only from the page itself and network traffic
 only to the listed Bitcoin Blockbook and Edge rates servers.
+
+`/orders/` also loads no Intercom/analytics and blocks network connections.
+It prepares provider tracking links or receipt guidance locally, without
+verifying an order or guessing one provider from ambiguous IDs. The optional
+stateless connector API and provider coverage are documented in
+[Order Lookup contracts](docs/order-lookup.md).

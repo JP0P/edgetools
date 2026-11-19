@@ -42,6 +42,14 @@ recoverable. It contains no credentials or private destination URLs.
 - `https://edgetools.app/api/token?kind=native&network=ethereum` returns a
   validated CoinGecko response with public caching headers and no private
   Support headers.
+- `POST https://edgetools.app/api/orders/resolve` with synthetic JSON input
+  returns a no-store resolver result with `verified: false`. GET returns 405,
+  invalid JSON 400, oversized bodies 413, and near-match paths 404. Deploy its
+  scoped route on the existing Public API Worker; no secrets/bindings needed.
+- Order Lookup has no Intercom/analytics, network requests or ID-bearing page
+  URL. Verify format candidates, selected-provider links and receipt guidance
+  on desktop/mobile. The browser stays independent of the optional resolver
+  endpoint. Review [privacy/cost contracts](docs/order-lookup.md) before rollout.
 - The public Main and Support navigation exposes a working click/tap Staff
   disclosure containing Staff home, Support workspace, and QA workspace links.
 - Anonymous requests to `https://staff.edgetools.app/`,

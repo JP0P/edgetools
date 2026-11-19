@@ -62,13 +62,18 @@ origin, which is useful only on the Edge network and contains no credentials.
   must never contain credentials, customer data, or confidential instructions.
 - DateCalc performs all date work in the browser and sends or stores nothing;
   the protected output does not load Intercom.
-- Main, the legacy Support handoff, four ordinary public tools, and their public
+- Main, the legacy Support handoff, three ordinary public tools, and their public
   404 pages load Edge's existing Intercom Messenger for anonymous visitors.
   BTC Balance History deliberately does not, because its page accepts an xpub.
   EdgeTools sends no account identity
   or customer attributes; Intercom manages its own visitor cookie and receives
   conversation and page context under Edge's existing Messenger configuration.
   Protected Staff outputs do not load the Messenger.
+- Order Lookup also excludes Intercom/analytics because order IDs may grant
+  access to provider actions. Its CSP prevents third-party scripts and network
+  connections; matching and link generation stay local. All 30 swap
+  registrations and 13 buy/sell providers have direct links or explicit
+  receipt/transaction handoffs. See [order contracts](docs/order-lookup.md).
 - Existing dynamic tools remain links to their canonical origins.
 - The public home keeps its emphasis on public tools. Staff destinations are
   discoverable from the click/tap Staff disclosure, but no internal tool URL or
@@ -118,6 +123,11 @@ The status and token pages use narrow same-origin `GET /api/status` and
 bounded parallel fetches, a summarized response, and a 20-second Cache API
 cache. Token accepts only four validated lookup shapes and caches successful
 CoinGecko responses for five minutes; it cannot proxy an arbitrary URL.
+`POST /api/orders/resolve` shares the browser's pure order resolver, validates
+at most 4096 bytes of JSON, and returns no-store candidates/links without
+upstream access, credentials, caching, logging or retention. It is an optional
+server-to-server connector interface, not used by the browser. Worker
+observability remains disabled; no new binding or paid product is introduced.
 `worker/public-api.js` owns only those exact public host/paths. It deploys as
 the separate `edgetools-public-api` Worker so the Support Staff Worker's Access
 application cannot gate public requests. The Worker rejects every other host
