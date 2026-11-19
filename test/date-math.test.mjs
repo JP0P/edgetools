@@ -106,8 +106,68 @@ test('parses exactly two combined ISO values', () => {
     '2025-01-01',
     '2025-01-10'
   ])
+  assert.deepEqual(
+    splitCombinedDates('2025-01-01T20:03:00.67Z\r\n2025-01-10T20:03:00.67Z'),
+    ['2025-01-01T20:03:00.67Z', '2025-01-10T20:03:00.67Z']
+  )
   assert.throws(() => splitCombinedDates('2025-01-01'))
   assert.throws(() => splitCombinedDates('2025-01-01 2025-01-10 2025-02-01'))
+})
+
+test('pastes two date and UTC-time pairs together', () => {
+  const [start, end] = splitCombinedDates('2026-11-13\n20:03\n2028-05-16\n20:03')
+  assert.deepEqual([start, end], [
+    '2026-11-13T20:03:00Z',
+    '2028-05-16T20:03:00Z'
+  ])
+  assert.deepEqual(calculateDateDifference(start, end), {
+    wholeDays: 550,
+    signedDays: 550,
+    direction: 'days later',
+    halfway: '2027-08-15T20:03:00Z',
+    quarter: '2027-03-30T20:03:00Z',
+    plusSeven: '2026-11-20T20:03:00Z'
+  })
+})
+
+test('four-part paste tolerates surrounding whitespace, tabs, and CRLF', () => {
+  assert.deepEqual(
+    splitCombinedDates(' \r\n\t2026-11-13 \r\n 20:03\t\r\n2028-05-16\r\n\t20:03 \r\n'),
+    ['2026-11-13T20:03:00Z', '2028-05-16T20:03:00Z']
+  )
+  assert.deepEqual(
+    splitCombinedDates('2026-11-13\t20:03\t2028-05-16\t20:03'),
+    ['2026-11-13T20:03:00Z', '2028-05-16T20:03:00Z']
+  )
+})
+
+test('four-part paste keeps leap and reverse-interval UTC semantics', () => {
+  const [start, end] = splitCombinedDates('2028-03-01\n00:00\n2028-02-29\n00:00')
+  assert.deepEqual(calculateDateDifference(start, end), {
+    wholeDays: 1,
+    signedDays: -1,
+    direction: 'days earlier',
+    halfway: '2028-03-01T00:00:00Z',
+    quarter: '2028-03-01T00:00:00Z',
+    plusSeven: '2028-03-08T00:00:00Z'
+  })
+
+  const [nearDayStart, nearDayEnd] = splitCombinedDates('2028-02-29\n20:03\n2028-03-01\n20:02')
+  assert.equal(calculateDateDifference(nearDayStart, nearDayEnd).wholeDays, 0)
+})
+
+test('four-part paste rejects invalid, partial, and extra input without normalization', () => {
+  for (const value of [
+    '2027-02-29\n20:03\n2028-05-16\n20:03',
+    '2026-11-13\n20:03\n2028-02-30\n20:03',
+    '2026-11-13\n24:00\n2028-05-16\n20:03',
+    '2026-11-13\n20:03\n2028-05-16\n20:60',
+    '2026-11-13\n20:03\n2028-05-16',
+    '2026-11-13\n20:03\n2028-05-16\n20:03\nextra',
+    '2026-11-13\n20:03+02:00\n2028-05-16\n20:03'
+  ]) {
+    assert.throws(() => splitCombinedDates(value), TypeError, value)
+  }
 })
 
 test('rejects normalized, zone-less, offset, and malformed dates', () => {
